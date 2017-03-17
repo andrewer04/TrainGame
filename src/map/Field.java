@@ -7,6 +7,8 @@ public abstract class Field {
     private Field up;
     private Field down;
 
+
+
     public Field() {
         type = "Field";
     }
@@ -31,7 +33,21 @@ public abstract class Field {
         return up;
     }
 
-    public Field getDown() {
-        return down;
+    public Field getDown() { return down;}
+
+    public void setLeft(Field left) {
+        this.left = left;
+    }
+
+    public void setRight(Field right) {
+        this.right = right;
+    }
+
+    public void setUp(Field up) {
+        this.up = up;
+    }
+
+    public void setDown(Field down) {
+        this.down = down;
     }
 }

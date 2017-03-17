@@ -1,30 +1,38 @@
 package vehicles;
 
 import map.Rail;
+import utility.Color;
 
-public class Wagon {
-    private Rail rail;
-    private Rail prevRail;
-    private String colour;
-    private boolean isEmpty;
+public class Wagon extends Train {
+    private Wagon next;
 
-    public void leave(String colour){
+    //azért kell Train-nek lennie, mert ha wagon lenne, akkor az első wagon nem tudna hivatkozni az előtte lévő locomotive-ra
+    private Train prev;
 
+    public void leave(Color stationColor){
+        if (prev.isEmpty() && this.getColor() == stationColor){
+            this.setEmpty(true);
+            if (this.isItTheLast()){
+                //ide kéne kitalálni valamit, hogy hogy legyen a győzelem
+            }
+        }
     }
 
-    public void follow(){
+    public void follow(Rail prevTrainRail){
+        Rail temp;
+        temp = this.getCurrentRail();
+        this.setCurrentRail(prevTrainRail);
 
+        this.getCurrentRail().setAvailability(true);
+        temp.setAvailability(false);
+
+        if (!isItTheLast()) {
+            next.follow(temp);
+        }
     }
 
-    public boolean isItTheLast(){
-
-    }
-
-    public Wagon prev(){
-
-    }
-
-    public Wagon next(){
-
+    private boolean isItTheLast(){
+        if(next == null) return true;
+        else return false;
     }
 }
