@@ -1,5 +1,7 @@
 package map;
 
+import utility.Color;
+
 public class Rail extends Field{
     private boolean byTheStation;
     private int availability = 0;
@@ -7,7 +9,7 @@ public class Rail extends Field{
     private Rail possibleRail2;
 
     public Rail() {
-        this.setType("Rail");
+        System.out.print("Rail letrejott\t");
     }
 
     public Rail getDirection(Rail r){
@@ -45,5 +47,15 @@ public class Rail extends Field{
     public void setAvailability(boolean onTheRail) {
         if (onTheRail) availability++;
         else availability--;
+    }
+
+    //A mellette lévő állomás színét adja, ha van ilyen. Egyébként null-t.
+    @Override
+    public Color getColor(){
+        if (this.getUp().getColor() != null) return this.getUp().getColor();
+        else if (this.getDown().getColor() != null) return this.getDown().getColor();
+        else if (this.getRight().getColor() != null) return this.getRight().getColor();
+        else if (this.getLeft().getColor() != null) return this.getLeft().getColor();
+        else return null;
     }
 }

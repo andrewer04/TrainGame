@@ -1,13 +1,18 @@
 package map;
 
-public class RailStation extends Field{
-    private String colour;
+import utility.Color;
 
-    public RailStation() {
-        this.setType("RailStation");
+public class RailStation extends Field{
+    private Color color;
+
+    //Konstruktórral létrehozáskor színnel eggyütt hozzuk létre az állomást.
+    public RailStation(Color color){
+        this.color = color;
     }
 
-    public String getColour() {
-        return colour;
+    //Az állomás színét adja vissza.
+    @Override
+    public Color getColor() {
+        return color;
     }
 }

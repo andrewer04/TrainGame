@@ -16,7 +16,10 @@ public class Locomotive extends Train {
 
     //Itt annyi történik, hogy elmentjük ideiglenesen a jelenlegi sínt, majd azt beállítjuk arra, amit a ő visszaad
     //mint következő sín. Ezután az előző sínbe bemásoljuk a már csak volt jelenlegit.
-    public void move(){
+    //Azért kell argumentum, mert a Wagon-ban is ez a függvény van overrideolva, és muszáj, hogy legyen (majd adunk neki
+    //egy null-t.
+    @Override
+    public void move(Rail doesntMatter){
         Rail temp;
         temp = this.getCurrentRail();
         this.setCurrentRail(this.getCurrentRail().getDirection(prevRail));
@@ -26,6 +29,6 @@ public class Locomotive extends Train {
         prevRail.setAvailability(false);
         this.getCurrentRail().setAvailability(true);
 
-        firstWagon.follow(prevRail);
+        firstWagon.move(prevRail);
     }
 }

@@ -4,9 +4,7 @@ import map.Rail;
 import utility.Color;
 
 public class Wagon extends Train {
-    private Wagon next;
-
-    //azért kell Train-nek lennie, mert ha wagon lenne, akkor az első wagon nem tudna hivatkozni az előtte lévő locomotive-ra
+    private Train next;
     private Train prev;
 
     public void leave(Color stationColor){
@@ -18,7 +16,10 @@ public class Wagon extends Train {
         }
     }
 
-    public void follow(Rail prevTrainRail){
+    //Ez eredetileg a follow függvény volt, de hogy OOP legyen, az abstract class-ban lévő függvényt
+    //overrideoljuk itt
+    @Override
+    public void move(Rail prevTrainRail){
         Rail temp;
         temp = this.getCurrentRail();
         this.setCurrentRail(prevTrainRail);
@@ -27,7 +28,7 @@ public class Wagon extends Train {
         temp.setAvailability(false);
 
         if (!isItTheLast()) {
-            next.follow(temp);
+            next.move(temp);
         }
     }
 

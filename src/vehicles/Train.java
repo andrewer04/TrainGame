@@ -32,4 +32,6 @@ public abstract class Train {
         isEmpty = empty;
     }
 
+    abstract void move(Rail rail);
+
 }

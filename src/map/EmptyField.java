@@ -1,7 +1,10 @@
 package map;
 
+import utility.Color;
+
 public class EmptyField extends Field {
-    public EmptyField() {
-        this.setType("EmptyField");
+    @Override
+    public Color getColor(){
+        return null;
     }
 }
