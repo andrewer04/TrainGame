@@ -18,6 +18,7 @@ public class Tunnel extends Rail {
         if (tunnelN < 2){
             selected = true;
             tunnelN++;
+            otherTunnel = findOtherTunnel();
         }
     }
 
@@ -28,13 +29,7 @@ public class Tunnel extends Rail {
         }
     }
 
-    @Override
-    public Rail getDirection(Rail rail) {
-        if (tunnelN < 2){
-            if(this.getPossibleRail1() == rail) return this.getPossibleRail2();
-            else return this.getPossibleRail1();
-        }
-        /*Ha van másik alagútszáj, akkor 3 esetünk van, hogy merre mehet a mozdony:
+    /*Ha van másik alagútszáj, akkor 3 esetünk van, hogy merre mehet a mozdony:
             - ha az előző sín a másik tunnel volt, akkor mehet: -> possibleRail1 fele
                                                                 -> possibleRail2 fele
             - ha sima sín felöl jön, akkor -> másik Tunnel
@@ -43,12 +38,23 @@ public class Tunnel extends Rail {
             vagy véletlenszerűen vagy az egyik vagy a másik irányba fog kijönni. Én az utóbbira szavazok,
             sokkal viccesebb és egyszerűbb megcsinálni.
         */
-        else{
+    @Override
+    public Rail getDirection(Rail rail) {
+        if (tunnelN == 2 && selected == true){
             if (rail == otherTunnel){
                 if ((Math.random()%2 == 0)) return this.getPossibleRail1();
                 else return getPossibleRail2();
             }
             else return otherTunnel; //ha van másik alagútszáj, akkor mindenképpen oda küldi tovább
         }
+        else{
+            if(this.getPossibleRail1() == rail) return this.getPossibleRail2();
+            else return this.getPossibleRail1();
+        }
+    }
+
+    //ezt meg kell csinálni
+    private Tunnel findOtherTunnel(){
+        return this;
     }
 }
