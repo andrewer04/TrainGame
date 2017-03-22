@@ -1,5 +1,5 @@
 package utility;
 
 public enum Color {
-    RED, BLUE, GREEN, ORANGE, BLACK, YELLOW, BROWN
+    RED, BLUE, GREEN, ORANGE, BLACK, YELLOW, BROWN, GREY
 }

@@ -8,14 +8,13 @@ public class Locomotive extends Train {
     private Wagon firstWagon;
     private int trainLength;
 
-    public Locomotive(int trainLength){
+    public Locomotive(Rail rail, int trainLength){
+        this.setCurrentRail(rail);
         this.setColor(Color.BLACK);
         this.setEmpty(true);
         this.trainLength = trainLength;
     }
 
-    //Itt annyi történik, hogy elmentjük ideiglenesen a jelenlegi sínt, majd azt beállítjuk arra, amit a ő visszaad
-    //mint következő sín. Ezután az előző sínbe bemásoljuk a már csak volt jelenlegit.
     //Azért kell argumentum, mert a Wagon-ban is ez a függvény van overrideolva, és muszáj, hogy legyen (majd adunk neki
     //egy null-t.
     @Override

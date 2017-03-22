@@ -7,6 +7,12 @@ public class Wagon extends Train {
     private Train next;
     private Train prev;
 
+    public Wagon(Rail rail, Color color){
+        this.setCurrentRail(rail);
+        this.setColor(color);
+        this.setEmpty(false);
+    }
+
     public void leave(){
         if (prev.isEmpty() && this.getColor() == this.getCurrentRail().getColor()){
             this.setEmpty(true);

@@ -8,10 +8,6 @@ public abstract class Train {
     private Rail currentRail;
     private boolean isEmpty;
 
-    //szerintem el kell tárolni, hogy melyik a next és a prev wagon, mert különben nem tudunk rá hivatkozni :\
-    //hasonlóképpen mint a Rail-nél (bár ott bonyolultan, de meg lehetett oldani)
-
-
     public Color getColor() {
         return color;
     }
@@ -22,6 +18,7 @@ public abstract class Train {
         return isEmpty;
     }
 
+    //konstruktorok használják
     public void setColor(Color color) {
         this.color = color;
     }
