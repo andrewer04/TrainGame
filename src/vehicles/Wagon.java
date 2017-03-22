@@ -7,8 +7,8 @@ public class Wagon extends Train {
     private Train next;
     private Train prev;
 
-    public void leave(Color stationColor){
-        if (prev.isEmpty() && this.getColor() == stationColor){
+    public void leave(){
+        if (prev.isEmpty() && this.getColor() == this.getCurrentRail().getColor()){
             this.setEmpty(true);
             if (this.isItTheLast()){
                 //ide kéne kitalálni valamit, hogy hogy legyen a győzelem
