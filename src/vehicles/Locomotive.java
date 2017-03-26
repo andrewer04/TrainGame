@@ -4,8 +4,6 @@ import map.Rail;
 import utility.Color;
 
 public class Locomotive extends Train {
-    private Rail prevRail;
-    private Wagon firstWagon;
     private int trainLength;
 
     public Locomotive(Rail rail, int trainLength){
@@ -13,5 +11,10 @@ public class Locomotive extends Train {
         this.setColor(Color.BLACK);
         this.setEmpty(true);
         this.trainLength = trainLength;
+    }
+
+    @Override
+    public void leave(){
+        this.getNext().leave();
     }
 }

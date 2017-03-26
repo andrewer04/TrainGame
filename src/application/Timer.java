@@ -1,8 +1,8 @@
 package application;
 
 public class Timer {
-    public void start(){
-
+    public boolean start(){
+        return true;
     }
 
     public void run(){

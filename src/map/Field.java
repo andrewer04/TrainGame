@@ -3,7 +3,6 @@ package map;
 import utility.Color;
 
 public abstract class Field {
-    private String type;
     private Field left;
     private Field right;
     private Field up;

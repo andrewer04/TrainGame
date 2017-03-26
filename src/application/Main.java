@@ -24,17 +24,13 @@ public class Main {
 
         if (valasz == 1){
             mapcreator = new MapCreator();
-
-
-            controller = mapcreator.build(1);
+            controller = new Controller(mapcreator.build(1));
+            controller.makeTrain();
         }
         else{
             System.out.println("\nAkkor csa!");
             System.exit(1);
             return;
         }
-    }
-    void gameStart(int level) {
-
     }
 }

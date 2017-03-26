@@ -8,12 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Controller {
-    private int level;
     private Rail start;
     private Train[] trains;
 
-    public Controller(int level, Rail start){
-        this.level = level;
+    public Controller(Rail start){
         this.start = start;
         System.out.println("Controller letrejott");
     }
@@ -27,6 +25,7 @@ public class Controller {
         System.out.println("GYOZELEM");
         return true;
     }
+
     public void makeTrain(){
 
     }
@@ -42,21 +41,43 @@ public class Controller {
         return valasz;
 
     }
-    public void startStepping(){
 
+    public void startLeaving(){
+        for (Train locomotives: trains){
+            locomotives.leave();
+        }
+    }
+    public void startStepping(){
+        for (Train locomotives: trains){
+            locomotives.move();
+        }
     }
 
-
-
-    //a Controller lose() metódusát nem tudjuk meghívni a vonatokból, mert ahhoz el kéne tárolni
-    //az egyetlen Controller objektumot, amit majd a main-ben hozunk létre
-    //mellesleg, ha a léptetés után hívjuk meg a checkcollision függvényt, akkor elkerüljük azt, hogy a léptetés
-    //miatt fals ütküzés legyen
-    public void checkCollision(Rail start){
+    public void checkCollision(){
         for(Train locomotives: trains){
             if(locomotives.detectCollision()) {
                 lose();
             }
         }
+    }
+    public void checkEmptiness(){
+        for(Train locomotives: trains){
+            if(locomotives.detectEmptiness()) {
+                win();
+            }
+        }
+    }
+
+    public boolean run(){
+        boolean timeFlag = true;
+        while(timeFlag){
+            observer();
+            startStepping();
+            checkCollision();
+            startLeaving();
+            checkEmptiness();
+        }
+
+        return true;
     }
 }

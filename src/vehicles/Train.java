@@ -44,6 +44,13 @@ public abstract class Train {
         else return false;
     }
 
+    public boolean detectEmptiness(){
+        if(next == null && isEmpty == true) return true;
+        else if(next == null && isEmpty == false) return false;
+
+        else if (next.detectEmptiness() && isEmpty == true) return true;
+        else return false;
+    }
     public void move(){
         Rail temp;
         temp = currentRail;
@@ -56,4 +63,6 @@ public abstract class Train {
 
         if(next != null) next.move();
     }
+
+    public abstract void leave();
 }

@@ -11,14 +11,14 @@ public class Wagon extends Train {
         this.setEmpty(false);
     }
 
+    @Override
     public void leave(){
         if (this.getPrev().isEmpty() && this.getColor() == this.getCurrentRail().getColor()){
             this.setEmpty(true);
-            if (this.getNext() == null){
-                //ide kéne kitalálni valamit, hogy hogy legyen a győzelem
-            }
         }
+        if (this.getNext() != null) this.getNext().leave();
     }
 
+    //felszállás függvény, amit még ki kell találni
     public void getOn(){}
 }
