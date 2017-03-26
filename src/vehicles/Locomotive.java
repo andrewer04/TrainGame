@@ -14,20 +14,4 @@ public class Locomotive extends Train {
         this.setEmpty(true);
         this.trainLength = trainLength;
     }
-
-    //Azért kell argumentum, mert a Wagon-ban is ez a függvény van overrideolva, és muszáj, hogy legyen (majd adunk neki
-    //egy null-t.
-    @Override
-    public void move(Rail doesntMatter){
-        Rail temp;
-        temp = this.getCurrentRail();
-        this.setCurrentRail(this.getCurrentRail().getDirection(prevRail));
-        prevRail = temp;
-
-        //az elérhetőséget beállítjuk
-        prevRail.setAvailability(false);
-        this.getCurrentRail().setAvailability(true);
-
-        firstWagon.move(prevRail);
-    }
 }

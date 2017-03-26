@@ -6,7 +6,10 @@ import utility.Color;
 public abstract class Train {
     private Color color;
     private Rail currentRail;
+    private Rail prevRail;
     private boolean isEmpty;
+    private Train next;
+    private Train prev;
 
     public Color getColor() {
         return color;
@@ -16,6 +19,12 @@ public abstract class Train {
     }
     public boolean isEmpty() {
         return isEmpty;
+    }
+    public Train getNext() {
+        return next;
+    }
+    public Train getPrev() {
+        return prev;
     }
 
     //konstruktorok használják
@@ -29,6 +38,22 @@ public abstract class Train {
         isEmpty = empty;
     }
 
-    abstract void move(Rail rail);
+    public boolean detectCollision(){
+        if(currentRail.getAvailability() >= 2) return true;
+        else if (next != null && next.detectCollision()) return true;
+        else return false;
+    }
 
+    public void move(){
+        Rail temp;
+        temp = currentRail;
+        setCurrentRail(currentRail.getDirection(prevRail));
+        prevRail = temp;
+
+        //az elérhetőséget beállítjuk
+        prevRail.setAvailability(false);
+        this.getCurrentRail().setAvailability(true);
+
+        if(next != null) next.move();
+    }
 }

@@ -46,9 +46,17 @@ public class Controller {
 
     }
 
+
+
     //a Controller lose() metódusát nem tudjuk meghívni a vonatokból, mert ahhoz el kéne tárolni
     //az egyetlen Controller objektumot, amit majd a main-ben hozunk létre
     //mellesleg, ha a léptetés után hívjuk meg a checkcollision függvényt, akkor elkerüljük azt, hogy a léptetés
     //miatt fals ütküzés legyen
-    public void checkCollision(Rail start){}
+    public void checkCollision(Rail start){
+        for(Train locomotives: trains){
+            if(locomotives.detectCollision()) {
+                lose();
+            }
+        }
+    }
 }
