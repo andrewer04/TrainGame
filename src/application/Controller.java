@@ -10,10 +10,16 @@ import java.io.InputStreamReader;
 public class Controller {
     private Rail start;
     private Train[] trains;
+    private boolean winFlag;
 
     public Controller(Rail start){
         this.start = start;
         System.out.println("Controller letrejott");
+        winFlag = false;
+    }
+
+    public boolean getWinFlag() {
+        return winFlag;
     }
 
     public void lose(){
@@ -21,12 +27,13 @@ public class Controller {
         System.exit(1);
         return;
     }
-    public boolean win(){
+    public void win(){
         System.out.println("GYOZELEM");
-        return true;
+        winFlag = true;
+        return;
     }
 
-    public void makeTrain(){
+    public void makeTrain(int level){
 
     }
     public int observer(){
@@ -68,16 +75,11 @@ public class Controller {
         }
     }
 
-    public boolean run(){
-        boolean timeFlag = true;
-        while(timeFlag){
-            observer();
-            startStepping();
-            checkCollision();
-            startLeaving();
-            checkEmptiness();
-        }
-
-        return true;
+    public void run(){
+        startStepping();
+        checkCollision();
+        startLeaving();
+        checkEmptiness();
+        return;
     }
 }

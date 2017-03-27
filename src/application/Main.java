@@ -11,6 +11,7 @@ public class Main {
 
         Controller controller;
         MapCreator mapcreator;
+        Timer timer;
 
         int valasz = 0;
         String sor;
@@ -24,8 +25,19 @@ public class Main {
 
         if (valasz == 1){
             mapcreator = new MapCreator();
-            controller = new Controller(mapcreator.build(1));
-            controller.makeTrain();
+            timer = new Timer();
+
+            for(int level = 1; level <=2; level++){
+                controller = new Controller(mapcreator.build(level));
+                controller.makeTrain(level);
+                while(controller.getWinFlag()){
+                    controller.observer();
+                    if (timer.start()){
+                        controller.run();
+                    }
+                }
+            }
+
         }
         else{
             System.out.println("\nAkkor csa!");
