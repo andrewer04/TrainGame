@@ -37,6 +37,15 @@ public abstract class Train {
     public void setEmpty(boolean empty) {
         isEmpty = empty;
     }
+    public void setNext(Train next) {
+        this.next = next;
+    }
+    public void setPrev(Train prev) {
+        this.prev = prev;
+    }
+    public void setPrevRail(Rail prevRail) {
+        this.prevRail = prevRail;
+    }
 
     public boolean detectCollision(){
         if(currentRail.getAvailability() >= 2) return true;
@@ -59,7 +68,7 @@ public abstract class Train {
 
         //az elérhetőséget beállítjuk
         prevRail.setAvailability(false);
-        this.getCurrentRail().setAvailability(true);
+        currentRail.setAvailability(true);
 
         if(next != null) next.move();
     }

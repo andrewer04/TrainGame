@@ -7,10 +7,11 @@ public class StartRail extends Rail{
     //akkor majd át lehet írni ezt a függvényt is
     @Override
     public Rail getDirection(Rail r) {
-        if (this.getPossibleRail1() == null)
+        if (r == null)
+            return this.getPossibleRail1();
+        else if (this.getPossibleRail1() == r)
             return this.getPossibleRail2();
         else
             return this.getPossibleRail1();
     }
-
 }

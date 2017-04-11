@@ -12,6 +12,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         boolean log = false;
+        Controller controller;
+        MapCreator mapCreator;
 
         int valasz = 0;
 
@@ -35,6 +37,7 @@ public class Main {
             autoMode(log);
         }
         else if(command.equalsIgnoreCase("manualMode")){
+            manualMode(log);
         }
         else if (command.equalsIgnoreCase("logOn"))
             log = true;
