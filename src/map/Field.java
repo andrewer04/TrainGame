@@ -42,4 +42,5 @@ public abstract class Field {
     //Azért kellett ezt itt létrehozni, hogy a leave() függvényt bármikor meg lehessen hívni, akkor is, ha csak sima
     //sínen vagyunk, akkor is, ha állomás mellett.
     abstract Color getColor();
+    abstract boolean isEmpty();
 }

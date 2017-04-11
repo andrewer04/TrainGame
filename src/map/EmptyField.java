@@ -7,4 +7,9 @@ public class EmptyField extends Field {
     public Color getColor(){
         return null;
     }
+
+    @Override
+    public boolean isEmpty(){
+        return true;
+    }
 }

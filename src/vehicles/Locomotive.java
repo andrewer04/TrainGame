@@ -17,4 +17,9 @@ public class Locomotive extends Train {
     public void leave(){
         this.getNext().leave();
     }
+
+    @Override
+    public void getOn(){
+        this.getNext().getOn();
+    }
 }

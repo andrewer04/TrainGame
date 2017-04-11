@@ -36,7 +36,6 @@ public class Rail extends Field{
     public void setByTheStation(boolean byTheStation) {
         this.byTheStation = byTheStation;
     }
-
     public void setPossibleRail1(Rail possibleRail1) {
         this.possibleRail1 = possibleRail1;
     }
@@ -52,10 +51,23 @@ public class Rail extends Field{
     //A mellette lévő állomás színét adja, ha van ilyen. Egyébként null-t.
     @Override
     public Color getColor(){
-        if (this.getUp() != null && this.getUp().getColor() != null) return this.getUp().getColor();
-        else if (this.getDown() != null && this.getDown().getColor() != null) return this.getDown().getColor();
-        else if (this.getRight() != null && this.getRight().getColor() != null) return this.getRight().getColor();
-        else if (this.getLeft() != null && this.getLeft().getColor() != null) return this.getLeft().getColor();
-        else return null;
+        if(byTheStation) {
+            if (this.getUp() != null && this.getUp().getColor() != null) return this.getUp().getColor();
+            else if (this.getDown() != null && this.getDown().getColor() != null) return this.getDown().getColor();
+            else if (this.getRight() != null && this.getRight().getColor() != null) return this.getRight().getColor();
+            else if (this.getLeft() != null && this.getLeft().getColor() != null) return this.getLeft().getColor();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isEmpty(){
+        if (byTheStation){
+            if (this.getUp() != null && this.getUp().isEmpty() == false) return false;
+            else if (this.getDown() != null && this.getDown().isEmpty() == false) return false;
+            else if (this.getRight() != null && this.getRight().isEmpty() == false) return false;
+            else if (this.getLeft() != null && this.getLeft().isEmpty() == false) return false;
+        }
+        return true;
     }
 }

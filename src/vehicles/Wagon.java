@@ -19,6 +19,11 @@ public class Wagon extends Train {
         if (this.getNext() != null) this.getNext().leave();
     }
 
-    //felszállás függvény, amit még ki kell találni
-    public void getOn(){}
+    @Override
+    public void getOn(){
+        if (this.getColor() == this.getCurrentRail().getColor() && this.isEmpty() && this.getCurrentRail().isEmpty() == false){
+            this.setEmpty(false);
+        }
+        if(this.getNext() != null) this.getNext().getOn();
+    }
 }

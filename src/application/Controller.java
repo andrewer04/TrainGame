@@ -112,6 +112,11 @@ public class Controller {
             trains[i][0].leave();
         }
     }
+    public void startGetOn(){
+        for (int i = 0; i<trains.length; i++){
+            trains[i][0].getOn();
+        }
+    }
     public void startStepping(){
         for (int i = 0; i<trains.length; i++){
             trains[i][0].move();
@@ -137,6 +142,7 @@ public class Controller {
         startStepping();
         checkCollision();
         startLeaving();
+        startGetOn();
         checkEmptiness();
         return;
     }

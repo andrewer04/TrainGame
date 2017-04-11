@@ -74,4 +74,5 @@ public abstract class Train {
     }
 
     public abstract void leave();
+    public abstract void getOn();
 }
