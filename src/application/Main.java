@@ -1,19 +1,23 @@
 package application;
 
+import utility.Commands;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 
 public class Main {
 
+   static Controller controller;
+   static MapCreator mapCreator;
+
     public static void main(String[] args) throws IOException {
 
         boolean log = false;
-        Controller controller;
-        MapCreator mapCreator;
 
         int valasz = 0;
 
@@ -27,25 +31,34 @@ public class Main {
                 }
             }
         }*/
-        System.out.print("Hogy akarsz tesztelni?\n");
-        System.out.print("\nA lehetseges parancsok: autoMode | manualMode | logOn | logOff\n");
+        while(true) {
+            System.out.println("Hogy akarsz tesztelni?");
+            System.out.println("A lehetseges parancsok: autoMode | manualMode | logOn | logOff");
+            System.out.println("Log: "+ (log == true ? "on" : "off"));
 
-        Scanner scanner = new Scanner(System.in);
-        String command = scanner.nextLine();
+            try {
+                Scanner scanner = new Scanner(System.in);
+                Commands command = Commands.valueOf(scanner.nextLine().toUpperCase());
 
-        if (command.equalsIgnoreCase("autoMode")){
-            autoMode(log);
-        }
-        else if(command.equalsIgnoreCase("manualMode")){
-            manualMode(log);
-        }
-        else if (command.equalsIgnoreCase("logOn"))
-            log = true;
-        else if (command.equalsIgnoreCase("logOff"))
-            log = false;
-        else {
-            System.out.println("Nincs ilyen parancs!");
-            return;
+                switch (command) {
+                    case AUTOMODE:
+                        autoMode(log);
+                        break;
+                    case MANUALMODE:
+                        manualMode(log);
+                        break;
+                    case LOGON:
+                        log = true;
+                        break;
+                    case LOGOFF:
+                        log = false;
+                        break;
+                    default:
+                        break;
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.print("A hiba oka: " + e.getMessage());
+            }
         }
     }
 
@@ -79,9 +92,20 @@ public class Main {
             }
         }
     public static void manualMode(boolean log){
+        while (true){
+            System.out.println("Lehetseges parancsok:");
+            for (int i = 0; i<Commands.values().length-4; i++){
+                System.out.print(Commands.values()[i].name() + " | ");
+            }
+            System.out.print("\n");
 
+            Scanner scanner = new Scanner(System.in);
+            String command = scanner.nextLine();
+            prog(command);
+        }
     }
 
+    //kiválasztja, hogy melyik test.txt-t kell meghívni, és végrehajtatja az abban lévő parancsokat
     public static void newTest(int number) throws FileNotFoundException {
         Scanner fileScan = new Scanner(new File("C:/Users/baran/IdeaProjects/TrainGame/src/tests/test" + number + ".txt"));
         String row;
@@ -91,66 +115,86 @@ public class Main {
             //System.out.println(row);
         }
     }
+
+    //végrehajtja a kapott parancsot
     public static void prog(String row){
         StringTokenizer stk = new StringTokenizer(row);
-        String command = stk.nextToken();
+        ArrayList<String> options = new ArrayList<String>();
 
-        String stringArg1, stringArg2;
-        int arg1 = 999;
-        int arg2 = 999;
-
-        if  (stk.hasMoreTokens()){
-            stringArg1 = stk.nextToken();
-            arg1 = Integer.parseInt(stringArg1);
-        }
-        if  (stk.hasMoreTokens()){
-            stringArg2 = stk.nextToken();
-            arg2 = Integer.parseInt(stringArg2);
+        while (stk.hasMoreTokens()) {
+            String token = stk.nextToken();
+            options.add(token);
         }
 
-        if  (command.equalsIgnoreCase("next")){
-            next();
-        }
-        if  (command.equalsIgnoreCase("getPositions")){
-            getPositions();
-        }
-        if  (command.equalsIgnoreCase("getTunnels")){
-            getTunnels();
-        }
-        if  (command.equalsIgnoreCase("getStations")){
-            getStations();
-        }
-        if  (command.equalsIgnoreCase("getStatus")){
-            getStatus();
-        }
-        if  (command.equalsIgnoreCase("start") && arg1 != 999){
-            start(arg1);
-        }
-        if  (command.equalsIgnoreCase("addTrain") && arg1 != 999){
-            addTrain(arg1);
-        }
-        if  (command.equalsIgnoreCase("move") && arg1 != 999){
-            move(arg1);
-        }
-        if  (command.equalsIgnoreCase("deleteTunnel") && arg1 != 999){
-            deleteTunnel(arg1);
-        }
-        if  (command.equalsIgnoreCase("setTunnel") && arg1 != 999){
-            setTunnel(arg1);
-        }
-        if  (command.equalsIgnoreCase("setSwitch") && arg1 != 999 && arg2 != 999){
-            setSwitch(arg1,arg2);
-        }
+        try{
+            Commands command = Commands.valueOf(options.get(0).toUpperCase());
+            options.remove(0);
 
+            String stringArg1, stringArg2;
+            int arg1 = 999;
+            int arg2 = 999;
+
+            //ha van még más módosító akkor azt ide elmentjük (max 2 lehet)
+            if  (stk.hasMoreTokens()){
+                stringArg1 = stk.nextToken();
+                arg1 = Integer.parseInt(stringArg1);
+            }
+            if  (stk.hasMoreTokens()){
+                stringArg2 = stk.nextToken();
+                arg2 = Integer.parseInt(stringArg2);
+            }
+
+            switch (command){
+                case START:
+                    start(arg1);
+                    break;
+                case NEXT:
+                    next();
+                    break;
+                case GETSTATUS:
+                    getStatus();
+                    break;
+                case GETTUNNELS:
+                    getTunnels();
+                    break;
+                case GETSTATIONS:
+                    getStations();
+                    break;
+                case GETPOSITIONS:
+                    getPositions();
+                    break;
+                case ADDTRAIN:
+                    addTrain(arg1);
+                    break;
+                case MOVE:
+                    move(arg1);
+                    break;
+                case DELETETUNNEL:
+                    deleteTunnel(arg1);
+                    break;
+                case SETSWITCH:
+                    setSwitch(arg1,arg2);
+                    break;
+                case SETTUNNEL:
+                    setTunnel(arg1);
+                    break;
+            }
+        }catch (IllegalArgumentException e){
+            System.out.print("A hiba oka: " + e.getMessage());
+        }
     }
-    public static void start(int lvl){
 
+    public static void start(int lvl){
+        mapCreator = new MapCreator();
+        controller = new Controller(mapCreator.build(lvl));
     }
     public static void addTrain(int wagonNumber){
-
+        controller.makeTrain(1,wagonNumber);
     }
     public static void move(int steps){
-
+        for (int i = 0; i<steps; i++){
+            controller.startStepping();
+        }
     }
     public static void next(){
 
