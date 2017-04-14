@@ -17,6 +17,10 @@ public abstract class Train {
     public Rail getCurrentRail() {
         return currentRail;
     }
+    public Rail getPrevRail() {
+        return prevRail;
+    }
+
     public boolean isEmpty() {
         return isEmpty;
     }
@@ -61,14 +65,22 @@ public abstract class Train {
         else return false;
     }
     public void move(){
-        Rail temp;
-        temp = currentRail;
-        setCurrentRail(currentRail.getDirection(prevRail));
-        prevRail = temp;
 
-        //az elérhetőséget beállítjuk
-        prevRail.setAvailability(false);
-        currentRail.setAvailability(true);
+        if (currentRail == null){
+            currentRail = prev.getPrevRail();
+            if (currentRail != null) currentRail.setAvailability(true);
+        }
+        else {
+
+            Rail temp;
+            temp = currentRail;
+            setCurrentRail(currentRail.getDirection(prevRail));
+            prevRail = temp;
+
+            //az elérhetőséget beállítjuk
+            prevRail.setAvailability(false);
+            currentRail.setAvailability(true);
+        }
 
         if(next != null) next.move();
     }

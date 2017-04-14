@@ -1,11 +1,16 @@
 package map;
 
 public class Tunnel extends Rail {
-    private int tunnelN; //staticnak kell lennie, hogy mindegyik tunnel ugyan azt lássa
+    static private int tunnelN = 0;
     private boolean selected;
     private int tunnelLength;
     private Tunnel otherTunnel;
 
+    public Tunnel (boolean selected, int TLength, Tunnel other) {
+        this.selected = selected;
+        this.tunnelLength = TLength;
+        this.otherTunnel = other;
+    }
 
     public int getTunnelLength() {
         return tunnelLength;

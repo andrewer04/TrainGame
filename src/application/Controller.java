@@ -10,25 +10,37 @@ import vehicles.Wagon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class Controller {
     private Rail start;
-    private Train[][] trains;
+    //private Train[][] trains;
+    private ArrayList<Train[]> trains = new ArrayList<Train[]>();;
     private boolean winFlag;
+    private boolean loseFlag;
 
     public Controller(Rail start){
         this.start = start;
         System.out.println("Controller letrejott");
         winFlag = false;
+        loseFlag = false;
+    }
+
+    public ArrayList<Train[]> getTrains() {
+        return trains;
     }
 
     public boolean getWinFlag() {
         return winFlag;
     }
 
+    public boolean getLoseFlag() {
+        return loseFlag;
+    }
+
     public void lose(){
         System.out.println("VESZTETTEL");
-        System.exit(1);
+        loseFlag = true;
         return;
     }
     public void win(){
@@ -38,61 +50,63 @@ public class Controller {
     }
 
     public void makeTrain(int db, int length){
-       trains = new Train[db][length];
+        for(int d = 0; d<db; d++) {
 
-       //létrehozza a locomotiveokat
-       for (int i = 0; i<db; i++){
-           trains[i][0] = new Locomotive(start,length);
+            Train[] train = new Train[length];
 
-           //létrehozza a wagonokat
-           for (int j = 1; j<length; j++) {
+            //létrehozza a locomotiveokat
+            train[0] = new Locomotive(start, length);
+            start.setAvailability(true);
 
-               //egymás után először egy red, aztán egy yellow, majd green, ... wagonokat hoz létre
-               switch (Color.values()[j-1]){
-                   case RED:
-                       trains[i][j] = new Wagon(null, Color.RED);
-                       break;
-                   case YELLOW:
-                       trains[i][j] = new Wagon(null, Color.YELLOW);
-                       break;
-                   case GREEN:
-                       trains[i][j] = new Wagon(null, Color.GREEN);
-                       break;
-                   case BLUE:
-                       trains[i][j] = new Wagon(null, Color.BLUE);
-                       break;
-                   case ORANGE:
-                       trains[i][j] = new Wagon(null, Color.ORANGE);
-                       break;
-                   case BROWN:
-                       trains[i][j] = new Wagon(null, Color.BROWN);
-                       break;
-                   default:
-                       trains[i][j] = new CargoWagon(null, Color.GREY);
-                       break;
-               }
+            //létrehozza a wagonokat
+            for (int j = 1; j < length; j++) {
 
-           }
+                //egymás után először egy red, aztán egy yellow, majd green, ... wagonokat hoz létre
+                switch (Color.values()[j - 1]) {
+                    case RED:
+                        train[j] = new Wagon(null, Color.RED);
+                        break;
+                    case YELLOW:
+                        train[j] = new Wagon(null, Color.YELLOW);
+                        break;
+                    case GREEN:
+                        train[j] = new Wagon(null, Color.GREEN);
+                        break;
+                    case BLUE:
+                        train[j] = new Wagon(null, Color.BLUE);
+                        break;
+                    case ORANGE:
+                        train[j] = new Wagon(null, Color.ORANGE);
+                        break;
+                    case BROWN:
+                        train[j] = new Wagon(null, Color.BROWN);
+                        break;
+                    default:
+                        train[j] = new CargoWagon(null, Color.GREY);
+                        break;
+                }
+            }
 
-           //beállítja a waqgonokat
-           for (int j = 1; j<length; j++) {
-               if(j == length-1) { //azaz utolsó kocsi
-                trains[i][j].setNext(null);
-                trains[i][j].setPrev(trains[i][j-1]);
-                trains[i][j].setPrevRail(null);
-               }
-               else{
-                   trains[i][j].setNext(trains[i][j+1]);
-                   trains[i][j].setPrev(trains[i][j-1]);
-                   trains[i][j].setPrevRail(null);
-               }
-           }
+            //beállítja a waqgonokat
+            for (int j = 1; j < length; j++) {
+                if (j == length - 1) { //azaz utolsó kocsi
+                    train[j].setNext(null);
+                    train[j].setPrev(train[j - 1]);
+                    train[j].setPrevRail(null);
+                } else {
+                    train[j].setNext(train[j + 1]);
+                    train[j].setPrev(train[j - 1]);
+                    train[j].setPrevRail(null);
+                }
+            }
 
-           //beállítja a locomotivokat
-           trains[i][0].setPrevRail(null);
-           trains[i][0].setPrev(null);
-           trains[i][0].setNext(trains[i][1]);
-       }
+            //beállítja a locomotivokat
+            train[0].setPrevRail(null);
+            train[0].setPrev(null);
+            train[0].setNext(train[1]);
+
+            trains.add(train);
+        }
     }
     public int observer(){
         System.out.println("Observer(): felhasznaloi interakcio kezelese:");
@@ -108,31 +122,31 @@ public class Controller {
     }
 
     public void startLeaving(){
-        for (int i = 0; i<trains.length; i++){
-            trains[i][0].leave();
+        for (int i = 0; i<trains.size(); i++){
+            trains.get(i)[0].leave();
         }
     }
     public void startGetOn(){
-        for (int i = 0; i<trains.length; i++){
-            trains[i][0].getOn();
+        for (int i = 0; i<trains.size(); i++){
+            trains.get(i)[0].getOn();
         }
     }
     public void startStepping(){
-        for (int i = 0; i<trains.length; i++){
-            trains[i][0].move();
+        for (int i = 0; i<trains.size(); i++){
+            trains.get(i)[0].move();
         }
     }
 
     public void checkCollision(){
-        for(int i = 0; i<trains.length; i++){
-            if(trains[i][0].detectCollision()) {
+        for(int i = 0; i<trains.size(); i++){
+            if(trains.get(i)[0].detectCollision()) {
                 lose();
             }
         }
     }
     public void checkEmptiness(){
-        for(int i = 0; i<trains.length; i++){
-            if(trains[i][0].detectEmptiness()) {
+        for(int i = 0; i<trains.size(); i++){
+            if(trains.get(i)[0].detectEmptiness()) {
                 win();
             }
         }

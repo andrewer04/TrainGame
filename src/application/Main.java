@@ -1,6 +1,11 @@
 package application;
 
+import com.sun.javafx.collections.TrackableObservableList;
+import map.Switch;
+import map.Tunnel;
 import utility.Commands;
+import vehicles.Locomotive;
+import vehicles.Train;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -107,7 +112,7 @@ public class Main {
 
     //kiválasztja, hogy melyik test.txt-t kell meghívni, és végrehajtatja az abban lévő parancsokat
     public static void newTest(int number) throws FileNotFoundException {
-        Scanner fileScan = new Scanner(new File("C:/Users/baran/IdeaProjects/TrainGame/src/tests/test" + number + ".txt"));
+        Scanner fileScan = new Scanner(new File("test" + number + ".txt"));
         String row;
         while (fileScan.hasNextLine()) {
             row = fileScan.nextLine();
@@ -135,12 +140,13 @@ public class Main {
             int arg2 = 999;
 
             //ha van még más módosító akkor azt ide elmentjük (max 2 lehet)
-            if  (stk.hasMoreTokens()){
-                stringArg1 = stk.nextToken();
+            if  (!(options.isEmpty())){
+                stringArg1 = options.get(0);
+                options.remove(0);
                 arg1 = Integer.parseInt(stringArg1);
             }
-            if  (stk.hasMoreTokens()){
-                stringArg2 = stk.nextToken();
+            if  (!(options.isEmpty())){
+                stringArg2 = options.get(0);
                 arg2 = Integer.parseInt(stringArg2);
             }
 
@@ -173,7 +179,7 @@ public class Main {
                     deleteTunnel(arg1);
                     break;
                 case SETSWITCH:
-                    setSwitch(arg1,arg2);
+                    setSwitch(arg1);
                     break;
                 case SETTUNNEL:
                     setTunnel(arg1);
@@ -200,16 +206,25 @@ public class Main {
 
     }
     public static void deleteTunnel(int id){
-
+        Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
+        tunnel.deleting();
     }
     public static void setTunnel(int id){
-
+        Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
+        tunnel.creating();
     }
-    public static void setSwitch(int id, int dir){
-
+    public static void setSwitch(int id){
+        Switch sw = (Switch) mapCreator.searchField(id);
+        sw.switching();
     }
     public static void getPositions(){
-
+        for (int j = 0; j<controller.getTrains().size(); j++){
+            System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
+            for (int k = 1; k<controller.getTrains().get(j).length; k++){
+                System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[k].getCurrentRail()) + ">");
+            }
+            System.out.print("\n");
+        }
     }
     public static void getTunnels(){
 
@@ -218,6 +233,8 @@ public class Main {
 
     }
     public static void getStatus(){
-
+        if (controller.getWinFlag() == true) System.out.println("<win>");
+        else if (controller.getLoseFlag() == true) System.out.println("<lose>");
+        else System.out.println("<progress>");
     }
 }

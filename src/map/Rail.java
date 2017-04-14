@@ -8,6 +8,7 @@ public class Rail extends Field{
     private Rail possibleRail1;
     private Rail possibleRail2;
 
+
     public Rail() {
         System.out.print("Rail letrejott\t");
     }

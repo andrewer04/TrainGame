@@ -5,6 +5,33 @@ public class Switch extends Rail {
     private Rail notselectedRail;
     private Rail fixRail;
 
+    public Switch(){
+    }
+
+    public void setSelectedRail(Rail selectedRail) {
+        this.selectedRail = selectedRail;
+    }
+
+    public void setNotselectedRail(Rail notselectedRail) {
+        this.notselectedRail = notselectedRail;
+    }
+
+    public void setFixRail(Rail fixRail) {
+        this.fixRail = fixRail;
+    }
+
+    public Rail getSelectedRail() {
+        return selectedRail;
+    }
+
+    public Rail getNotselectedRail() {
+        return notselectedRail;
+    }
+
+    public Rail getFixRail() {
+        return fixRail;
+    }
+
     public void switching(){
         Rail temp;
         temp = selectedRail;

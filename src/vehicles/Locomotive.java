@@ -13,6 +13,10 @@ public class Locomotive extends Train {
         this.trainLength = trainLength;
     }
 
+    public int getTrainLength() {
+        return trainLength;
+    }
+
     @Override
     public void leave(){
         this.getNext().leave();
