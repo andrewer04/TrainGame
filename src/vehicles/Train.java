@@ -52,7 +52,7 @@ public abstract class Train {
     }
 
     public boolean detectCollision(){
-        if(currentRail.getAvailability() >= 2) return true;
+        if(currentRail != null && currentRail.getAvailability() >= 2) return true;
         else if (next != null && next.detectCollision()) return true;
         else return false;
     }

@@ -1,12 +1,14 @@
 package map;
 
+import application.MapCreator;
+
 public class Tunnel extends Rail {
     static private int tunnelN = 0;
     private boolean selected;
     private int tunnelLength;
     private Tunnel otherTunnel;
 
-    public Tunnel (boolean selected, int TLength, Tunnel other) {
+    public Tunnel(boolean selected, int TLength, Tunnel other) {
         this.selected = selected;
         this.tunnelLength = TLength;
         this.otherTunnel = other;
@@ -15,19 +17,31 @@ public class Tunnel extends Rail {
     public int getTunnelLength() {
         return tunnelLength;
     }
+
     public boolean isSelected() {
         return selected;
     }
 
-    public void creating(){
+    public void creating() {
         if (tunnelN < 2){
             selected = true;
             tunnelN++;
-            otherTunnel = findOtherTunnel();
+            // Ha vankét megépített alagútszáj, akkor beállítjuk mindkettő otherTunnel attribútumát.
+            if (tunnelN == 2) {
+                Tunnel[] selectedT = MapCreator.searchselectedTunnels();
+                if (this == selectedT[0]) {
+                    this.otherTunnel = selectedT[1];
+                    selectedT[1].otherTunnel = this;
+                }
+                else {
+                    this.otherTunnel = selectedT[0];
+                    selectedT[0].otherTunnel = this;
+                }
+            }
         }
     }
 
-    public void deleting(){
+    public void deleting() {
         if (tunnelN > 0) {
             selected = false;
             tunnelN--;
@@ -45,21 +59,15 @@ public class Tunnel extends Rail {
         */
     @Override
     public Rail getDirection(Rail rail) {
-        if (tunnelN == 2 && selected == true){
-            if (rail == otherTunnel){
-                if ((Math.random()%2 == 0)) return this.getPossibleRail1();
+        if (tunnelN == 2 && selected == true) {
+            if (rail == otherTunnel) {
+                if ((Math.random() % 2 == 0)) return this.getPossibleRail1();
                 else return getPossibleRail2();
-            }
-            else return otherTunnel; //ha van másik alagútszáj, akkor mindenképpen oda küldi tovább
-        }
-        else{
-            if(this.getPossibleRail1() == rail) return this.getPossibleRail2();
+            } else return otherTunnel; //ha van másik alagútszáj, akkor mindenképpen oda küldi tovább
+        } else {
+            if (this.getPossibleRail1() == rail) return this.getPossibleRail2();
             else return this.getPossibleRail1();
         }
     }
-
-    //ezt meg kell csinálni
-    private Tunnel findOtherTunnel(){
-        return this;
-    }
 }
+

@@ -21,7 +21,6 @@ public class Controller {
 
     public Controller(Rail start){
         this.start = start;
-        System.out.println("Controller letrejott");
         winFlag = false;
         loseFlag = false;
     }

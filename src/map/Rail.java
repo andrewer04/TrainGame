@@ -8,11 +8,6 @@ public class Rail extends Field{
     private Rail possibleRail1;
     private Rail possibleRail2;
 
-
-    public Rail() {
-        System.out.print("Rail letrejott\t");
-    }
-
     public Rail getDirection(Rail r){
         if (possibleRail1 == r)
             return possibleRail2;

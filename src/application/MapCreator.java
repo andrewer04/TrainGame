@@ -16,9 +16,14 @@ import utility.Color;
 
 public class MapCreator {
 
-    private int realWidth,  realHeight;
+    // Segédváltozó a pálya szélességéhez és hosszához.
+    private static int realWidth;
 
-    private Field[][] Fields = null;
+    private static int realHeight;
+
+    // Segédmátrixok a beolvasott pályához és az iniciált pályához.
+    private static String[][] map = null;
+    private static Field[][] Fields = null;
 
 
     public Rail build(int level){
@@ -405,6 +410,7 @@ public class MapCreator {
         Fields = field;
         realWidth = width;
         realHeight = height;
+        map = helpingmatrix;
 
         // Visszaadom a startmezőt
         return (Rail)field[0][0];
@@ -453,5 +459,26 @@ public class MapCreator {
                     returning =  helpingcounter;
             }
         return returning;
+    }
+
+    public static Tunnel[] searchselectedTunnels()
+    {
+        // Itt tároljuk a két megépített Tunnel-t.
+        Tunnel[] selectedTunnels = new Tunnel[2];
+
+        // A tömbbeli helye a megépített Tunnel-nek.
+        int selectedNumber = 0;
+
+        for (int i = 0; i < realWidth; i++)
+            for (int j = 0; j < realHeight; j++)
+            {
+                if (map[i][j].equals("T"))
+                    if (((Tunnel)Fields[i][j]).isSelected() == true)
+                    {
+                        selectedTunnels[selectedNumber] = (Tunnel)Fields[i][j];
+                        selectedNumber++;
+                    }
+            }
+        return selectedTunnels;
     }
 }

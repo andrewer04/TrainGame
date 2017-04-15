@@ -5,9 +5,6 @@ public class Switch extends Rail {
     private Rail notselectedRail;
     private Rail fixRail;
 
-    public Switch(){
-    }
-
     public void setSelectedRail(Rail selectedRail) {
         this.selectedRail = selectedRail;
     }

@@ -1,15 +1,15 @@
 package application;
 
-import com.sun.javafx.collections.TrackableObservableList;
+import map.Rail;
+import map.RailStation;
 import map.Switch;
 import map.Tunnel;
 import utility.Commands;
-import vehicles.Locomotive;
-import vehicles.Train;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -19,6 +19,7 @@ public class Main {
 
    static Controller controller;
    static MapCreator mapCreator;
+   private static ArrayList<String> output = new ArrayList<String>();
 
     public static void main(String[] args) throws IOException {
 
@@ -62,7 +63,7 @@ public class Main {
                         break;
                 }
             } catch (IllegalArgumentException e) {
-                System.out.print("A hiba oka: " + e.getMessage());
+                System.out.println("A hiba oka: " + e.getMessage());
             }
         }
     }
@@ -86,11 +87,11 @@ public class Main {
 
         switch (answer){
             case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:
-                newTest(answer);
+                newTest(answer,log, answer);
                 break;
             case 9:
                 for(int i = 1; i<=8; i++) {
-                    newTest(i);
+                    newTest(i,log, answer);
                 }
                 break;
             default: System.out.println("Nincs ilyen eset!");
@@ -106,23 +107,22 @@ public class Main {
 
             Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine();
-            prog(command);
+            prog(command,log,0);
         }
     }
 
     //kiválasztja, hogy melyik test.txt-t kell meghívni, és végrehajtatja az abban lévő parancsokat
-    public static void newTest(int number) throws FileNotFoundException {
+    public static void newTest(int number, boolean log, int test) throws FileNotFoundException {
         Scanner fileScan = new Scanner(new File("test" + number + ".txt"));
         String row;
         while (fileScan.hasNextLine()) {
             row = fileScan.nextLine();
-            prog(row);
-            //System.out.println(row);
+            prog(row,log,test);
         }
     }
 
     //végrehajtja a kapott parancsot
-    public static void prog(String row){
+    public static void prog(String row, boolean log, int test){
         StringTokenizer stk = new StringTokenizer(row);
         ArrayList<String> options = new ArrayList<String>();
 
@@ -154,20 +154,17 @@ public class Main {
                 case START:
                     start(arg1);
                     break;
-                case NEXT:
-                    next();
-                    break;
                 case GETSTATUS:
-                    getStatus();
+                    getStatus(log);
                     break;
-                case GETTUNNELS:
-                    getTunnels();
+                case GETTUNNEL:
+                    getTunnel(arg1,log);
                     break;
-                case GETSTATIONS:
-                    getStations();
+                case GETSTATION:
+                    getStation(arg1,log);
                     break;
                 case GETPOSITIONS:
-                    getPositions();
+                    getPositions(log);
                     break;
                 case ADDTRAIN:
                     addTrain(arg1);
@@ -184,9 +181,16 @@ public class Main {
                 case SETTUNNEL:
                     setTunnel(arg1);
                     break;
+                case EXIT:
+                    writeToFile(test);
+                    System.exit(0);
+                    break;
             }
         }catch (IllegalArgumentException e){
-            System.out.print("A hiba oka: " + e.getMessage());
+            System.out.println("A hiba oka: " + e.getMessage());
+        }
+        catch (FileNotFoundException e){
+            System.out.println("A hiba oka: " + e.getLocalizedMessage());
         }
     }
 
@@ -199,11 +203,8 @@ public class Main {
     }
     public static void move(int steps){
         for (int i = 0; i<steps; i++){
-            controller.startStepping();
+            controller.run();
         }
-    }
-    public static void next(){
-
     }
     public static void deleteTunnel(int id){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
@@ -217,24 +218,70 @@ public class Main {
         Switch sw = (Switch) mapCreator.searchField(id);
         sw.switching();
     }
-    public static void getPositions(){
-        for (int j = 0; j<controller.getTrains().size(); j++){
-            System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
-            for (int k = 1; k<controller.getTrains().get(j).length; k++){
-                System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[k].getCurrentRail()) + ">");
+    public static void getPositions(boolean log){
+        if (!log) {
+            for (int j = 0; j < controller.getTrains().size(); j++) {
+                System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
+                for (int k = 1; k < controller.getTrains().get(j).length; k++) {
+                    System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[k].getCurrentRail()) + "," + !(controller.getTrains().get(j)[k].isEmpty()) + ">");
+                }
+                System.out.print("\n");
             }
-            System.out.print("\n");
+        }
+        else {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int j = 0; j < controller.getTrains().size(); j++) {
+                stringBuilder.append("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
+                for (int k = 1; k < controller.getTrains().get(j).length; k++) {
+                    stringBuilder.append("<" + mapCreator.searchID(controller.getTrains().get(j)[k].getCurrentRail()) + "," + !(controller.getTrains().get(j)[k].isEmpty()) + ">");
+                }
+            }
+            output.add(stringBuilder.toString());
         }
     }
-    public static void getTunnels(){
+    public static void getTunnel(int id, boolean log){
+        Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
+        try {
+            if (!log) {
+                System.out.print("<" + id + "><" + tunnel.isSelected() + ">\n");
+            } else {
+               output.add("<" + id + "><" + tunnel.isSelected() + ">\n");
+            }
+        }
+        catch (ClassCastException e){
+            System.out.println("Az nem Tunnel volt!");
+        }
+    }
+    public static void getStation(int id, boolean log){
+        RailStation station = (RailStation) mapCreator.searchField(id);
+        try{
+            if (!log){
+                System.out.print("<" + id + "><" + !(station.testIsEmpty()) + ">\n");
+            } else {
+                output.add("<" + id + "><" + !(station.testIsEmpty()) + ">\n");
+            }
+        }catch (ClassCastException e){
+            System.out.println("Az nem Railstation volt!");
+        }
 
     }
-    public static void getStations(){
-
+    public static void getStatus(boolean log){
+        if (!log) {
+            if (controller.getWinFlag() == true) System.out.println("<win>");
+            else if (controller.getLoseFlag() == true) System.out.println("<lose>");
+            else System.out.println("<progress>");
+        }else {
+            if (controller.getWinFlag() == true) output.add("<win>");
+            else if (controller.getLoseFlag() == true) output.add("<lose>");
+            else output.add("<progress>");
+        }
     }
-    public static void getStatus(){
-        if (controller.getWinFlag() == true) System.out.println("<win>");
-        else if (controller.getLoseFlag() == true) System.out.println("<lose>");
-        else System.out.println("<progress>");
+    public static void writeToFile(int test) throws FileNotFoundException		//fájlba író metódus
+    {
+        PrintWriter writer = new PrintWriter("output"+test+".txt");				//a tömb összes elemét kiírja a fileba, majd bezárja
+        for (int i = 0 ; i < output.size(); i++){
+            writer.println(output.get(i));
+        }
+        writer.close();
     }
 }

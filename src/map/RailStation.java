@@ -12,6 +12,10 @@ public class RailStation extends Field{
         isEmpty = false;
     }
 
+    public boolean testIsEmpty(){
+        return isEmpty;
+    }
+
     //Az állomás színét adja vissza.
     @Override
     public Color getColor() {
