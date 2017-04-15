@@ -1,6 +1,5 @@
 package application;
 
-import map.Rail;
 import map.RailStation;
 import map.Switch;
 import map.Tunnel;
@@ -17,15 +16,13 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-   static Controller controller;
-   static MapCreator mapCreator;
-   private static ArrayList<String> output = new ArrayList<String>();
+   private static Controller controller;
+   private static MapCreator mapCreator;
+   private static ArrayList<String> output = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
 
         boolean log = false;
-
-        int valasz = 0;
 
         /*for(int level = 1; level <=2; level++){
             controller = new Controller(mapcreator.build(level));
@@ -68,7 +65,7 @@ public class Main {
         }
     }
 
-    public static void autoMode(boolean log) throws FileNotFoundException {
+    private static void autoMode(boolean log) throws FileNotFoundException {
         System.out.print("Melyik tesztet szeretned?\n");
         System.out.println(
                 "1.:Vonat mozgatasa\n"
@@ -97,7 +94,7 @@ public class Main {
             default: System.out.println("Nincs ilyen eset!");
             }
         }
-    public static void manualMode(boolean log){
+    private static void manualMode(boolean log){
         while (true){
             System.out.println("Lehetseges parancsok:");
             for (int i = 0; i<Commands.values().length-4; i++){
@@ -112,7 +109,7 @@ public class Main {
     }
 
     //kiválasztja, hogy melyik test.txt-t kell meghívni, és végrehajtatja az abban lévő parancsokat
-    public static void newTest(int number, boolean log, int test) throws FileNotFoundException {
+    private static void newTest(int number, boolean log, int test) throws FileNotFoundException {
         Scanner fileScan = new Scanner(new File("test" + number + ".txt"));
         String row;
         while (fileScan.hasNextLine()) {
@@ -122,9 +119,9 @@ public class Main {
     }
 
     //végrehajtja a kapott parancsot
-    public static void prog(String row, boolean log, int test){
+    private static void prog(String row, boolean log, int test){
         StringTokenizer stk = new StringTokenizer(row);
-        ArrayList<String> options = new ArrayList<String>();
+        ArrayList<String> options = new ArrayList<>();
 
         while (stk.hasMoreTokens()) {
             String token = stk.nextToken();
@@ -194,31 +191,31 @@ public class Main {
         }
     }
 
-    public static void start(int lvl){
+    private static void start(int lvl){
         mapCreator = new MapCreator();
         controller = new Controller(mapCreator.build(lvl));
     }
-    public static void addTrain(int wagonNumber){
+    private static void addTrain(int wagonNumber){
         controller.makeTrain(1,wagonNumber);
     }
-    public static void move(int steps){
+    private static void move(int steps){
         for (int i = 0; i<steps; i++){
             controller.run();
         }
     }
-    public static void deleteTunnel(int id){
+    private static void deleteTunnel(int id){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
         tunnel.deleting();
     }
-    public static void setTunnel(int id){
+    private static void setTunnel(int id){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
         tunnel.creating();
     }
-    public static void setSwitch(int id){
+    private static void setSwitch(int id){
         Switch sw = (Switch) mapCreator.searchField(id);
         sw.switching();
     }
-    public static void getPositions(boolean log){
+    private static void getPositions(boolean log){
         if (!log) {
             for (int j = 0; j < controller.getTrains().size(); j++) {
                 System.out.print("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
@@ -239,7 +236,7 @@ public class Main {
             output.add(stringBuilder.toString());
         }
     }
-    public static void getTunnel(int id, boolean log){
+    private static void getTunnel(int id, boolean log){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
         try {
             if (!log) {
@@ -252,7 +249,7 @@ public class Main {
             System.out.println("Az nem Tunnel volt!");
         }
     }
-    public static void getStation(int id, boolean log){
+    private static void getStation(int id, boolean log){
         RailStation station = (RailStation) mapCreator.searchField(id);
         try{
             if (!log){
@@ -265,22 +262,22 @@ public class Main {
         }
 
     }
-    public static void getStatus(boolean log){
+    private static void getStatus(boolean log){
         if (!log) {
-            if (controller.getWinFlag() == true) System.out.println("<win>");
-            else if (controller.getLoseFlag() == true) System.out.println("<lose>");
+            if (controller.getWinFlag()) System.out.println("<win>");
+            else if (controller.getLoseFlag()) System.out.println("<lose>");
             else System.out.println("<progress>");
         }else {
-            if (controller.getWinFlag() == true) output.add("<win>");
-            else if (controller.getLoseFlag() == true) output.add("<lose>");
+            if (controller.getWinFlag()) output.add("<win>");
+            else if (controller.getLoseFlag()) output.add("<lose>");
             else output.add("<progress>");
         }
     }
-    public static void writeToFile(int test) throws FileNotFoundException		//fájlba író metódus
+    private static void writeToFile(int test) throws FileNotFoundException		//fájlba író metódus
     {
         PrintWriter writer = new PrintWriter("output"+test+".txt");				//a tömb összes elemét kiírja a fileba, majd bezárja
-        for (int i = 0 ; i < output.size(); i++){
-            writer.println(output.get(i));
+        for (String string: output){
+            writer.println(string);
         }
         writer.close();
     }

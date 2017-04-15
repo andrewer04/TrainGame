@@ -4,7 +4,7 @@ import utility.Color;
 
 public class RailStation extends Field{
     private Color color;
-    boolean isEmpty;
+    private boolean isEmpty;
 
     //Konstruktórral létrehozáskor színnel eggyütt hozzuk létre az állomást.
     public RailStation(Color color){

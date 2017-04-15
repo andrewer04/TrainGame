@@ -1,0 +1,3 @@
+start 1
+addtrain 3
+getpositions

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Controller {
     private Rail start;
     //private Train[][] trains;
-    private ArrayList<Train[]> trains = new ArrayList<Train[]>();;
+    private ArrayList<Train[]> trains = new ArrayList<>();;
     private boolean winFlag;
     private boolean loseFlag;
 
@@ -37,15 +37,13 @@ public class Controller {
         return loseFlag;
     }
 
-    public void lose(){
+    private void lose(){
         System.out.println("VESZTETTEL");
         loseFlag = true;
-        return;
     }
-    public void win(){
+    private void win(){
         System.out.println("GYOZELEM");
         winFlag = true;
-        return;
     }
 
     public void makeTrain(int db, int length){
@@ -81,7 +79,7 @@ public class Controller {
                         train[j] = new Wagon(null, Color.BROWN);
                         break;
                     default:
-                        train[j] = new CargoWagon(null, Color.GREY);
+                        train[j] = new CargoWagon(null);
                         break;
                 }
             }
@@ -120,32 +118,32 @@ public class Controller {
 
     }
 
-    public void startLeaving(){
-        for (int i = 0; i<trains.size(); i++){
-            trains.get(i)[0].leave();
+    private void startLeaving(){
+        for (Train[] train: trains){
+            train[0].leave();
         }
     }
-    public void startGetOn(){
-        for (int i = 0; i<trains.size(); i++){
-            trains.get(i)[0].getOn();
+    private void startGetOn(){
+        for (Train[] train: trains){
+            train[0].getOn();
         }
     }
-    public void startStepping(){
-        for (int i = 0; i<trains.size(); i++){
-            trains.get(i)[0].move();
+    private void startStepping(){
+        for (Train[] train: trains){
+            train[0].move();
         }
     }
 
-    public void checkCollision(){
-        for(int i = 0; i<trains.size(); i++){
-            if(trains.get(i)[0].detectCollision()) {
+    private void checkCollision(){
+        for (Train[] train: trains){
+            if(train[0].detectCollision()) {
                 lose();
             }
         }
     }
-    public void checkEmptiness(){
-        for(int i = 0; i<trains.size(); i++){
-            if(trains.get(i)[0].detectEmptiness()) {
+    private void checkEmptiness(){
+        for (Train[] train: trains){
+            if(train[0].detectEmptiness()) {
                 win();
             }
         }
@@ -157,6 +155,5 @@ public class Controller {
         startLeaving();
         startGetOn();
         checkEmptiness();
-        return;
     }
 }
