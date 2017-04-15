@@ -13,7 +13,7 @@ public class Wagon extends Train {
 
     @Override
     public void leave(){
-        if (this.getPrev().isEmpty() && this.getColor() == this.getCurrentRail().getColor()){
+        if (this.getPrev().isEmpty() && this.getCurrentRail() != null && this.getColor() == this.getCurrentRail().getColor()){
             this.setEmpty(true);
         }
         if (this.getNext() != null) this.getNext().leave();
@@ -21,7 +21,7 @@ public class Wagon extends Train {
 
     @Override
     public void getOn(){
-        if (this.getColor() == this.getCurrentRail().getColor() && this.isEmpty() && this.getCurrentRail().isEmpty() == false){
+        if (this.getCurrentRail() != null && this.getColor() == this.getCurrentRail().getColor() && this.isEmpty() && this.getCurrentRail().isEmpty() == false){
             this.setEmpty(false);
         }
         if(this.getNext() != null) this.getNext().getOn();

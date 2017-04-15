@@ -140,8 +140,8 @@ public class MapCreator {
                     pos2 = (Rail)field[a+1][b];
 
                     // Megvizsgáljuk, hogy állomás melett van e a mező
-                    if (!(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || !(helpingmatrix[a][b+1].equals("E"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || !(helpingmatrix[a+1][b].equals("E")))
+                    if (!(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
                     // Létrehozzuk a start mezőt
@@ -181,9 +181,9 @@ public class MapCreator {
                         else pos3 = (Rail)field[a+1][b];
 
                     // Megvizsgáljuk, hogy a mező állomás mellett van e vagy sem.
-                    if (!(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || !(helpingmatrix[a][b-1].equals("E"))
-                            || !(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || !(helpingmatrix[a][b+1].equals("E"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || !(helpingmatrix[a+1][b].equals("E")) || !(helpingmatrix[a+1][b].equals("C")))
+                    if (!(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
+                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")) & !(helpingmatrix[a+1][b].equals("C")))
                         byTheStation = true;
 
                     // Beállítjuk a mező szomszédait
@@ -202,8 +202,8 @@ public class MapCreator {
                     }
 
                     // Megvizsgáljuk, hogy a mező állomás mellett van e
-                    if (!(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || !(helpingmatrix[a][b-1].equals("E"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || !(helpingmatrix[a+1][b].equals("E")))
+                    if (!(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
                     // Beállítjuk a szomszédait
@@ -230,11 +230,10 @@ public class MapCreator {
                         else pos3 = (Rail)field[a+1][b];
 
                     // Állomás mellettiség vizsgálat
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || !(helpingmatrix[a-1][b].equals("E"))
-                            || !(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || !(helpingmatrix[a][b+1].equals("E")) || (helpingmatrix[a][b+1].equals("C"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || !(helpingmatrix[a+1][b].equals("E")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
+                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")) & !(helpingmatrix[a][b+1].equals("C"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
-
                     //Szomszédok beállítása
                     field[a][b].setLeft(null);
                     field[a][b].setRight(field[a][b+1]);
@@ -269,10 +268,10 @@ public class MapCreator {
                         else pos4 = (Rail)field[a][b-1];
 
                     // Állomás mellettiség vizsgálat
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || (helpingmatrix[a-1][b].equals("E"))  || (helpingmatrix[a-1][b].equals("C"))
-                            || !(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || (helpingmatrix[a][b+1].equals("E")) || (helpingmatrix[a][b+1].equals("C"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || (helpingmatrix[a+1][b].equals("E")) || (helpingmatrix[a+1][b].equals("C"))
-                            || !(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || (helpingmatrix[a][b-1].equals("E")) || (helpingmatrix[a][b-1].equals("C")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))  & !(helpingmatrix[a-1][b].equals("C"))
+                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")) & !(helpingmatrix[a][b+1].equals("C"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")) & !(helpingmatrix[a+1][b].equals("C"))
+                            || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")) & !(helpingmatrix[a][b-1].equals("C")))
                         byTheStation = true;
 
                     // Szomszédok beállítása
@@ -300,9 +299,9 @@ public class MapCreator {
                             pos3 = (Rail)field[a+1][b];
 
                     // Állomás mellettiség vizsgálat
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || !(helpingmatrix[a-1][b].equals("E"))
-                            || !(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || !(helpingmatrix[a][b-1].equals("E")) || !(helpingmatrix[a][b-1].equals("C"))
-                            || !(helpingmatrix[a+1][b].equals("R")) || !(helpingmatrix[a+1][b].equals("S")) || !(helpingmatrix[a+1][b].equals("T")) || !(helpingmatrix[a+1][b].equals("E")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
+                            || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")) & !(helpingmatrix[a][b-1].equals("C"))
+                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
                     // Szomszédok beállítása
@@ -322,8 +321,8 @@ public class MapCreator {
 
                     // Állomás mellettség vizsgálat
                     // Itt nem kell továbbhaladási irányt vizsgálni, mivel mindkét szomszédján továbbmehet
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || !(helpingmatrix[a-1][b].equals("E"))
-                            || !(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || !(helpingmatrix[a][b+1].equals("E")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
+                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")))
                         byTheStation = true;
 
                     // Szomszédok beállítása
@@ -351,9 +350,9 @@ public class MapCreator {
                             pos3 = (Rail)field[a][b+1];
 
                     // Állomás mellettiség vizsgálat
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || !(helpingmatrix[a-1][b].equals("E")) || !(helpingmatrix[a-1][b].equals("C"))
-                            || !(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || !(helpingmatrix[a][b-1].equals("E"))
-                            || !(helpingmatrix[a][b+1].equals("R")) || !(helpingmatrix[a][b+1].equals("S")) || !(helpingmatrix[a][b+1].equals("T")) || !(helpingmatrix[a][b+1].equals("E")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E")) & !(helpingmatrix[a-1][b].equals("C"))
+                            || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
+                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")))
                         byTheStation = true;
 
                     // Szomszédok beállítása
@@ -372,8 +371,8 @@ public class MapCreator {
                     }
 
                     // Állomás mellettiség vizsgálat
-                    if (!(helpingmatrix[a-1][b].equals("R")) || !(helpingmatrix[a-1][b].equals("S")) || !(helpingmatrix[a-1][b].equals("T")) || !(helpingmatrix[a-1][b].equals("E"))
-                            || !(helpingmatrix[a][b-1].equals("R")) || !(helpingmatrix[a][b-1].equals("S")) || !(helpingmatrix[a][b-1].equals("T")) || !(helpingmatrix[a][b-1].equals("E")))
+                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
+                            || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")))
                         byTheStation = true;
 
                     // Szomszédok beállítása
@@ -480,5 +479,13 @@ public class MapCreator {
                     }
             }
         return selectedTunnels;
+    }
+
+    public void a()
+    {
+        for (int i = 0; i < realWidth; i++)
+            for (int j = 0; j < realHeight; j++)
+                if (map[i][j].equals("T") || map[i][j].equals("R") || map[i][j].equals("S") || map[i][j].equals("C"))
+                    System.out.println(((Rail)Fields[i][j]).isItStation());
     }
 }
