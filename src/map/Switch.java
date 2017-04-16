@@ -5,6 +5,8 @@ public class Switch extends Rail {
     private Rail notselectedRail;
     private Rail fixRail;
 
+    //ÉRTÉKEK BEÁLLÍTÁSA/VISSZAADÁSA
+
     public void setSelectedRail(Rail selectedRail) {
         this.selectedRail = selectedRail;
     }
@@ -29,6 +31,9 @@ public class Switch extends Rail {
         return fixRail;
     }
 
+    /*
+     * Váltó állítása másik helyzetbe
+     */
     public void switching(){
         Rail temp;
         temp = selectedRail;

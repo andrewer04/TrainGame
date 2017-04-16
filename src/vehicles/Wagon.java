@@ -10,7 +10,10 @@ public class Wagon extends Train {
         this.setColor(color);
         this.setEmpty(false);
     }
-
+    /*
+     * Megvizsgálja, hogy leszállhat e a vagonról az utas.
+     * Amennyiben igen, úgy leszállítja őket.
+     */
     @Override
     public void leave(){
         if (this.getPrev().isEmpty() && this.getCurrentRail() != null && this.getColor() == this.getCurrentRail().getColor()){
@@ -18,7 +21,9 @@ public class Wagon extends Train {
         }
         if (this.getNext() != null) this.getNext().leave();
     }
-
+    /*
+     * Az utasok felszállásáért felelő függvény
+     */
     @Override
     public void getOn(){
         if (this.getCurrentRail() != null && this.getColor() == this.getCurrentRail().getColor() && this.isEmpty() && this.getCurrentRail().isEmpty() == false){

@@ -3,16 +3,27 @@ package map;
 public class CrossRail extends Rail {
     private Rail possibleRail3;
     private Rail possibleRail4;
-
+    /*
+     * Haladási irány beállítása
+     * @param possibleRail3 harmadik lehetséges továbbhaladási irány tárolva van ebben
+     */
     public void setPossibleRail3(Rail possibleRail3) {
         this.possibleRail3 = possibleRail3;
     }
 
+
+    /*
+    * Haladási irány beállítása
+    * @param possibleRail3 negyedik lehetséges továbbhaladási irány tárolva van ebben
+    */
     public void setPossibleRail4(Rail possibleRail4) {
         this.possibleRail4 = possibleRail4;
     }
 
-    //Az possibleRail1-el szemben a possibleRail2, a possibleRail3-al szemben pedig a possibleRail4
+    /*
+     * Az possibleRail1-el szemben a possibleRail2, a possibleRail3-al szemben pedig a possibleRail4
+     * @param rail az előző vonatelem helyét tároljuk. Az ellenkező irányba küldjük tovább.
+     */
     @Override
     public Rail getDirection(Rail rail){
         if(rail == this.getPossibleRail1()) return this.getPossibleRail2();

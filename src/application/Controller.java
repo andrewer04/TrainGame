@@ -18,34 +18,54 @@ public class Controller {
     private ArrayList<Train[]> trains = new ArrayList<>();;
     private boolean winFlag;
     private boolean loseFlag;
-
+    /*
+     * konstruktor, alapállapot megadása
+     */
     public Controller(Rail start){
         this.start = start;
         winFlag = false;
         loseFlag = false;
     }
-
+    /*
+     * eltárolt vonatok visszaadása
+     */
     public ArrayList<Train[]> getTrains() {
         return trains;
     }
 
+    /*
+     * winFlag visszadása
+     */
     public boolean getWinFlag() {
         return winFlag;
     }
+/*
+ * loseFlag visszaadása
+ */
 
     public boolean getLoseFlag() {
         return loseFlag;
     }
-
+    /*
+     * loseFlag beállítása
+     */
     private void lose(){
         System.out.println("VESZTETTEL");
         loseFlag = true;
     }
+    /*
+     * winFlag beállítása
+     */
     private void win(){
         System.out.println("GYOZELEM");
         winFlag = true;
     }
-
+    /*
+     * Vonat létrehozása a startmezőre.
+     * A vonat vége van a start sínen.
+     * @param db db-számú vonatot hozunk létre
+     * @param length a vonat hosszának tárolására használt változó
+     */
     public void makeTrain(int db, int length){
         for(int d = 0; d<db; d++) {
 
@@ -58,7 +78,7 @@ public class Controller {
             //létrehozza a wagonokat
             for (int j = 1; j < length; j++) {
 
-                //egymás után először egy red, aztán egy yellow, majd green, ... wagonokat hoz létre
+                //egymás után, először red, majd yellow, stb ... wagonokat hoz létre
                 switch (Color.values()[j - 1]) {
                     case RED:
                         train[j] = new Wagon(null, Color.RED);
@@ -86,7 +106,7 @@ public class Controller {
 
             //beállítja a waqgonokat
             for (int j = 1; j < length; j++) {
-                if (j == length - 1) { //azaz utolsó kocsi
+                if (j == length - 1) { //azaz utolsĂł kocsi
                     train[j].setNext(null);
                     train[j].setPrev(train[j - 1]);
                     train[j].setPrevRail(null);
@@ -105,6 +125,11 @@ public class Controller {
             trains.add(train);
         }
     }
+
+    /*
+     * Játékos tevékenységét figyelő függvény
+     * @return Játékos álltal választott tevékenységnek a sorszáma
+     */
     public int observer(){
         System.out.println("Observer(): felhasznaloi interakcio kezelese:");
         int valasz = 0;
@@ -117,22 +142,38 @@ public class Controller {
         return valasz;
 
     }
+/*
+ * Az adott vagon leszállítását elindító függvény
+ */
 
     private void startLeaving(){
         for (Train[] train: trains){
             train[0].leave();
         }
     }
+
+    /*
+     * Vagon felszállítását elindító függvény
+     */
     private void startGetOn(){
         for (Train[] train: trains){
             train[0].getOn();
         }
     }
+
+    /*
+     * Elindítja a léptetést
+     */
     private void startStepping(){
         for (Train[] train: trains){
             train[0].move();
         }
     }
+
+/*
+ * Ütközés ellenőrzése.
+ * Ütközés esetén lose() függvény meghívása.
+ */
 
     private void checkCollision(){
         for (Train[] train: trains){
@@ -141,6 +182,10 @@ public class Controller {
             }
         }
     }
+    /*
+     * Vonatok ürességének vizsgálata.
+     * Ha mind üres, a játékos nyert.
+     */
     private void checkEmptiness(){
         for (Train[] train: trains){
             if(train[0].detectEmptiness()) {
@@ -148,7 +193,9 @@ public class Controller {
             }
         }
     }
-
+    /*
+     * Vonattal kapcsolatos tevékenységek elindítása
+     */
     public void run(){
         startStepping();
         checkCollision();

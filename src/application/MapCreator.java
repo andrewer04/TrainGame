@@ -16,27 +16,35 @@ import utility.Color;
 
 public class MapCreator {
 
-    // Segédváltozó a pálya szélességéhez és hosszához.
+    // SegĂ©dvĂˇltozĂł a pĂˇlya szĂ©lessĂ©gĂ©hez Ă©s hosszĂˇhoz.
     private static int realWidth;
 
     private static int realHeight;
 
-    // Segédmátrixok a beolvasott pályához és az iniciált pályához.
+    // SegĂ©dmĂˇtrixok a beolvasott pĂˇlyĂˇhoz Ă©s az iniciĂˇlt pĂˇlyĂˇhoz.
     private static String[][] map = null;
     private static Field[][] Fields = null;
 
-
+    /*
+     * Létrehozza a kívánt pályát. A paraméterként átadott pályát készíti el.
+     * Beolvassuk a pályát egy tömbbe, az alapján létrehozzunk
+     * egy a pálya típusait tároló tömböt, ahová inicializáljuk a mezőket.
+     * Majd pozíció szerinti kereséssel beállítjuk a szomszédait
+     * és a lehetséges továbbhaladási irányokat
+     *
+     * @param level pálya nehézségi szintjének tárolására használt változó
+     */
     public Rail build(int level){
-        //  System.out.println(" build() - letrehozza a(z) " + level + ". palyat, mezoit Ã©s azok osszefuggeseit");
+        //  System.out.println(" build() - letrehozza a(z) " + level + ". palyat, mezoit Ă�Â©s azok osszefuggeseit");
 
-        // Segédváltozó a pálya hosszának és szélességének nyilvántartásához
+        // SegĂ©dvĂˇltozĂł a pĂˇlya hosszĂˇnak Ă©s szĂ©lessĂ©gĂ©nek nyilvĂˇntartĂˇsĂˇhoz
         int width = 0,  height = 0;
 
-        // Ebbe a segédmátrixba olvassuk be a pályát.
-        // R - Rail; E - Empty Field; S - Switch; T - Tunnel; C - CrossRail; számok - állomások
+        // Ebbe a segĂ©dmĂˇtrixba olvassuk be a pĂˇlyĂˇt.
+        // R - Rail; E - Empty Field; S - Switch; T - Tunnel; C - CrossRail; szĂˇmok - ĂˇllomĂˇsok
         String[][] helpingmatrix = new String[25][25];
 
-        // A szintnek megfelelő txt kiválasztása a fájlból való beolvasáshoz
+        // A szintnek megfelelĹ‘ txt kivĂˇlasztĂˇsa a fĂˇjlbĂłl valĂł beolvasĂˇshoz
         String leveltxt = null;
         if (level == 1) leveltxt = "1.txt";
         else if (level == 2) leveltxt = "2.txt";
@@ -49,44 +57,44 @@ public class MapCreator {
         else if (level == 9) leveltxt = "9.txt";
 
         try {
-            // Megnyitjuk olvasásra a megfelelő txt-t.
+            // Megnyitjuk olvasĂˇsra a megfelelĹ‘ txt-t.
             BufferedReader br = new BufferedReader( new FileReader(leveltxt));
 
-            // Egy beolvasott sort tárol
+            // Egy beolvasott sort tĂˇrol
             String line;
-            // Soronként a fájl végéig beolvassuk a tartalmát
+            // SoronkĂ©nt a fĂˇjl vĂ©gĂ©ig beolvassuk a tartalmĂˇt
             while ((line = br.readLine())!= null) {
-                // Minden sort beolvasásánál 0-ra állítjuk a szélességet, így az első helyre tudjuk beírni a beolvasott értéket a mátrixba
+                // Minden sort beolvasĂˇsĂˇnĂˇl 0-ra ĂˇllĂ­tjuk a szĂ©lessĂ©get, Ă­gy az elsĹ‘ helyre tudjuk beĂ­rni a beolvasott Ă©rtĂ©ket a mĂˇtrixba
                 height = 0;
-                // Daraboljuk a beolvasott sort szóközök alapján
+                // Daraboljuk a beolvasott sort szĂłkĂ¶zĂ¶k alapjĂˇn
                 String[] splitterstring = line.split(" ");
-                // Ameddig a sorban van adat, addig beírjuk a mátrix megfelelő helyére
-                // A height változót minden elem után növeljük
+                // Ameddig a sorban van adat, addig beĂ­rjuk a mĂˇtrix megfelelĹ‘ helyĂ©re
+                // A height vĂˇltozĂłt minden elem utĂˇn nĂ¶veljĂĽk
                 while (height < splitterstring.length)
                 {
                     helpingmatrix[width][height] = splitterstring[height];
                     height++;
                 }
-                // Miután beolvastunk egy sort, sort emelünk a mátrixban is
+                // MiutĂˇn beolvastunk egy sort, sort emelĂĽnk a mĂˇtrixban is
                 width++;
             }
-            // Bezárjuk a fájlt
+            // BezĂˇrjuk a fĂˇjlt
             br.close();
         } catch (IOException e) {
             System.err.println("Exception");
         }
 
-        // Létrehozok egy pálya méretű tömböt, itt inicializálom és tárolom a pálya elemeit
+        // LĂ©trehozok egy pĂˇlya mĂ©retĹ± tĂ¶mbĂ¶t, itt inicializĂˇlom Ă©s tĂˇrolom a pĂˇlya elemeit
         Field[][] field = new Field[width][height];
 
         for (int a = 0; a < width; a++)
             for (int b = 0; b < height; b++)
             {
-                // Segédváltozók az inicializáláshoz
+                // SegĂ©dvĂˇltozĂłk az inicializĂˇlĂˇshoz
                 Color color = null;
 
-                // Minden beolvasott szám egy bizonyos színű állomásnak felel meg
-                // Alább definiáljuk, hogy milyen számnak milyen színű állomás felel meg
+                // Minden beolvasott szĂˇm egy bizonyos szĂ­nĹ± ĂˇllomĂˇsnak felel meg
+                // AlĂˇbb definiĂˇljuk, hogy milyen szĂˇmnak milyen szĂ­nĹ± ĂˇllomĂˇs felel meg
                 if (helpingmatrix[a][b] == "1") color = Color.RED;
                 else if (helpingmatrix[a][b] == "2") color = Color.BLUE;
                 else if (helpingmatrix[a][b] == "3") color = Color.GREEN;
@@ -120,79 +128,79 @@ public class MapCreator {
                 System.out.println(field[a][b]);
             }
 
-        // Végigmegyek a tömb minden elemén beállítom a szomszédait
-        // A mezők szomszédainak és elemeinek beállításához vizsgáljuk, hogy hol helyezkedik el a mező a tömbben,
-        // mivel pozícióhoz más validáció szükséges a nullpointerException hiba elkerüléséhez
+        // VĂ©gigmegyek a tĂ¶mb minden elemĂ©n beĂˇllĂ­tom a szomszĂ©dait
+        // A mezĹ‘k szomszĂ©dainak Ă©s elemeinek beĂˇllĂ­tĂˇsĂˇhoz vizsgĂˇljuk, hogy hol helyezkedik el a mezĹ‘ a tĂ¶mbben,
+        // mivel pozĂ­ciĂłhoz mĂˇs validĂˇciĂł szĂĽksĂ©ges a nullpointerException hiba elkerĂĽlĂ©sĂ©hez
         for (int a = 0; a < width; a++)
             for (int b = 0; b < height; b++)
             {
-                // Segédváltozók az inicializáláshoz
+                // SegĂ©dvĂˇltozĂłk az inicializĂˇlĂˇshoz
                 boolean byTheStation = false;
                 Rail pos1 = null;
                 Rail pos2 = null;
                 Rail pos3 = null;
                 Rail pos4 = null;
 
-                // 1. eset: A mátrix bal felső sarka
+                // 1. eset: A mĂˇtrix bal felsĹ‘ sarka
                 if (a == 0 & b == 0)
                 {
                     pos1 = (Rail)field[a][b+1];
                     pos2 = (Rail)field[a+1][b];
 
-                    // Megvizsgáljuk, hogy állomás melett van e a mező
+                    // MegvizsgĂˇljuk, hogy ĂˇllomĂˇs melett van e a mezĹ‘
                     if (!(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
-                    // Létrehozzuk a start mezőt
+                    // LĂ©trehozzuk a start mezĹ‘t
                     field[a][b] = new StartRail(byTheStation, (Rail)field[a][b+1], (Rail)field[a+1][b]);
 
-                    // Beállítjuk a mező szomszédait
+                    // BeĂˇllĂ­tjuk a mezĹ‘ szomszĂ©dait
                     field[a][b].setLeft(null);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(null);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // A 2. eset: A mátrix felső sora a szélei nélkül
+                // A 2. eset: A mĂˇtrix felsĹ‘ sora a szĂ©lei nĂ©lkĂĽl
 
                 else if (a == 0 & b > 0 & b < height-1)
                 {
-                    // Megvizsgáljuk, hogy a mezőtől balra lévő mezőre tovább mehet e a vonat,
-                    // ehhez használjuk azt a segédtömböt, ahová beolvastuk a fájlból az adatokat.
-                    // Akkor mehet tovább, ha R, S vagy T a beolvasott mező, C nem lehet,
-                    // mivel nincs 4 szomszédja.
-                    // Ha továbbmehet itt a vonat, akkor beállítjuk a pos1 értékeként, azaz az egyik továbbhaladási irányként.
+                    // MegvizsgĂˇljuk, hogy a mezĹ‘tĹ‘l balra lĂ©vĹ‘ mezĹ‘re tovĂˇbb mehet e a vonat,
+                    // ehhez hasznĂˇljuk azt a segĂ©dtĂ¶mbĂ¶t, ahovĂˇ beolvastuk a fĂˇjlbĂłl az adatokat.
+                    // Akkor mehet tovĂˇbb, ha R, S vagy T a beolvasott mezĹ‘, C nem lehet,
+                    // mivel nincs 4 szomszĂ©dja.
+                    // Ha tovĂˇbbmehet itt a vonat, akkor beĂˇllĂ­tjuk a pos1 Ă©rtĂ©kekĂ©nt, azaz az egyik tovĂˇbbhaladĂˇsi irĂˇnykĂ©nt.
                     if ((helpingmatrix[a][b-1].equals("R")) || (helpingmatrix[a][b-1].equals("S")) || (helpingmatrix[a][b-1].equals("T")))
                         pos1 = (Rail)field[a][b-1];
 
-                    // Megvizsgáljuk, hogy továbbmehet e a mezőtől jobbra a vonat.
-                    // Ha igen, akkor attól függően, hogy volt e már továbbhaladási irányunk a pos1 vagy pos2 értékének állítjuk be.
+                    // MegvizsgĂˇljuk, hogy tovĂˇbbmehet e a mezĹ‘tĹ‘l jobbra a vonat.
+                    // Ha igen, akkor attĂłl fĂĽggĹ‘en, hogy volt e mĂˇr tovĂˇbbhaladĂˇsi irĂˇnyunk a pos1 vagy pos2 Ă©rtĂ©kĂ©nek ĂˇllĂ­tjuk be.
                     if ((helpingmatrix[a][b+1].equals("R")) || (helpingmatrix[a][b+1].equals("S")) || (helpingmatrix[a][b+1].equals("T")))
                         if (pos1 == null)
                             pos1 = (Rail)field[a][b+1];
                         else pos2 = (Rail)field[a][b+1];
 
-                    // Megvizsgáljuk, hogy továbbmehet e a vonat a mezőtől lefelé lévő sínre.
-                    // Attól függően, hogy váltó vagy nem a pos2 vagy pos3 értékének állítjuk be.
-                    // Onnan tudjuk hogy váltó, hogy már a pos1 és a pos2 is kapott értéket.
+                    // MegvizsgĂˇljuk, hogy tovĂˇbbmehet e a vonat a mezĹ‘tĹ‘l lefelĂ© lĂ©vĹ‘ sĂ­nre.
+                    // AttĂłl fĂĽggĹ‘en, hogy vĂˇltĂł vagy nem a pos2 vagy pos3 Ă©rtĂ©kĂ©nek ĂˇllĂ­tjuk be.
+                    // Onnan tudjuk hogy vĂˇltĂł, hogy mĂˇr a pos1 Ă©s a pos2 is kapott Ă©rtĂ©ket.
                     if ((helpingmatrix[a+1][b].equals("R")) || (helpingmatrix[a+1][b].equals("S")) || (helpingmatrix[a+1][b].equals("T")))
                         if (pos2 == null)
                             pos2 = (Rail)field[a+1][b];
                         else pos3 = (Rail)field[a+1][b];
 
-                    // Megvizsgáljuk, hogy a mező állomás mellett van e vagy sem.
+                    // MegvizsgĂˇljuk, hogy a mezĹ‘ ĂˇllomĂˇs mellett van e vagy sem.
                     if (!(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
                             || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")) & !(helpingmatrix[a+1][b].equals("C")))
                         byTheStation = true;
 
-                    // Beállítjuk a mező szomszédait
+                    // BeĂˇllĂ­tjuk a mezĹ‘ szomszĂ©dait
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(null);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // A 3. eset: A mátrix jobb felső sarka
+                // A 3. eset: A mĂˇtrix jobb felsĹ‘ sarka
                 else if (a == 0 & b == height-1)
                 {
                     if (helpingmatrix[a][b].equals("R") || helpingmatrix[a][b].equals("T"))
@@ -201,21 +209,21 @@ public class MapCreator {
                         pos2 = (Rail)field[a+1][b];
                     }
 
-                    // Megvizsgáljuk, hogy a mező állomás mellett van e
+                    // MegvizsgĂˇljuk, hogy a mezĹ‘ ĂˇllomĂˇs mellett van e
                     if (!(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
-                    // Beállítjuk a szomszédait
+                    // BeĂˇllĂ­tjuk a szomszĂ©dait
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(null);
                     field[a][b].setUp(null);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // A 4. eset: A mátrix bal oldala a vége és alja nélkül
+                // A 4. eset: A mĂˇtrix bal oldala a vĂ©ge Ă©s alja nĂ©lkĂĽl
                 else if (a > 0 & a < width-1 & b == 0)
                 {
-                    // Továbbhaladási irány vizsgálatok
+                    // TovĂˇbbhaladĂˇsi irĂˇny vizsgĂˇlatok
                     if ((helpingmatrix[a-1][b].equals("R")) || (helpingmatrix[a-1][b].equals("S")) || (helpingmatrix[a-1][b].equals("T")))
                         pos1 = (Rail)field[a-1][b];
 
@@ -229,21 +237,21 @@ public class MapCreator {
                             pos2 = (Rail)field[a+1][b];
                         else pos3 = (Rail)field[a+1][b];
 
-                    // Állomás mellettiség vizsgálat
+                    // Ă�llomĂˇs mellettisĂ©g vizsgĂˇlat
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
                             || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")) & !(helpingmatrix[a][b+1].equals("C"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
-                    //Szomszédok beállítása
+                    //SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(null);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(field[a-1][b]);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // Az 5. eset: a mátrix belseje
+                // Az 5. eset: a mĂˇtrix belseje
                 else if (a > 0 & a < width-1 & b > 0 & b < height-1)
                 {
-                    // Továbbhaladási irány vizsgálat
+                    // TovĂˇbbhaladĂˇsi irĂˇny vizsgĂˇlat
                     if ((helpingmatrix[a-1][b].equals("R")) || (helpingmatrix[a-1][b].equals("S")) || (helpingmatrix[a-1][b].equals("T")) || (helpingmatrix[a-1][b].equals("C")))
                         pos1 = (Rail)field[a-1][b];
 
@@ -267,23 +275,23 @@ public class MapCreator {
                             pos3 = (Rail)field[a][b-1];
                         else pos4 = (Rail)field[a][b-1];
 
-                    // Állomás mellettiség vizsgálat
+                    // Ă�llomĂˇs mellettisĂ©g vizsgĂˇlat
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))  & !(helpingmatrix[a-1][b].equals("C"))
                             || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")) & !(helpingmatrix[a][b+1].equals("C"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")) & !(helpingmatrix[a+1][b].equals("C"))
                             || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")) & !(helpingmatrix[a][b-1].equals("C")))
                         byTheStation = true;
 
-                    // Szomszédok beállítása
+                    // SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(field [a-1][b]);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // A 6. eset: a mátrix jobb oldala a végei nélkül
+                // A 6. eset: a mĂˇtrix jobb oldala a vĂ©gei nĂ©lkĂĽl
                 else if (a > 0 & a < width-1 & b == height-1)
                 {
-                    // Továbbhaladási irány vizsgálatok
+                    // TovĂˇbbhaladĂˇsi irĂˇny vizsgĂˇlatok
                     if ((helpingmatrix[a-1][b].equals("R")) || (helpingmatrix[a-1][b].equals("S")) || (helpingmatrix[a-1][b].equals("T")))
                         pos1 = (Rail)field[a-1][b];
 
@@ -298,19 +306,19 @@ public class MapCreator {
                         else
                             pos3 = (Rail)field[a+1][b];
 
-                    // Állomás mellettiség vizsgálat
+                    // Ă�llomĂˇs mellettisĂ©g vizsgĂˇlat
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
                             || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")) & !(helpingmatrix[a][b-1].equals("C"))
                             || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")))
                         byTheStation = true;
 
-                    // Szomszédok beállítása
+                    // SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(null);
                     field[a][b].setUp(field[a-1][b]);
                     field[a][b].setDown(field[a+1][b]);
                 }
-                // A 7. eset: A mátrix bal alsó sarka
+                // A 7. eset: A mĂˇtrix bal alsĂł sarka
                 else if (a == width-1 & b == 0)
                 {
                     if (helpingmatrix[a][b].equals("R") || helpingmatrix[a][b].equals("T"))
@@ -319,22 +327,22 @@ public class MapCreator {
                         pos2 = (Rail)field[a][b+1];
                     }
 
-                    // Állomás mellettség vizsgálat
-                    // Itt nem kell továbbhaladási irányt vizsgálni, mivel mindkét szomszédján továbbmehet
+                    // Ă�llomĂˇs mellettsĂ©g vizsgĂˇlat
+                    // Itt nem kell tovĂˇbbhaladĂˇsi irĂˇnyt vizsgĂˇlni, mivel mindkĂ©t szomszĂ©djĂˇn tovĂˇbbmehet
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
                             || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")))
                         byTheStation = true;
 
-                    // Szomszédok beállítása
+                    // SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(null);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(field[a-1][b]);
                     field[a][b].setDown(null);
                 }
-                // A 8. eset: a mátrix alsó sora a végei nélkül
+                // A 8. eset: a mĂˇtrix alsĂł sora a vĂ©gei nĂ©lkĂĽl
                 else if (a == width-1 & b > 0 & b < height-1)
                 {
-                    // Továbbhaladási irány vizsgálatok
+                    // TovĂˇbbhaladĂˇsi irĂˇny vizsgĂˇlatok
                     if ((helpingmatrix[a][b-1].equals("R")) || (helpingmatrix[a][b-1].equals("S")) || (helpingmatrix[a][b-1].equals("T")))
                         pos1 = (Rail)field[a][b-1];
 
@@ -349,19 +357,19 @@ public class MapCreator {
                         else
                             pos3 = (Rail)field[a][b+1];
 
-                    // Állomás mellettiség vizsgálat
+                    // Ă�llomĂˇs mellettisĂ©g vizsgĂˇlat
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E")) & !(helpingmatrix[a-1][b].equals("C"))
                             || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E"))
                             || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")))
                         byTheStation = true;
 
-                    // Szomszédok beállítása
+                    // SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(field[a][b+1]);
                     field[a][b].setUp(field[a-1][b]);
                     field[a][b].setDown(null);
                 }
-                // A 9. eset: a mátrix jobb alsó sarka
+                // A 9. eset: a mĂˇtrix jobb alsĂł sarka
                 else if (a == width-1 & b == height-1)
                 {
                     if (helpingmatrix[a][b].equals("R") || helpingmatrix[a][b].equals("R"))
@@ -370,20 +378,20 @@ public class MapCreator {
                         pos2 = (Rail)field[a-1][b];
                     }
 
-                    // Állomás mellettiség vizsgálat
+                    // Ă�llomĂˇs mellettisĂ©g vizsgĂˇlat
                     if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))
                             || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")))
                         byTheStation = true;
 
-                    // Szomszédok beállítása
+                    // SzomszĂ©dok beĂˇllĂ­tĂˇsa
                     field[a][b].setLeft(field[a][b-1]);
                     field[a][b].setRight(null);
                     field[a][b].setUp(field[a-1][b]);
                     field[a][b].setDown(null);
                 }
 
-                // Beállítom a megfelelő típusú mezők adatait, melyek vonatkoznak más mezőre is vagy validációhoz kötöttek,
-                // így első körben nem lehetett beállítani, különben null érkékkel szerepelne.
+                // BeĂˇllĂ­tom a megfelelĹ‘ tĂ­pusĂş mezĹ‘k adatait, melyek vonatkoznak mĂˇs mezĹ‘re is vagy validĂˇciĂłhoz kĂ¶tĂ¶ttek,
+                // Ă­gy elsĹ‘ kĂ¶rben nem lehetett beĂˇllĂ­tani, kĂĽlĂ¶nben null Ă©rkĂ©kkel szerepelne.
                 if (helpingmatrix[a][b].equals("R") || helpingmatrix[a][b].equals("S") ||
                         helpingmatrix[a][b].equals("T") || helpingmatrix[a][b].equals("C"))
                 {
@@ -404,24 +412,28 @@ public class MapCreator {
                     }
                 }
             }
-        // Beállítom az változók értékeit, hogy más függvények is el tudják érni
-        // és a mepcreator újbóli megnyitására ne kapjunk szemetet ezen változók értékeiként
+        // BeĂˇllĂ­tom az vĂˇltozĂłk Ă©rtĂ©keit, hogy mĂˇs fĂĽggvĂ©nyek is el tudjĂˇk Ă©rni
+        // Ă©s a mepcreator ĂşjbĂłli megnyitĂˇsĂˇra ne kapjunk szemetet ezen vĂˇltozĂłk Ă©rtĂ©keikĂ©nt
         Fields = field;
         realWidth = width;
         realHeight = height;
         map = helpingmatrix;
 
-        // Visszaadom a startmezőt
+        // Visszaadom a startmezĹ‘t
         return (Rail)field[0][0];
     }
-
-    // Egy ID alapján megmondja, hogy mi van abban a mezőben
-    // Ha az ID nagyobb, mint a pályán lévő mezők száma, akkor null-t ad vissza
-    // Az ID a mező számának felel meg a bal első sarokból indulva
-    // soronként haladva és növelve egy 0 kezdő értékű változót
+    /*
+     * Egy ID alapjĂˇn megmondja, hogy mi van abban a mezĹ‘ben
+     * Ha az ID nagyobb, mint a pĂˇlyĂˇn lĂ©vĹ‘ mezĹ‘k szĂˇma, akkor null-t ad vissza
+     * Az ID a mezĹ‘ szĂˇmĂˇnak felel meg a bal elsĹ‘ sarokbĂłl indulva
+     * soronkĂ©nt haladva Ă©s nĂ¶velve egy 0 kezdĹ‘ Ă©rtĂ©kĹ± vĂˇltozĂłt
+     *
+     * @param ID mező azonosítására használt változó.
+     * @return Paraméterhez tartozó mező visszaadása
+    */
     public Field searchField(int ID)
     {
-        // Segédváltozók létrehozása
+        // SegĂ©dvĂˇltozĂłk lĂ©trehozĂˇsa
         int helpingcounter = 0;
         int helpingWidth = 0;
         int helpingheight = 0;
@@ -444,8 +456,13 @@ public class MapCreator {
         }
     }
 
-    // Megmondja, hogy a paraméterként kapott mezőnek mi az ID-ja.
-    // Az ID a fent meghatározott módon a mező számát jelöli, amelyben a field van.
+    /*
+     * Megmondja, hogy a paramĂ©terkĂ©nt kapott mezĹ‘nek mi az ID-ja.
+     * Az ID a fent meghatĂˇrozott mĂłdon a mezĹ‘ szĂˇmĂˇt jelĂ¶li, amelyben a field van.
+     *
+     * @param field Lekérdezni kivánt mező
+     * @return Lekérdezett mező ID-jének visszaadása
+     */
     public int searchID(Field field)
     {
         int helpingcounter = 0;
@@ -462,10 +479,10 @@ public class MapCreator {
 
     public static Tunnel[] searchselectedTunnels()
     {
-        // Itt tároljuk a két megépített Tunnel-t.
+        // Itt tĂˇroljuk a kĂ©t megĂ©pĂ­tett Tunnel-t.
         Tunnel[] selectedTunnels = new Tunnel[2];
 
-        // A tömbbeli helye a megépített Tunnel-nek.
+        // A tĂ¶mbbeli helye a megĂ©pĂ­tett Tunnel-nek.
         int selectedNumber = 0;
 
         for (int i = 0; i < realWidth; i++)

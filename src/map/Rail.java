@@ -8,6 +8,16 @@ public class Rail extends Field{
     private Rail possibleRail1;
     private Rail possibleRail2;
 
+
+    /*
+     *  A paraméterként megadott sín a vonatelem előző helyét jelenti.
+     *  Megnézzük, hogy az aktuális sínről hová lehet tovább menni.
+     *  A két lehetséges eset közül azt adjuk vissza,
+     *  amelyik nem egyezik meg a vonatelem előző pozíciójával.
+     *
+     *  @param r Előző hely tárolása
+     *  @return Lehetséges haladási irány visszaadása
+     */
     public Rail getDirection(Rail r){
         if (possibleRail1 == r)
             return possibleRail2;
@@ -21,24 +31,52 @@ public class Rail extends Field{
     public int getAvailability() {
         return availability;
     }
-
+    /*
+     * Visszaadja az első lehetséges továbbhaladási irányt
+     */
     public Rail getPossibleRail1() {
         return possibleRail1;
     }
+
+    /*
+     * Visszaadja a második lehetséges továbbhaladási irányt.
+     */
     public Rail getPossibleRail2() {
         return possibleRail2;
     }
 
+    /*
+     * Beállítja, hogy a sín állomás mellett áll-e vagy sem.
+     *
+     * @param byTheStation ebben tároljuk, hogy a sín mellett van e az állomás.
+     */
     public void setByTheStation(boolean byTheStation) {
         this.byTheStation = byTheStation;
     }
+    /*
+     * Beállítjuk az első lehetséges továbbhaladási irányt.
+     *
+     * @param possibleRail1 az erre használt változó
+     */
     public void setPossibleRail1(Rail possibleRail1) {
         this.possibleRail1 = possibleRail1;
     }
+
+
+    /*
+     * Beállítjuk a második lehetséges továbbhaladási irányt.
+     *
+     * @param possibleRail2 az erre használt változó
+     */
     public void setPossibleRail2(Rail possibleRail2) {
         this.possibleRail2 = possibleRail2;
     }
 
+    /*
+     * Sín foglaltságát állítja be
+     *
+     * @param onTheRail igaz, ha a mezőn van valami
+     */
     public void setAvailability(boolean onTheRail) {
         if (onTheRail) availability++;
         else availability--;
@@ -56,6 +94,13 @@ public class Rail extends Field{
         return null;
     }
 
+
+    /*
+     * Visszaadja, ha állomás mellett helyezkedik el a sín, hogy az állomás üres-e.
+     * Ha a mező nem állomás mellett van, akkor visszatérési értéke true.
+     *
+     * @return állomás ürrességének tárolása
+     */
     @Override
     public boolean isEmpty(){
         if (byTheStation){

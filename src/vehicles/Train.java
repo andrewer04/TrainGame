@@ -35,15 +35,35 @@ public abstract class Train {
     public void setColor(Color color) {
         this.color = color;
     }
+    /*
+ * Beállítja az aktuális sínt, ahol a vonatelem van.
+ *
+ * @param currentRail sín tárolása
+ */
     public void setCurrentRail(Rail currentRail) {
         this.currentRail = currentRail;
     }
+    /*
+     * Beállítja, hogy üres e a vagon vagy sem.
+     */
     public void setEmpty(boolean empty) {
         isEmpty = empty;
     }
+
+    /*
+     * Beállítja, a következő vonatelemet a paraméterben megadottra.
+     *
+     * @param next vonatelem paramétere
+     */
     public void setNext(Train next) {
         this.next = next;
     }
+
+    /*
+     * Beállítja, az előző vonatelemet a paraméterben megadottra.
+     *
+     * @param prev a vonatelem paramétere
+     */
     public void setPrev(Train prev) {
         this.prev = prev;
     }
@@ -51,12 +71,18 @@ public abstract class Train {
         this.prevRail = prevRail;
     }
 
+    /*
+     * Ütközés deketálás.
+     * Ha egy mezőn 2, vagy több vonatelem van, ütközés történt.
+     */
     public boolean detectCollision(){
         if(currentRail != null && currentRail.getAvailability() >= 2) return true;
         else if (next != null && next.detectCollision()) return true;
         else return false;
     }
-
+    /*
+     * Vonat kiürülésének vizsgálata
+     */
     public boolean detectEmptiness(){
         if(next == null && isEmpty == true) return true;
         else if(next == null && isEmpty == false) return false;
@@ -64,6 +90,10 @@ public abstract class Train {
         else if (next.detectEmptiness() && isEmpty == true) return true;
         else return false;
     }
+
+    /*
+     * Vonatelem mozgatása
+     */
     public void move(){
 
         if (currentRail == null){

@@ -7,17 +7,23 @@ public class Tunnel extends Rail {
     private boolean selected;
     private int tunnelLength;
     private Tunnel otherTunnel;
-
+    /*
+     * Paraméteres konstruktor, előre megadott értékek beállítása
+     */
     public Tunnel(boolean selected, int TLength, Tunnel other) {
         this.selected = selected;
         this.tunnelLength = TLength;
         this.otherTunnel = other;
     }
-
+    /*
+     * @return visszaadja az alagút hosszát.
+     */
     public int getTunnelLength() {
         return tunnelLength;
     }
-
+    /*
+     * @return visszaadja, hogy meg van e építve az alagútszáj vagy sem.
+     */
     public boolean isSelected() {
         return selected;
     }
@@ -40,7 +46,9 @@ public class Tunnel extends Rail {
             }
         }
     }
-
+    /*
+     * Alagút törlése
+     */
     public void deleting() {
         if (tunnelN > 0) {
             selected = false;
