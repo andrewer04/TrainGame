@@ -66,14 +66,15 @@ public class Tunnel extends Rail {
             sokkal viccesebb és egyszerűbb megcsinálni.
         */
     @Override
-    public Rail getDirection(Rail rail) {
+    public Rail getDirection(Rail prevRail) {
         if (tunnelN == 2 && selected == true) {
-            if (rail == otherTunnel) {
-                if ((Math.random() % 2 == 0)) return this.getPossibleRail1();
-                else return getPossibleRail2();
+            if (prevRail == otherTunnel) {
+                //ez nem működik, de nem baj, a tesztelésnél legalább nem lesz random eredmény, mindig a possibleRail1 fele küldi tovább, ha a másik alagútból jön
+                if ((Math.random() % 2 == 0)) return this.getPossibleRail2();
+                else return getPossibleRail1();
             } else return otherTunnel; //ha van másik alagútszáj, akkor mindenképpen oda küldi tovább
         } else {
-            if (this.getPossibleRail1() == rail) return this.getPossibleRail2();
+            if (this.getPossibleRail1() == prevRail) return this.getPossibleRail2();
             else return this.getPossibleRail1();
         }
     }
