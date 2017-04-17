@@ -11,8 +11,8 @@ public class Wagon extends Train {
         this.setEmpty(false);
     }
     /*
-     * Megvizsgálja, hogy leszállhat e a vagonról az utas.
-     * Amennyiben igen, úgy leszállítja őket.
+     * Megvizsgalja, hogy leszallhat e a vagonrol az utas.
+     * Amennyiben igen, ugy leszallitja oket.
      */
     @Override
     public void leave(){
@@ -22,7 +22,7 @@ public class Wagon extends Train {
         if (this.getNext() != null) this.getNext().leave();
     }
     /*
-     * Az utasok felszállásáért felelő függvény
+     * Az utasok felszallasasert felelo fuggveny
      */
     @Override
     public void getOn(){

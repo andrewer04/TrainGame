@@ -1,0 +1,11 @@
+start 4
+addtrain 2
+move 4
+getpositions
+getStation 8
+move 6
+getpositions
+getStation 13
+move 16
+getpositions
+exit

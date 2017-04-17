@@ -3,51 +3,56 @@ package map;
 import application.MapCreator;
 
 public class Tunnel extends Rail {
-    static private int tunnelN = 0;
+    static private int tunnelN;
     private boolean selected;
     private int tunnelLength;
     private Tunnel otherTunnel;
     /*
-     * Paraméteres konstruktor, előre megadott értékek beállítása
+     * Parameteres konstruktor, elore megadott ertekek beallitasa
      */
     public Tunnel(boolean selected, int TLength, Tunnel other) {
         this.selected = selected;
         this.tunnelLength = TLength;
         this.otherTunnel = other;
+        tunnelN = 0;
     }
     /*
-     * @return visszaadja az alagút hosszát.
+     * @return visszaadja az alagut hosszat.
      */
     public int getTunnelLength() {
         return tunnelLength;
     }
     /*
-     * @return visszaadja, hogy meg van e építve az alagútszáj vagy sem.
+     * @return visszaadja, hogy meg van e epitve az alagutszaj vagy sem.
      */
     public boolean isSelected() {
         return selected;
+    }
+
+    public void setOtherTunnel(Tunnel otherTunnel) {
+        this.otherTunnel = otherTunnel;
     }
 
     public void creating() {
         if (tunnelN < 2){
             selected = true;
             tunnelN++;
-            // Ha vankét megépített alagútszáj, akkor beállítjuk mindkettő otherTunnel attribútumát.
+            // Ha vanket megepitett alagutszaj, akkor beallitjuk mindketto otherTunnel attributumat.
             if (tunnelN == 2) {
                 Tunnel[] selectedT = MapCreator.searchselectedTunnels();
                 if (this == selectedT[0]) {
                     this.otherTunnel = selectedT[1];
-                    selectedT[1].otherTunnel = this;
+                    selectedT[1].setOtherTunnel(this);
                 }
                 else {
                     this.otherTunnel = selectedT[0];
-                    selectedT[0].otherTunnel = this;
+                    selectedT[0].setOtherTunnel(this);
                 }
             }
         }
     }
     /*
-     * Alagút törlése
+     * Alagut torlese
      */
     public void deleting() {
         if (tunnelN > 0) {
@@ -56,23 +61,23 @@ public class Tunnel extends Rail {
         }
     }
 
-    /*Ha van másik alagútszáj, akkor 3 esetünk van, hogy merre mehet a mozdony:
-            - ha az előző sín a másik tunnel volt, akkor mehet: -> possibleRail1 fele
+    /*Ha van masik alagutszaj, akkor 3 esetunk van, hogy merre mehet a mozdony:
+            - ha az elozo sin a masik tunnel volt, akkor mehet: -> possibleRail1 fele
                                                                 -> possibleRail2 fele
-            - ha sima sín felöl jön, akkor -> másik Tunnel
+            - ha sima sin felol jon, akkor -> masik Tunnel
 
-            Az első lehetőségnél vagy úgy döntsük el az irányt, hogy megadunk egy fix irányt az alagútnak,
-            vagy véletlenszerűen vagy az egyik vagy a másik irányba fog kijönni. Én az utóbbira szavazok,
-            sokkal viccesebb és egyszerűbb megcsinálni.
+            Az elso lehetosegnel vagy ugy dontsuk el az iranyt, hogy megadunk egy fix iranyt az alagutnak,
+            vagy veletlenszeruen vagy az egyik vagy a masik iranyba fog kijonni. en az utóbbira szavazok,
+            sokkal viccesebb es egyszerubb megcsinalni.
         */
     @Override
     public Rail getDirection(Rail prevRail) {
         if (tunnelN == 2 && selected == true) {
             if (prevRail == otherTunnel) {
-                //ez nem működik, de nem baj, a tesztelésnél legalább nem lesz random eredmény, mindig a possibleRail1 fele küldi tovább, ha a másik alagútból jön
+                //ez nem mukodik, de nem baj, a tesztelesnel legalabb nem lesz random eredmeny, mindig a possibleRail1 fele kuldi tovabb, ha a masik alagutból jon
                 if ((Math.random() % 2 == 0)) return this.getPossibleRail2();
                 else return getPossibleRail1();
-            } else return otherTunnel; //ha van másik alagútszáj, akkor mindenképpen oda küldi tovább
+            } else return otherTunnel; //ha van masik alagutszaj, akkor mindenkeppen oda kuldi tovabb
         } else {
             if (this.getPossibleRail1() == prevRail) return this.getPossibleRail2();
             else return this.getPossibleRail1();

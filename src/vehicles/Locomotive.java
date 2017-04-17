@@ -6,9 +6,9 @@ import utility.Color;
 public class Locomotive extends Train {
     private int trainLength;
     /*
-     * Az osztály konstruktora, beállítja az aktuális helyét a
-     * paraméterként kapott sínnel, a vonat hosszát pedig a paraméterként
-     * kapott számmal, a színét feketére, telítettségét pedig üresre állítja.
+     * Az osztaly konstruktora, beallitja az aktualis helyet a
+     * parameterkent kapott sinnel, a vonat hosszat pedig a parameterkent
+     * kapott szammal, a szinet feketere, telitettseget pedig uresre allitja.
      *
      * @param rail hely tárolására használt változó
      * @param trainLength vonat hossza

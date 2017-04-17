@@ -10,13 +10,13 @@ public class Rail extends Field{
 
 
     /*
-     *  A paraméterként megadott sín a vonatelem előző helyét jelenti.
-     *  Megnézzük, hogy az aktuális sínről hová lehet tovább menni.
-     *  A két lehetséges eset közül azt adjuk vissza,
-     *  amelyik nem egyezik meg a vonatelem előző pozíciójával.
+     *  A parameterkent megadott sin a vonatelem elozo helyet jelenti.
+     *  Megnezzuk, hogy az aktualis sinrol hova lehet tovabb menni.
+     *  A ket lehetseges eset kozul azt adjuk vissza,
+     *  amelyik nem egyezik meg a vonatelem elozo poziciojaval.
      *
-     *  @param r Előző hely tárolása
-     *  @return Lehetséges haladási irány visszaadása
+     *  @param r Elozo hely tarolasa
+     *  @return Lehetseges haladasi irány visszaadasa
      */
     public Rail getDirection(Rail r){
         if (possibleRail1 == r)
@@ -32,31 +32,31 @@ public class Rail extends Field{
         return availability;
     }
     /*
-     * Visszaadja az első lehetséges továbbhaladási irányt
+     * Visszaadja az elso lehetseges tovabbhaladasi iranyt
      */
     public Rail getPossibleRail1() {
         return possibleRail1;
     }
 
     /*
-     * Visszaadja a második lehetséges továbbhaladási irányt.
+     * Visszaadja a masodik lehetseges tovabbhaladasi iranyt.
      */
     public Rail getPossibleRail2() {
         return possibleRail2;
     }
 
     /*
-     * Beállítja, hogy a sín állomás mellett áll-e vagy sem.
+     * Beallitja, hogy a sin allomas mellett all-e vagy sem.
      *
-     * @param byTheStation ebben tároljuk, hogy a sín mellett van e az állomás.
+     * @param byTheStation ebben taroljuk, hogy a sin mellett van e az allomas.
      */
     public void setByTheStation(boolean byTheStation) {
         this.byTheStation = byTheStation;
     }
     /*
-     * Beállítjuk az első lehetséges továbbhaladási irányt.
+     * Beallitjuk az elso lehetseges tovabbhaladasi iranyt.
      *
-     * @param possibleRail1 az erre használt változó
+     * @param possibleRail1 az erre hasznalt valtozo
      */
     public void setPossibleRail1(Rail possibleRail1) {
         this.possibleRail1 = possibleRail1;
@@ -64,25 +64,25 @@ public class Rail extends Field{
 
 
     /*
-     * Beállítjuk a második lehetséges továbbhaladási irányt.
+     * Beallitjuk a masodik lehetseges tovabbhaladasi iranyt.
      *
-     * @param possibleRail2 az erre használt változó
+     * @param possibleRail2 az erre hasznalt valtozo
      */
     public void setPossibleRail2(Rail possibleRail2) {
         this.possibleRail2 = possibleRail2;
     }
 
     /*
-     * Sín foglaltságát állítja be
+     * Sin foglaltsagat allitja be
      *
-     * @param onTheRail igaz, ha a mezőn van valami
+     * @param onTheRail igaz, ha a mezon van valami
      */
     public void setAvailability(boolean onTheRail) {
         if (onTheRail) availability++;
         else availability--;
     }
 
-    //A mellette lévő állomás színét adja, ha van ilyen. Egyébként null-t.
+    //A mellette levo allomas szinet adja, ha van ilyen. Egyebkent null-t.
     @Override
     public Color getColor(){
         if(byTheStation) {
@@ -96,10 +96,10 @@ public class Rail extends Field{
 
 
     /*
-     * Visszaadja, ha állomás mellett helyezkedik el a sín, hogy az állomás üres-e.
-     * Ha a mező nem állomás mellett van, akkor visszatérési értéke true.
+     * Visszaadja, ha allomas mellett helyezkedik el a sin, hogy az allomas ures-e.
+     * Ha a mezo nem allomas mellett van, akkor visszateresi erteke true.
      *
-     * @return állomás ürrességének tárolása
+     * @return allomas urressegenek tarolasa
      */
     @Override
     public boolean isEmpty(){

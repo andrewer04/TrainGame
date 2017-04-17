@@ -6,7 +6,7 @@ public class RailStation extends Field{
     private Color color;
     private boolean isEmpty;
 
-    //Konstruktórral létrehozáskor színnel eggyütt hozzuk létre az állomást.
+    //Konstruktórral letrehozaskor szinnel eggyutt hozzuk letre az allomast.
     public RailStation(Color color){
         this.color = color;
         isEmpty = false;
@@ -16,14 +16,14 @@ public class RailStation extends Field{
         return isEmpty;
     }
 
-    //Az állomás színét adja vissza.
+    //Az allomas szinet adja vissza.
     @Override
     public Color getColor() {
         return color;
     }
 
-    //Hamár eljutnak odáig a lekérdezés, hogy az állomás állapotára kiváncsiak, akkor biztos hogy fel is szállnak rá
-    //amennyiben még nem üres az állomás. Ezért lehet a lekérdezés után egyből üressé tenni.
+    //Hamar eljutnak odaig a lekerdezes, hogy az allomas allapotara kivancsiak, akkor biztos hogy fel is szallnak ra
+    //amennyiben meg nem ures az allomas. Ezert lehet a lekerdezes utan egybol uresse tenni.
     @Override
     public boolean isEmpty(){
         if(isEmpty)

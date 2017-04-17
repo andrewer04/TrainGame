@@ -38,7 +38,7 @@ public class Main {
 
 /*
  * Teszt-mod kivalasztasa
- * try-catch, illetve switch-case használatával.
+ * try-catch, illetve switch-case hasznalataval.
  */
         while(true) {
             System.out.println("Hogy akarsz tesztelni?");
@@ -72,46 +72,52 @@ public class Main {
     }
 
 
-/* AutoMode teszteléshez teszteset kiválasztása, a felhasználó által, konzolról.
- * Nincs visszatérési érték.
- * @param log egy boolean, melyben tárolva van, hogy login-olva vagyunk-e. login=kimenet fájlba irányítása
+/* AutoMode teszteleshez teszteset kivalasztasa, a felhasznalo altal, konzolrol.
+ * Nincs visszateresi ertek.
+ * @param log egy boolean, melyben tarolva van, hogy login-olva vagyunk-e. login=kimenet fajlba iranyitasa
  */
 
     private static void autoMode(boolean log) throws FileNotFoundException {
-        System.out.print("Melyik tesztet szeretned?\n");
-        System.out.println(
-                "1.:Vonat mozgatasa\n"
-                        + "2.:Lerakott alagut mukodesenek ellenorzese\n"
-                        + "3.:Alagut felvetele a palyarol\n"
-                        + "4.:3-as valto allitasa\n"
-                        + "5.:Leszallas\n"
-                        + "6.:Felszallas\n"
-                        + "7.:Utkozes\n"
-                        + "8.:Jatek vege\n"
-                        + "9.:Osszes teszt"
-        );
+        while (true) {
+            System.out.print("Melyik tesztet szeretned?\n");
+            System.out.println(
+                    "1.:Vonat mozgatasa\n"
+                            + "2.:Lerakott alagut mukodesenek ellenorzese\n"
+                            + "3.:Alagut felvetele a palyarol\n"
+                            + "4.:3-as valto allitasa\n"
+                            + "5.:Leszallas\n"
+                            + "6.:Felszallas\n"
+                            + "7.:Utkozes\n"
+                            + "8.:Jatek vege\n"
+                            + "9.:Kilepes"
+            );
 
-        Scanner input = new Scanner(System.in);
-        int answer = input.nextInt();
+            Scanner input = new Scanner(System.in);
+            int answer = input.nextInt();
 
-        switch (answer){
-//megadott teszteset tesztelése
-            case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 8:
-                newTest(answer,log, answer);
-                break;
-//az összes eset tesztelése
-            case 9:
-                for(int i = 1; i<=8; i++) {
-                    newTest(i,log, answer);
-                }
-                break;
-            default: System.out.println("Nincs ilyen eset!");
+            //megadott teszteset tesztelese
+            switch (answer) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    newTest(answer, log, answer);
+                    break;
+                case 9:
+                    System.exit(0);
+                default:
+                    System.out.println("Nincs ilyen eset!");
+            }
         }
     }
 
     /*
-     * Manuális környezet megvalósítása
-     * @param log lásd:autoMod-nál
+     * Manualis kornyezet megvalositasa
+     * @param log lasd:autoMod-nal
      *
      */
     private static void manualMode(boolean log){
@@ -121,19 +127,19 @@ public class Main {
                 System.out.print(Commands.values()[i].name() + " | ");
             }
             System.out.print("\n");
-//parancs beolvasása
+//parancs beolvasasa
             Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine();
-//prog függvény meghívása, melyben végrehajtjuk a parancsot
+//prog fuggveny meghivasa, melyben vegrehajtjuk a parancsot
             prog(command,log,0);
         }
     }
 
 /*
- * kiválasztja, hogy melyik test.txt-t kell meghívni, és végrehajtatja az abban lévő parancsokat
- * @param number test.txt számának a tárolása
- * @param log login-off tárolására használt paraméter
- * @param test hányadik teszteset van kiválasztva
+ * kivalasztja, hogy melyik test.txt-t kell meghivni, es vegrehajtatja az abban levo parancsokat
+ * @param number test.txt szamanak a tarolasa
+ * @param log login-off tarolasara hasznalt parameter
+ * @param test hanyadik teszteset van kivalasztva
  */
 
     private static void newTest(int number, boolean log, int test) throws FileNotFoundException {
@@ -146,10 +152,10 @@ public class Main {
     }
 
     /*
-     * végrehajtja a kapott parancsot
-     * @param row txt-ből kiolvasott, egy sornyi parancs
-     * @param log továbbra is a login-off tárolása
-     * @param test teszteset száma
+     * vegrehajtja a kapott parancsot
+     * @param row txt-bol kiolvasott, egy sornyi parancs
+     * @param log tovabbra is a login-off tarolasa
+     * @param test teszteset szama
      */
     private static void prog(String row, boolean log, int test){
         StringTokenizer stk = new StringTokenizer(row);
@@ -164,19 +170,14 @@ public class Main {
             Commands command = Commands.valueOf(options.get(0).toUpperCase());
             options.remove(0);
 
-            String stringArg1, stringArg2;
+            String stringArg1;
             int arg1 = 999;
-            int arg2 = 999;
 
-            //ha van még más módosító akkor azt ide elmentjük (max 2 lehet)
+            //ha van meg mas modosito akkor azt ide elmentjuk (max 2 lehet)
             if  (!(options.isEmpty())){
                 stringArg1 = options.get(0);
                 options.remove(0);
                 arg1 = Integer.parseInt(stringArg1);
-            }
-            if  (!(options.isEmpty())){
-                stringArg2 = options.get(0);
-                arg2 = Integer.parseInt(stringArg2);
             }
 
             switch (command){
@@ -212,7 +213,7 @@ public class Main {
                     break;
                 case EXIT:
                     writeToFile(test);
-                    System.exit(0);
+                    //System.exit(0);
                     break;
             }
         }catch (IllegalArgumentException e){
@@ -224,8 +225,8 @@ public class Main {
     }
 
     /*
-     * játék indítása
-     * @param lvl szint tárolására használt változó
+     * jatek inditasa
+     * @param lvl szint tarolasara hasznalt valtozo
      */
     private static void start(int lvl){
         mapCreator = new MapCreator();
@@ -233,16 +234,16 @@ public class Main {
     }
 
     /*
-     * vonat pályához adása
-     * @param wagonNumber vonat azonosításához használt változó
+     * vonat palyahoz adasa
+     * @param wagonNumber vonat azonositasahoz hasznalt valtozo
      */
     private static void addTrain(int wagonNumber){
         controller.makeTrain(1,wagonNumber);
     }
 
     /*
-     * Vonatok mozgatására használt függvény
-     * @param steps hány lépést hajtsunk végre
+     * Vonatok mozgatasara hasznalt fuggveny
+     * @param steps hany lepest hajtsunk vegre
      */
     private static void move(int steps){
         for (int i = 0; i<steps; i++){
@@ -251,31 +252,31 @@ public class Main {
     }
 
     /*
-     * Alagút törlésére használt függvény
-     * @param id alagút helyének meghatározására használt változó
+     * Alagut torlesere hasznalt fuggveny
+     * @param id alagut helyenek meghatarozasara hasznalt valtozo
      */
     private static void deleteTunnel(int id){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
         tunnel.deleting();
     }
     /*
-     * Alagút pályához adása
-     * @param id változó, mely segítségével megadott helyre rakható az alagút
+     * Alagut palyahoz adasa
+     * @param id valtozo, mely segitsegevel megadott helyre rakhato az alagut
      */
     private static void setTunnel(int id){
         Tunnel tunnel = (Tunnel) mapCreator.searchField(id);
         tunnel.creating();
     }
     /*
-     * Váltó állítása
-     * @param id ugyanaz, mint az alagútaknál
+     * Valto allitasa
+     * @param id ugyanaz, mint az alagutaknal
      */
     private static void setSwitch(int id){
         Switch sw = (Switch) mapCreator.searchField(id);
         sw.switching();
     }
     /*
-     * Vonatok poziciójának kiírása konzolra, teszteléshez használandó függvény
+     * Vonatok poziciojanak kiirasa konzolra, teszteleshez hasznalando fuggveny
      * @param log ugyanaz mint eddig
      */
     private static void getPositions(boolean log){
@@ -289,19 +290,19 @@ public class Main {
             }
         }
         else {
-            StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < controller.getTrains().size(); j++) {
+                StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append("<" + mapCreator.searchID(controller.getTrains().get(j)[0].getCurrentRail()) + ">");
                 for (int k = 1; k < controller.getTrains().get(j).length; k++) {
                     stringBuilder.append("<" + mapCreator.searchID(controller.getTrains().get(j)[k].getCurrentRail()) + "," + !(controller.getTrains().get(j)[k].isEmpty()) + ">");
                 }
+                output.add(stringBuilder.toString());
             }
-            output.add(stringBuilder.toString());
         }
     }
     /*
-     * Alagút kiválasztása, kiválasztás ellenőrzése
-     * @param id mező kiválasztásához használt változó
+     * Alagut kivalasztasa, kivalasztas ellenorzese
+     * @param id mezo kivalasztasahoz hasznalt valtozo
      * @param log login-off, mint eddig
      */
     private static void getTunnel(int id, boolean log){
@@ -319,9 +320,9 @@ public class Main {
     }
 
     /*
-     * Állomás állapotának lekérdezése, konzolra kiírása
-     * @param id azonosító
-     * @param log login/logoff tárolása
+     * allomas allapotanak lekerdezese, konzolra kiirasa
+     * @param id azonosito
+     * @param log login/logoff tarolasa
      */
     private static void getStation(int id, boolean log){
         RailStation station = (RailStation) mapCreator.searchField(id);
@@ -337,9 +338,9 @@ public class Main {
 
     }
     /*
-     * Játék állapotának lekérdezése
-     * Nyertünk/vesztettünk/tart e még a játék?
-     * @param log log állapot tárolása/mint eddig/
+     * Jatek allapotanak lekerdezese
+     * Nyertunk/vesztettunk/tart e meg a jatek?
+     * @param log log allapot tarolasa/mint eddig/
      */
     private static void getStatus(boolean log){
         if (!log) {
@@ -353,15 +354,16 @@ public class Main {
         }
     }
     /*
-     * Fájlba író függvény
-     * Konzolon lévő információk fájlba mentése
-     * @param test teszteset számának tárolására használt változó
+     * Fajlba iro fuggveny
+     * Konzolon levo informaciok fajlba mentese
+     * @param test teszteset szamanak tarolasara hasznalt valtozo
      */
     private static void writeToFile(int test) throws FileNotFoundException
     {
         PrintWriter writer = new PrintWriter("output"+test+".txt");
         for (String string: output){
             writer.println(string);
+            output = new ArrayList<>();
         }
         writer.close();
     }

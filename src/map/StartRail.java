@@ -4,11 +4,11 @@ public class StartRail extends Rail{
 
 
     /*
-     * Beállítja a lehetséges útvonalat az adott mezőből és azt, hogy állomás mellett áll-e.
+     * Beallitja a lehetseges utvonalat az adott mezobol es azt, hogy allomas mellett all-e.
      *
-     * @param byThestation állomás mező van-e a sín mellett
-     * @param possibleRail1 továbbhaladásiirány1 tárolása
-     * @param possibleRail2 továbbhaladásiirány2 tárolása
+     * @param byThestation allomas mezo van-e a sin mellett
+     * @param possibleRail1 tovabbhaladasiirany1 tarolasa
+     * @param possibleRail2 tovabbhaladasiirany2 tarolasa
      */
     public StartRail(boolean byThestation, Rail possibleRail1, Rail possibleRail2)
     {
@@ -19,10 +19,10 @@ public class StartRail extends Rail{
 
     @Override
 /*
- * Irány visszaadása
+ * Irany visszaadasa
  *
- * @param r Vonatelem előző helye
- * @return Továbbhaladási irány visszaadása
+ * @param r Vonatelem elozo helye
+ * @return Tovabbhaladasi irany visszaadasa
  */
     public Rail getDirection(Rail r) {
         if (r == null)

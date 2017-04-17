@@ -31,38 +31,38 @@ public abstract class Train {
         return prev;
     }
 
-    //konstruktorok használják
+    //konstruktorok hasznaljak
     public void setColor(Color color) {
         this.color = color;
     }
     /*
- * Beállítja az aktuális sínt, ahol a vonatelem van.
+ * Beallitja az aktualis sint, ahol a vonatelem van.
  *
- * @param currentRail sín tárolása
+ * @param currentRail sin tarolasa
  */
     public void setCurrentRail(Rail currentRail) {
         this.currentRail = currentRail;
     }
     /*
-     * Beállítja, hogy üres e a vagon vagy sem.
+     * Beallitja, hogy ures e a vagon vagy sem.
      */
     public void setEmpty(boolean empty) {
         isEmpty = empty;
     }
 
     /*
-     * Beállítja, a következő vonatelemet a paraméterben megadottra.
+     * Beallitja, a kovetkezo vonatelemet a parameterben megadottra.
      *
-     * @param next vonatelem paramétere
+     * @param next vonatelem parametere
      */
     public void setNext(Train next) {
         this.next = next;
     }
 
     /*
-     * Beállítja, az előző vonatelemet a paraméterben megadottra.
+     * Beallitja, az elozo vonatelemet a parameterben megadottra.
      *
-     * @param prev a vonatelem paramétere
+     * @param prev a vonatelem parametere
      */
     public void setPrev(Train prev) {
         this.prev = prev;
@@ -72,8 +72,8 @@ public abstract class Train {
     }
 
     /*
-     * Ütközés deketálás.
-     * Ha egy mezőn 2, vagy több vonatelem van, ütközés történt.
+     * utkozes deketalas.
+     * Ha egy mezon 2, vagy tobb vonatelem van, utkozes tortent.
      */
     public boolean detectCollision(){
         if(currentRail != null && currentRail.getAvailability() >= 2) return true;
@@ -81,7 +81,7 @@ public abstract class Train {
         else return false;
     }
     /*
-     * Vonat kiürülésének vizsgálata
+     * Vonat kiurulesenek vizsgalata
      */
     public boolean detectEmptiness(){
         if(next == null && isEmpty == true) return true;
@@ -92,7 +92,7 @@ public abstract class Train {
     }
 
     /*
-     * Vonatelem mozgatása
+     * Vonatelem mozgatasa
      */
     public void move(){
 
@@ -107,7 +107,7 @@ public abstract class Train {
             setCurrentRail(currentRail.getDirection(prevRail));
             prevRail = temp;
 
-            //az elérhetőséget beállítjuk
+            //az elerhetoseget beallitjuk
             prevRail.setAvailability(false);
             currentRail.setAvailability(true);
         }

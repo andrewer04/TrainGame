@@ -9,21 +9,21 @@ public abstract class Field {
     private Field down;
 
     /*
-     * Mezőtől balra lévő mező viszaadása
-     * @return balra lévő Field
+     * Mezotol balra levo mezo viszaadasa
+     * @return balra levo Field
      */
     public Field getLeft() {
         return left;
     }
     /*
-     * Mezőtől jobbra lévő mező viszaadása
-     * @return jobbra lévő Field
+     * Mezotol jobbra levo mezo viszaadasa
+     * @return jobbra levo Field
      */
     public Field getRight() {
         return right;
     }
     /*
-     * Mezőtől felfele lévő mező viszaadása
+     * Mezotol felfele levo mezo viszaadasa
      * @return fentebbi Field
      */
     public Field getUp() {
@@ -31,44 +31,44 @@ public abstract class Field {
     }
 
     /*
-     * Mezőtől lefele lévő mező viszaadása
+     * Mezotol lefele levo mezo viszaadasa
      * @return lentebbi Field
      */
     public Field getDown() { return down;}
 
  /*
-  * Mező pozicionálása
-  * @param left balra lévő mező tárolása
+  * Mezo pozicionalasa
+  * @param left balra levo mezo tarolasa
   */
 
     public void setLeft(Field left) {
         this.left = left;
     }
     /*
-     * Mező pozicionálása
-     * @param right jobbra lévő mező tárolása
+     * Mezo pozicionalasa
+     * @param right jobbra levo mezo tarolasa
      */
     public void setRight(Field right) {
         this.right = right;
     }
 
     /*
-     * Mező pozicionálása
-     * @param left fölötte lévő mező tárolása
+     * Mezo pozicionalasa
+     * @param left folotte levo mezo tarolasa
      */
     public void setUp(Field up) {
         this.up = up;
     }
     /*
-     * Mező pozicionálása
-     * @param left alatta lévő mező tárolása
+     * Mezo pozicionalasalása
+     * @param left alatta levo mezo tarolasa
      */
     public void setDown(Field down) {
         this.down = down;
     }
 
-    //AzĂ©rt kellett ezt itt lĂ©trehozni, hogy a leave() fĂĽggvĂ©nyt bĂˇrmikor meg lehessen hĂ­vni, akkor is, ha csak sima
-    //sĂ­nen vagyunk, akkor is, ha ĂˇllomĂˇs mellett.
+    //Azert kellett ezt itt lerehozni, hogy a leave() fuggvenyt barmikor meg lehessen hivni, akkor is, ha csak sima
+    //sinen vagyunk, akkor is, ha allomas mellett.
     abstract Color getColor();
     abstract boolean isEmpty();
 }

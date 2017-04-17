@@ -19,7 +19,7 @@ public class Controller {
     private boolean winFlag;
     private boolean loseFlag;
     /*
-     * konstruktor, alapállapot megadása
+     * konstruktor, alapallapot megadasa
      */
     public Controller(Rail start){
         this.start = start;
@@ -27,58 +27,58 @@ public class Controller {
         loseFlag = false;
     }
     /*
-     * eltárolt vonatok visszaadása
+     * eltarolt vonatok visszaadasa
      */
     public ArrayList<Train[]> getTrains() {
         return trains;
     }
 
     /*
-     * winFlag visszadása
+     * winFlag visszaadasa
      */
     public boolean getWinFlag() {
         return winFlag;
     }
 /*
- * loseFlag visszaadása
+ * loseFlag visszaadasa
  */
 
     public boolean getLoseFlag() {
         return loseFlag;
     }
     /*
-     * loseFlag beállítása
+     * loseFlag beallitasa
      */
     private void lose(){
         System.out.println("VESZTETTEL");
         loseFlag = true;
     }
     /*
-     * winFlag beállítása
+     * winFlag beallitasa
      */
     private void win(){
         System.out.println("GYOZELEM");
         winFlag = true;
     }
     /*
-     * Vonat létrehozása a startmezőre.
-     * A vonat vége van a start sínen.
-     * @param db db-számú vonatot hozunk létre
-     * @param length a vonat hosszának tárolására használt változó
+     * Vonat letrehozasa a startmezore
+     * A vonat vege van a start sinen
+     * @param db db-szamu vonatot hozunk letre
+     * @param length a vonat hosszanak tarolasara hasznalt valtozo
      */
     public void makeTrain(int db, int length){
         for(int d = 0; d<db; d++) {
 
             Train[] train = new Train[length];
 
-            //létrehozza a locomotiveokat
+            //letrehozza a locomotiveokat
             train[0] = new Locomotive(start, length);
             start.setAvailability(true);
 
-            //létrehozza a wagonokat
+            //letrehozza a wagonokat
             for (int j = 1; j < length; j++) {
 
-                //egymás után, először red, majd yellow, stb ... wagonokat hoz létre
+                //egymas utan, eloszor red, majd yellow, stb ... wagonokat hoz letre
                 switch (Color.values()[j - 1]) {
                     case RED:
                         train[j] = new Wagon(null, Color.RED);
@@ -104,9 +104,9 @@ public class Controller {
                 }
             }
 
-            //beállítja a waqgonokat
+            //beallitja a waqgonokat
             for (int j = 1; j < length; j++) {
-                if (j == length - 1) { //azaz utolsĂł kocsi
+                if (j == length - 1) { //azaz utolso kocsi
                     train[j].setNext(null);
                     train[j].setPrev(train[j - 1]);
                     train[j].setPrevRail(null);
@@ -117,7 +117,7 @@ public class Controller {
                 }
             }
 
-            //beállítja a locomotivokat
+            //beallitja a locomotivokat
             train[0].setPrevRail(null);
             train[0].setPrev(null);
             train[0].setNext(train[1]);
@@ -127,8 +127,8 @@ public class Controller {
     }
 
     /*
-     * Játékos tevékenységét figyelő függvény
-     * @return Játékos álltal választott tevékenységnek a sorszáma
+     * Jatekos tevekenyseget figyelo fuggveny
+     * @return Jatekos alltal valasztott tevekenyseg sorszama
      */
     public int observer(){
         System.out.println("Observer(): felhasznaloi interakcio kezelese:");
@@ -143,7 +143,7 @@ public class Controller {
 
     }
 /*
- * Az adott vagon leszállítását elindító függvény
+ * Az adott vagon leszallitasat elindito fuggveny
  */
 
     private void startLeaving(){
@@ -153,7 +153,7 @@ public class Controller {
     }
 
     /*
-     * Vagon felszállítását elindító függvény
+     * Vagon felszallitasat elindito fg
      */
     private void startGetOn(){
         for (Train[] train: trains){
@@ -162,7 +162,7 @@ public class Controller {
     }
 
     /*
-     * Elindítja a léptetést
+     * Elinditja a leptetest
      */
     private void startStepping(){
         for (Train[] train: trains){
@@ -171,8 +171,8 @@ public class Controller {
     }
 
 /*
- * Ütközés ellenőrzése.
- * Ütközés esetén lose() függvény meghívása.
+ * Utkozes ellenorzese
+ * Utkozes eseten lose() fuggveny meghivasa
  */
 
     private void checkCollision(){
@@ -186,18 +186,21 @@ public class Controller {
         if (seged) lose();
     }
     /*
-     * Vonatok ürességének vizsgálata.
-     * Ha mind üres, a játékos nyert.
+     * Vonatok uressegenek vizsgalata
+     * Ha mind ures, a jatekos nyert.
      */
     private void checkEmptiness(){
+        boolean seged = false;
         for (Train[] train: trains){
             if(train[0].detectEmptiness()) {
-                win();
+                //win();
+                seged = true;
             }
         }
+        if (seged) win();
     }
     /*
-     * Vonattal kapcsolatos tevékenységek elindítása
+     * Vonattal kapcsolatos tevekenysegek elinditasa.
      */
     public void run(){
         startStepping();

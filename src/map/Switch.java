@@ -5,7 +5,7 @@ public class Switch extends Rail {
     private Rail notselectedRail;
     private Rail fixRail;
 
-    //ÉRTÉKEK BEÁLLÍTÁSA/VISSZAADÁSA
+    //eRTeKEK BEaLLiTaSA/VISSZAADaSA
 
     public void setSelectedRail(Rail selectedRail) {
         this.selectedRail = selectedRail;
@@ -32,7 +32,7 @@ public class Switch extends Rail {
     }
 
     /*
-     * Váltó állítása másik helyzetbe
+     * Valto allitasa masik helyzetbe
      */
     public void switching(){
         Rail temp;
@@ -41,10 +41,10 @@ public class Switch extends Rail {
         notselectedRail = temp;
     }
 
-    /* A továbbhaladási irányt adja meg a vonatelem előző pozicíójának ismeretében.
-     * Ha a fix sín felől érkezik, akkor a váltó kiválasztott irányába halad tovább a vonat,
-     * ha a selectedRail vagy a notselectedRail felől érkezik, akkor mindenképp a fix sín
-     * irányába halad tovább a vonat.
+    /* A tovabbhaladasi iranyt adja meg a vonatelem elozo poziciojanak ismereteben.
+     * Ha a fix sin felol erkezik, akkor a valto kivalasztott iranyaba halad tovabb a vonat,
+     * ha a selectedRail vagy a notselectedRail felol erkezik, akkor mindenkepp a fix sin
+     * iranyaba halad tovabb a vonat.
      */
     @Override
     public Rail getDirection(Rail r) {

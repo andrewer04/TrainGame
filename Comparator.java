@@ -15,7 +15,7 @@ public class Comparator{
 			System.out.println("HIBAS BEMENET");
 		}
 		int choice = Integer.parseInt(args[0]);
-		if (choice <1 || choice > 9)
+		if (choice <1 || choice > 8)
 		{
 			System.out.println("HIBAS SZAM");
 			System.exit(1);

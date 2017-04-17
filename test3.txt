@@ -1,0 +1,12 @@
+start 2
+setTunnel 8
+setTunnel 9
+getTunnel 8
+getTunnel 9
+addtrain 2
+deleteTunnel 8
+getTunnel 8
+getTunnel 9
+move 7
+getpositions
+exit

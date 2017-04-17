@@ -1,0 +1,7 @@
+start 3
+addtrain 3
+move 12
+addtrain 4
+move 2
+getstatus
+exit
