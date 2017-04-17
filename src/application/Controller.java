@@ -176,11 +176,14 @@ public class Controller {
  */
 
     private void checkCollision(){
+        boolean seged = false;
         for (Train[] train: trains){
             if(train[0].detectCollision()) {
-                lose();
+                //lose();
+                seged = true;
             }
         }
+        if (seged) lose();
     }
     /*
      * Vonatok ürességének vizsgálata.

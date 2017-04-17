@@ -95,12 +95,12 @@ public class MapCreator {
 
                 // Minden beolvasott szĂˇm egy bizonyos szĂ­nĹ± ĂˇllomĂˇsnak felel meg
                 // AlĂˇbb definiĂˇljuk, hogy milyen szĂˇmnak milyen szĂ­nĹ± ĂˇllomĂˇs felel meg
-                if (helpingmatrix[a][b] == "1") color = Color.RED;
-                else if (helpingmatrix[a][b] == "2") color = Color.BLUE;
-                else if (helpingmatrix[a][b] == "3") color = Color.GREEN;
-                else if (helpingmatrix[a][b] == "4") color = Color.ORANGE;
-                else if (helpingmatrix[a][b] == "5") color = Color.YELLOW;
-                else if (helpingmatrix[a][b] == "6") color = Color.BROWN;
+                if (helpingmatrix[a][b].equals("1")) color = Color.RED;
+                else if (helpingmatrix[a][b].equals("2")) color = Color.BLUE;
+                else if (helpingmatrix[a][b].equals("3")) color = Color.GREEN;
+                else if (helpingmatrix[a][b].equals("4")) color = Color.ORANGE;
+                else if (helpingmatrix[a][b].equals("5")) color = Color.YELLOW;
+                else if (helpingmatrix[a][b].equals("6")) color = Color.BROWN;
 
                 if (helpingmatrix[a][b].equals("R"))
                 {
@@ -496,13 +496,5 @@ public class MapCreator {
                     }
             }
         return selectedTunnels;
-    }
-
-    public void a()
-    {
-        for (int i = 0; i < realWidth; i++)
-            for (int j = 0; j < realHeight; j++)
-                if (map[i][j].equals("T") || map[i][j].equals("R") || map[i][j].equals("S") || map[i][j].equals("C"))
-                    System.out.println(((Rail)Fields[i][j]).isItStation());
     }
 }
