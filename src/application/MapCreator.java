@@ -117,7 +117,7 @@ public class MapCreator {
                 }
                 else if (helpingmatrix[a][b].equals("T"))
                 {
-                    field[a][b] = new Tunnel(false, 0, null);
+                    field[a][b] = new Tunnel();
                 }
                 else if (helpingmatrix[a][b].equals("C"))
                 {
@@ -154,7 +154,11 @@ public class MapCreator {
                         byTheStation = true;
 
                     // Letrehozzuk a start mezot
-                    field[a][b] = new StartRail(byTheStation, (Rail)field[a][b+1], (Rail)field[a+1][b]);
+                    StartRail tmp = new StartRail();
+                    tmp.setByTheStation(byTheStation);
+                    tmp.setPossibleRail1((Rail)field[a][b+1]);
+                    tmp.setPossibleRail2((Rail)field[a+1][b]);
+                    field[a][b] = tmp;
 
                     // Beallitjuk a mezo szomszedait
                     field[a][b].setLeft(null);

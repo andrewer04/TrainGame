@@ -4,22 +4,25 @@ import utility.Color;
 
 public class Rail extends Field{
     private boolean byTheStation;
-    private int availability = 0;
+    private int availability;
     private Rail possibleRail1;
     private Rail possibleRail2;
 
+    public Rail(){
+        this.availability = 0;
+    }
 
-    /*
-     *  A parameterkent megadott sin a vonatelem elozo helyet jelenti.
-     *  Megnezzuk, hogy az aktualis sinrol hova lehet tovabb menni.
-     *  A ket lehetseges eset kozul azt adjuk vissza,
-     *  amelyik nem egyezik meg a vonatelem elozo poziciojaval.
+
+    /**
+     *  Megnezi, hogy az aktualis sinrol hova lehet tovabb menni.
+     *  A ket lehetseges eset kozul azt adja vissza,
+     *  amelyik nem egyezik meg a vonat elozo poziciojaval.
      *
-     *  @param r Elozo hely tarolasa
-     *  @return Lehetseges haladasi irány visszaadasa
+     *  @param prevRail a vonat elozo tartozkodasi helye
+     *  @return lehetseges haladasi irany
      */
-    public Rail getDirection(Rail r){
-        if (possibleRail1 == r)
+    public Rail getDirection(Rail prevRail){
+        if (possibleRail1 == prevRail)
             return possibleRail2;
         else
             return possibleRail1;

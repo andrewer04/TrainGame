@@ -1,29 +1,32 @@
 package map;
 
 import application.MapCreator;
+import application.MapCreator2;
 
 public class Tunnel extends Rail {
     static private int tunnelN;
     private boolean selected;
     private int tunnelLength;
     private Tunnel otherTunnel;
-    /*
-     * Parameteres konstruktor, elore megadott ertekek beallitasa
-     */
-    public Tunnel(boolean selected, int TLength, Tunnel other) {
-        this.selected = selected;
-        this.tunnelLength = TLength;
-        this.otherTunnel = other;
+
+    public Tunnel() {
+        this.selected = false;
+        this.tunnelLength = 0;
+        this.otherTunnel = null;
         tunnelN = 0;
     }
-    /*
-     * @return visszaadja az alagut hosszat.
+
+    /**
+     * Visszaadja az alagut hosszat.
+     * @return int
      */
     public int getTunnelLength() {
         return tunnelLength;
     }
-    /*
-     * @return visszaadja, hogy meg van e epitve az alagutszaj vagy sem.
+
+    /**
+     * Visszaadja, hogy meg van e epitve az alagutszaj vagy sem.
+     * @return boolean
      */
     public boolean isSelected() {
         return selected;
@@ -39,7 +42,7 @@ public class Tunnel extends Rail {
             tunnelN++;
             // Ha vanket megepitett alagutszaj, akkor beallitjuk mindketto otherTunnel attributumat.
             if (tunnelN == 2) {
-                Tunnel[] selectedT = MapCreator.searchselectedTunnels();
+                Tunnel[] selectedT = MapCreator2.searchSelectedTunnels();
                 if (this == selectedT[0]) {
                     this.otherTunnel = selectedT[1];
                     selectedT[1].setOtherTunnel(this);
@@ -70,6 +73,12 @@ public class Tunnel extends Rail {
             vagy veletlenszeruen vagy az egyik vagy a masik iranyba fog kijonni. en az utóbbira szavazok,
             sokkal viccesebb es egyszerubb megcsinalni.
         */
+
+    /**
+     * Visszaadja azt a sint amerre tovabbmehet a vonat az elozo ismereteben.
+     * @param prevRail
+     * @return Rail
+     */
     @Override
     public Rail getDirection(Rail prevRail) {
         if (tunnelN == 2 && selected == true) {
