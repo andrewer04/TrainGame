@@ -1,8 +1,6 @@
 package application;
 
 import map.*;
-import org.jetbrains.annotations.Contract;
-import sun.swing.MenuItemLayoutHelper;
 import utility.Color;
 
 import java.io.File;
