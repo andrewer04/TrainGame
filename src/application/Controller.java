@@ -1,16 +1,14 @@
 package application;
 
+import graphics.Drawable;
 import map.Rail;
-import utility.Color;
 import vehicles.CargoWagon;
 import vehicles.Locomotive;
 import vehicles.Train;
 import vehicles.Wagon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.awt.Color;
 
 public class Controller {
     private Rail start;
@@ -24,8 +22,14 @@ public class Controller {
         loseFlag = false;
     }
 
-    public ArrayList<Train[]> getTrains() {
-        return trains;
+    /**
+     * A jatek allapotanak lekerdezese.
+     * @return Ha meg nem nyert a jatekos, illetve nem vesztett, akkor igazzal ter vissza, egyebkent hamissal.
+     */
+    public boolean getStatus(){
+        if (winFlag || loseFlag)
+            return false;
+        else return true;
     }
 
     public boolean getWinFlag() {
@@ -54,11 +58,10 @@ public class Controller {
         winFlag = true;
     }
     /**
-     * Vonat letrehozasa a startmezore
-     * A vonat vege van a start sinen
+     * Vonat letrehozasa, a Locomotive van a StartRail-en
      * @param length a vonat hossza
      */
-    public void makeTrain(int length) {
+    public void makeTrain(int length, ArrayList<Drawable> drawables) {
 
         Train[] train = new Train[length];
 
@@ -68,29 +71,21 @@ public class Controller {
 
         //letrehozza a wagonokat
         for (int j = 1; j < length; j++) {
-
-            //egymas utan, eloszor red, majd yellow, stb ... wagonokat hoz letre
-            switch (Color.values()[j - 1]) {
-                case RED:
+            switch (length-(length-j)) {
+                case 1:
+                    train[j] = new CargoWagon(null);
+                    break;
+                case 2:
                     train[j] = new Wagon(null, Color.RED);
                     break;
-                case YELLOW:
-                    train[j] = new Wagon(null, Color.YELLOW);
-                    break;
-                case GREEN:
+                case 3:
                     train[j] = new Wagon(null, Color.GREEN);
                     break;
-                case BLUE:
+                case 4:
                     train[j] = new Wagon(null, Color.BLUE);
                     break;
-                case ORANGE:
-                    train[j] = new Wagon(null, Color.ORANGE);
-                    break;
-                case BROWN:
-                    train[j] = new Wagon(null, Color.BROWN);
-                    break;
                 default:
-                    train[j] = new CargoWagon(null);
+                    train[j] = new Wagon(null, Color.ORANGE);
                     break;
             }
         }
@@ -114,6 +109,9 @@ public class Controller {
         train[0].setNext(train[1]);
 
         trains.add(train);
+        for (int i = 0; i<length; i++){
+            drawables.add(train[i]);
+        }
     }
 
     /**

@@ -1,5 +1,9 @@
 package map;
 
+import graphics.Drawer;
+
+import java.awt.*;
+
 public class Switch extends Rail {
     private Rail selectedRail;
     private Rail notselectedRail;
@@ -52,5 +56,10 @@ public class Switch extends Rail {
             return fixRail;
         else
             return selectedRail;
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawSwitch(this);
     }
 }

@@ -1,7 +1,9 @@
 package vehicles;
 
+import graphics.Drawer;
 import map.Rail;
-import utility.Color;
+
+import java.awt.*;
 
 public class Wagon extends Train {
 

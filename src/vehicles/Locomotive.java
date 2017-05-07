@@ -1,11 +1,13 @@
 package vehicles;
 
+import graphics.Drawer;
 import map.Rail;
-import utility.Color;
+
+import java.awt.*;
 
 public class Locomotive extends Train {
     private int trainLength;
-    /*
+    /**
      * Az osztaly konstruktora, beallitja az aktualis helyet a
      * parameterkent kapott sinnel, a vonat hosszat pedig a parameterkent
      * kapott szammal, a szinet feketere, telitettseget pedig uresre allitja.
@@ -33,4 +35,5 @@ public class Locomotive extends Train {
     public void getOn(){
         this.getNext().getOn();
     }
+
 }

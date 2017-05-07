@@ -1,6 +1,8 @@
 package map;
 
-import utility.Color;
+import graphics.Drawer;
+
+import java.awt.Color;
 
 public class RailStation extends Field{
     private Color color;
@@ -32,5 +34,10 @@ public class RailStation extends Field{
             isEmpty = true;
             return false;
         }
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawRailStation(this);
     }
 }

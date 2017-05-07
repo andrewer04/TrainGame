@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
 
-    public static final int WIDTH = 300, HEIGHT = 300;
+    public static final int WIDTH = 100, HEIGHT = 100;
 
     JButton start;
     JButton exit;

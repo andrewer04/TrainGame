@@ -1,9 +1,12 @@
 package vehicles;
 
+import graphics.Drawer;
 import map.Rail;
-import utility.Color;
+import graphics.Drawable;
 
-public abstract class Train {
+import java.awt.Color;
+
+public abstract class Train implements Drawable{
     private Color color;
     private Rail currentRail;
     private Rail prevRail;
@@ -117,4 +120,9 @@ public abstract class Train {
 
     public abstract void leave();
     public abstract void getOn();
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawTrain(this);
+    }
 }

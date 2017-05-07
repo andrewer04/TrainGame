@@ -1,12 +1,13 @@
 package vehicles;
 
 import map.Rail;
-import utility.Color;
+
+import java.awt.Color;
 
 public class CargoWagon extends Wagon {
 
     public CargoWagon(Rail rail){
-        super(rail,Color.GREY);
+        super(rail,Color.DARK_GRAY);
         this.setEmpty(true);
     }
 }

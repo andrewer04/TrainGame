@@ -2,6 +2,9 @@ package map;
 
 import application.MapCreator;
 import application.MapCreator2;
+import graphics.Drawer;
+
+import java.awt.*;
 
 public class Tunnel extends Rail {
     static private int tunnelN;
@@ -42,7 +45,7 @@ public class Tunnel extends Rail {
             tunnelN++;
             // Ha vanket megepitett alagutszaj, akkor beallitjuk mindketto otherTunnel attributumat.
             if (tunnelN == 2) {
-                Tunnel[] selectedT = MapCreator2.searchSelectedTunnels();
+                Tunnel[] selectedT = MapCreator.searchSelectedTunnels();
                 if (this == selectedT[0]) {
                     this.otherTunnel = selectedT[1];
                     selectedT[1].setOtherTunnel(this);
@@ -91,6 +94,11 @@ public class Tunnel extends Rail {
             if (this.getPossibleRail1() == prevRail) return this.getPossibleRail2();
             else return this.getPossibleRail1();
         }
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawTunnel(this);
     }
 }
 

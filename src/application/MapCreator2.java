@@ -1,12 +1,12 @@
 package application;
 
 import map.*;
-import utility.Color;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.awt.Color;
 
 public class MapCreator2{
 
@@ -172,9 +172,6 @@ public class MapCreator2{
                     break;
                 case '5':
                     map[c][r] = new RailStation(Color.YELLOW);
-                    break;
-                case '6':
-                    map[c][r] = new RailStation(Color.BROWN);
                     break;
             }
             r++;

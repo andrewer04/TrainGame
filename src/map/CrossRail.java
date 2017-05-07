@@ -1,5 +1,9 @@
 package map;
 
+import graphics.Drawer;
+
+import java.awt.*;
+
 public class CrossRail extends Rail {
     private Rail possibleRail3;
     private Rail possibleRail4;
@@ -30,5 +34,10 @@ public class CrossRail extends Rail {
         else if (rail == this.getPossibleRail2()) return this.getPossibleRail1();
         else if (rail == possibleRail3) return possibleRail4;
         else return possibleRail3;
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawCrossRail(this);
     }
 }

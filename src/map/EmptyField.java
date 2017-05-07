@@ -1,6 +1,8 @@
 package map;
 
-import utility.Color;
+import graphics.Drawer;
+
+import java.awt.Color;
 
 public class EmptyField extends Field {
     @Override
@@ -11,5 +13,10 @@ public class EmptyField extends Field {
     @Override
     public boolean isEmpty(){
         return true;
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawEmptyField(this);
     }
 }

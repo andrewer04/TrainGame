@@ -1,8 +1,10 @@
 package map;
 
-import utility.Color;
+import graphics.Drawable;
 
-public abstract class Field {
+import java.awt.Color;
+
+public abstract class Field implements Drawable {
     private Field left;
     private Field right;
     private Field up;

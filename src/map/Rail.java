@@ -1,6 +1,8 @@
 package map;
 
-import utility.Color;
+import graphics.Drawer;
+
+import java.awt.*;
 
 public class Rail extends Field{
     private boolean byTheStation;
@@ -113,5 +115,10 @@ public class Rail extends Field{
             else if (this.getLeft() != null && this.getLeft().isEmpty() == false) return false;
         }
         return true;
+    }
+
+    @Override
+    public void draw(Drawer drawer) {
+        drawer.drawRail(this);
     }
 }
