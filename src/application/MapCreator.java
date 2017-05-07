@@ -286,59 +286,8 @@ public class MapCreator {
         return (Rail)field[1][1];
     }
 
-    /*
-     * Egy ID alapjan megmondja, hogy mi van abban a mezoben
-     * Ha az ID nagyobb, mint a palyan levo mezok szama, akkor null-t ad vissza
-     * Az ID a mezo szamanak felel meg a bal elso sarokbol indulva
-     * soronkent haladva es novelve egy 0 kezdo ertekĹ± valtozot
-     *
-     * @param ID mezo azonositasara hasznalt valtozo.
-     * @return Parameterhez tartozo mezo visszaadasa
-    */
-    public Field searchField(int ID)
-    {
-        // Segedvaltozok letrehozasa
-        int helpingcounter = 0;
-        int helpingWidth = 0;
-        int helpingheight = 0;
-
-        if (ID > realWidth*realHeight)
-            return null;
-        else
-        {
-            for (int i = 0; i < realWidth; i++)
-                for (int j = 0; j < realHeight; j++)
-                {
-                    helpingcounter++;
-                    if (helpingcounter == ID)
-                    {
-                        helpingWidth = i;
-                        helpingheight = j;
-                    }
-                }
-            return fields[helpingWidth][helpingheight];
-        }
-    }
-
-    /*
-     * Megmondja, hogy a parameterkent kapott mezonek mi az ID-ja
-     * Az ID a fent meghatarozott modon a mezo szamat jeloli, amelyben a field van.
-     *
-     * @param field Lekerdezni kivant mezo
-     * @return Lekerdezett mezo ID-jenek visszaadasa
-     */
-    public int searchID(Field field)
-    {
-        int helpingcounter = 0;
-        int returning = 0;
-        for (int i = 0; i < realWidth; i++)
-            for (int j = 0; j < realHeight; j++)
-            {
-                helpingcounter++;
-                if (field == fields[i][j])
-                    returning =  helpingcounter;
-            }
-        return returning;
+    public Field getField(int x,int y){
+        return fields[x][y];
     }
 
     public static Tunnel[] searchSelectedTunnels()

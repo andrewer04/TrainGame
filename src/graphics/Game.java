@@ -17,7 +17,6 @@ public class Game extends JPanel implements Runnable{
     private ArrayList<Drawable> drawables; //ebben gyűjtjük az összes objektumot amit ki lehet rajzolni
 
     Thread gameThread;
-    Thread timer;
 
     public Game(){
         mapCreator = new MapCreator();
@@ -26,7 +25,6 @@ public class Game extends JPanel implements Runnable{
         drawables = mapCreator.getMapElements();
 
         gameThread = new Thread(this,"Game Loop");
-        timer = new Thread(new Timer(),"Timer");
 
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setFocusable(true);
@@ -46,10 +44,11 @@ public class Game extends JPanel implements Runnable{
 
     @Override
     public void run() {
-        controller.makeTrain(3,drawables);
+        controller.makeTrain(7,drawables);
         while(controller.getStatus()){
+            repaint();
             try{
-                timer.sleep(60);
+                Thread.sleep(60);
                 controller.run();
             }catch (InterruptedException e){
 

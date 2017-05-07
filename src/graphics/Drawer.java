@@ -49,7 +49,10 @@ public class Drawer {
         g.fillRect(MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawTunnel(Tunnel tunnel) {
-        g.setColor(Color.CYAN);
+        if (tunnel.isSelected() == true)
+            g.setColor(Color.CYAN);
+        else
+            g.setColor(Color.BLUE);
         g.fillRect(MapCreator.getFieldCoordY(tunnel)*HEIGHT,MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT);
     }
 }
