@@ -289,7 +289,7 @@ public class MapCreator {
         map = helpingmatrix;
 
         // Visszaadom a startmezot
-        return (Rail)field[0][0];
+        return (Rail)field[1][1];
     }
     /*
      * Egy ID alapjan megmondja, hogy mi van abban a mezoben
@@ -373,7 +373,7 @@ public class MapCreator {
             for (int j = 0; j < realHeight; j++)
             {
                 if (field == fields[i][j])
-                    returning = i+1;
+                    returning = i;
             }
         return returning;
     }
@@ -383,7 +383,7 @@ public class MapCreator {
             for (int j = 0; j < realHeight; j++)
             {
                 if (field == fields[i][j])
-                    returning = j+1;
+                    returning = j;
             }
         return returning;
     }

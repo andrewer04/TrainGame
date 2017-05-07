@@ -1,11 +1,10 @@
 package application;
 
-public class Timer {
-    public static boolean start(){
-        return true;
+public class Timer implements Runnable {
+
+    public Timer(){
     }
 
     public void run(){
-
     }
 }

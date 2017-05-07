@@ -10,26 +10,28 @@ import java.util.ArrayList;
 
 public class Game extends JPanel implements Runnable{
 
-    public static final int WIDTH = 800, HEIGHT = 800;
+    public static final int WIDTH = 520, HEIGHT = 520;
     public static MapCreator mapCreator;
     public static Controller controller;
     private Drawer drawer;
     private ArrayList<Drawable> drawables; //ebben gyűjtjük az összes objektumot amit ki lehet rajzolni
 
-    Thread thread;
+    Thread gameThread;
+    Thread timer;
 
     public Game(){
         mapCreator = new MapCreator();
         drawer = new Drawer();
-        controller = new Controller(mapCreator.build(5));
+        controller = new Controller(mapCreator.build(1));
         drawables = mapCreator.getMapElements();
 
-        thread = new Thread(this,"Game Loop");
+        gameThread = new Thread(this,"Game Loop");
+        timer = new Thread(new Timer(),"Timer");
 
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setFocusable(true);
 
-        thread.start();
+        gameThread.start();
     }
 
     public void gameOver(){
@@ -46,9 +48,13 @@ public class Game extends JPanel implements Runnable{
     public void run() {
         controller.makeTrain(3,drawables);
         while(controller.getStatus()){
-            if (Timer.start()){
+            try{
+                timer.sleep(60);
                 controller.run();
+            }catch (InterruptedException e){
+
             }
+
             repaint(); //ez mindig meghívja a paint metódust
 
         }

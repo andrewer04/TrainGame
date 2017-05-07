@@ -1,9 +1,0 @@
-start 4
-addtrain 3
-move 6
-getstation 8
-getpositions
-move 6
-getstation 13
-getpositions
-exit

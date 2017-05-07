@@ -1,9 +1,0 @@
-start 3
-addtrain 2
-move 7
-getpositions
-setswitch 3
-addtrain 3
-move 4
-getpositions
-exit

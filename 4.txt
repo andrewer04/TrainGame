@@ -1,4 +1,0 @@
-R R R R R
-R E 5 E R
-R E 1 E R
-R R R R R
