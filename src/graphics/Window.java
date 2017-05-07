@@ -23,8 +23,7 @@ public class Window extends JFrame{
         this.setLocationRelativeTo(null);
 
         menu = new Menu();
-
-        add(menu);
+        add(BorderLayout.CENTER,menu);
 
         this.pack();
         this.setVisible(true);
@@ -43,7 +42,7 @@ public class Window extends JFrame{
         game = new Game();
 
         remove(menu);
-        add(game);
+        add(BorderLayout.CENTER,game);
 
         pack();
         setLocationRelativeTo(null);

@@ -9,38 +9,40 @@ public class Menu extends JPanel {
 
     public static int WIDTH = 1, HEIGHT = 100;
 
-    JButton start;
-    JButton exit;
+    startButton start;
+    exitButton exit;
 
     public Menu(){
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        start =new JButton("Játék indítás");
+        start = new startButton("Játék indítás");
         start.setBounds(37,11,227,51);
         add(start);
-        exit =new JButton("Kilépés");
+        exit =new exitButton("Kilépés");
         exit.setBounds(37,73,227,51);
         add(exit);
 
-        //az első gomb eseménykezelője, amennyiben megnyomják, elindítja a játékot
-        start.addActionListener(
-                new ActionListener(){
-                     public void actionPerformed(ActionEvent e){
-                        try {
-                            Window.getWindow().startGame();
-                        }catch (Exception e1) {
-                            System.out.println(e1.getMessage());
-                        }
-                    }
-                }
-        );
+        start.addActionListener(start);
+        exit.addActionListener(exit);
+    }
+    private class startButton extends JButton implements ActionListener{
 
-        //a második gomb eseménykezelője, amennyiben megnyomják, kilép a programból
-        exit.addActionListener(
-                new ActionListener(){
-                    public void actionPerformed(ActionEvent e){
-                        System.exit(0);
-                    }
-                }
-        );
+        public startButton(String text){
+            super(text);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Window.getWindow().startGame();
+        }
+    }
+
+    private class exitButton extends JButton implements ActionListener{
+
+        public exitButton(String text){
+            super(text);
+        }
+        @Override
+        public void actionPerformed(ActionEvent e){
+            System.exit(0);
+        }
     }
 }

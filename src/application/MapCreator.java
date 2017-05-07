@@ -52,12 +52,6 @@ public class MapCreator {
         if (level == 1) leveltxt = "1.txt";
         else if (level == 2) leveltxt = "2.txt";
         else if (level == 3) leveltxt = "3.txt";
-        else if (level == 4) leveltxt = "4.txt";
-        else if (level == 5) leveltxt = "5.txt";
-        else if (level == 6) leveltxt = "6.txt";
-        else if (level == 7) leveltxt = "7.txt";
-        else if (level == 8) leveltxt = "8.txt";
-        else if (level == 9) leveltxt = "9.txt";
 
         try {
             // Megnyitjuk olvasasra a megfelelo txt-t
@@ -256,8 +250,8 @@ public class MapCreator {
                     field[a][b].setDown(null);
                 }
 
-                //Beállítom a StartRail-t.
-                field[1][1] = new StartRail();
+                if (a == 1 && b == 1)
+                    field[a][b] = new StartRail();
 
                 // Beallitom a megfelelo tipusu mezok adatait, melyek vonatkoznak mas mezore is vagy validaciohoz kotottek,
                 // igy elso korben nem lehetett beallitani, kulonben null erkekkel szerepelne.
@@ -291,6 +285,7 @@ public class MapCreator {
         // Visszaadom a startmezot
         return (Rail)field[1][1];
     }
+
     /*
      * Egy ID alapjan megmondja, hogy mi van abban a mezoben
      * Ha az ID nagyobb, mint a palyan levo mezok szama, akkor null-t ad vissza

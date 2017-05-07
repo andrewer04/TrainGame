@@ -21,35 +21,35 @@ public class Drawer {
     public void drawTrain(Train train){
         g.setColor(train.getColor());
         if(train.getCurrentRail() != null)
-            g.fillRect(MapCreator.getFieldCoordX(train.getCurrentRail())*WIDTH,MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT);
+            g.fillRect(MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT);
     }
 
     public void drawEmptyField(EmptyField emptyField){
         g.setColor(Color.GREEN);
-        g.fillRect(MapCreator.getFieldCoordX(emptyField)*WIDTH,MapCreator.getFieldCoordY(emptyField)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(emptyField)*HEIGHT,MapCreator.getFieldCoordX(emptyField)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawRail(Rail rail){
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(MapCreator.getFieldCoordX(rail)*WIDTH,MapCreator.getFieldCoordY(rail)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(rail)*HEIGHT,MapCreator.getFieldCoordX(rail)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawCrossRail(CrossRail crossRail){
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(MapCreator.getFieldCoordX(crossRail)*WIDTH,MapCreator.getFieldCoordY(crossRail)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(crossRail)*HEIGHT,MapCreator.getFieldCoordX(crossRail)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawRailStation(RailStation railStation){
         g.setColor(railStation.getColor());
-        g.fillRect(MapCreator.getFieldCoordX(railStation)*WIDTH,MapCreator.getFieldCoordY(railStation)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawStartRail(StartRail startRail){
         g.setColor(Color.GRAY);
-        g.fillRect(MapCreator.getFieldCoordX(startRail)*WIDTH,MapCreator.getFieldCoordY(startRail)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(startRail)*HEIGHT,MapCreator.getFieldCoordX(startRail)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawSwitch(Switch sw){
         g.setColor(Color.MAGENTA);
-        g.fillRect(MapCreator.getFieldCoordX(sw)*WIDTH,MapCreator.getFieldCoordY(sw)*HEIGHT,WIDTH,HEIGHT);
+        g.fillRect(MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT);
     }
     public void drawTunnel(Tunnel tunnel) {
-        g.setColor(Color.MAGENTA);
-        g.fillRect(MapCreator.getFieldCoordX(tunnel)*WIDTH,MapCreator.getFieldCoordY(tunnel)*HEIGHT,WIDTH,HEIGHT);
+        g.setColor(Color.CYAN);
+        g.fillRect(MapCreator.getFieldCoordY(tunnel)*HEIGHT,MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT);
     }
 }
