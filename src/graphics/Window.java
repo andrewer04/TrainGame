@@ -2,6 +2,7 @@ package graphics;
 
 import map.Switch;
 import map.Tunnel;
+import application.MapCreator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -45,7 +46,7 @@ public class Window extends JFrame{
     public void startGame() {
 
         game = new Game();
-
+        game.addMouseListener(new MouseEventHandler());
         remove(menu);
         add(BorderLayout.CENTER,game);
 
@@ -63,20 +64,19 @@ public class Window extends JFrame{
             int y=e.getY()/40;
             System.out.println(x+ "         " + y);
             //Ha a mezo alagut
-            if(game.mapCreator.getField(x,y) instanceof Tunnel){
+            if(MapCreator.getField(x,y) instanceof Tunnel){
                 //Ha az alagut ki volt valasztva akkor toroljuk
-                if(((Tunnel) game.mapCreator.getField(x,y)).isSelected()){
-                    ((Tunnel) game.mapCreator.getField(x,y)).deleting();
+                if(((Tunnel) MapCreator.getField(x,y)).isSelected()) {
+                    ((Tunnel) MapCreator.getField(x, y)).deleting();
                 }
-
                 //Ha az alagut nem volt kivalasztva akkor lerakjuk
-                if(!((Tunnel) game.mapCreator.getField(x,y)).isSelected()){
-                    ((Tunnel) game.mapCreator.getField(x,y)).creating();
+                else if(!((Tunnel) MapCreator.getField(x,y)).isSelected()){
+                    ((Tunnel) MapCreator.getField(x,y)).creating();
                 }
             }
             //Ha a mezo valto
-            if(game.mapCreator.getField(x,y) instanceof Switch){
-
+            if(MapCreator.getField(x,y) instanceof Switch){
+                ((Switch) MapCreator.getField(x,y)).switching();
             }
         }
 

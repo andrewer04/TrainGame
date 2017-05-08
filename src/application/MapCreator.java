@@ -286,8 +286,8 @@ public class MapCreator {
         return (Rail)field[1][1];
     }
 
-    public Field getField(int x,int y){
-        return fields[x][y];
+    public static Field getField(int x,int y){
+        return fields[y][x];
     }
 
     public static Tunnel[] searchSelectedTunnels()
