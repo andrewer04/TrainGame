@@ -2,14 +2,10 @@ package map;
 
 import graphics.Drawer;
 
-import java.awt.*;
-
 public class Switch extends Rail {
     private Rail selectedRail;
     private Rail notselectedRail;
     private Rail fixRail;
-
-    //eRTeKEK BEaLLiTaSA/VISSZAADaSA
 
     public void setSelectedRail(Rail selectedRail) {
         this.selectedRail = selectedRail;
@@ -27,15 +23,11 @@ public class Switch extends Rail {
         return selectedRail;
     }
 
-    public Rail getNotselectedRail() {
-        return notselectedRail;
-    }
-
     public Rail getFixRail() {
         return fixRail;
     }
 
-    /*
+    /**
      * Valto allitasa masik helyzetbe
      */
     public void switching(){
@@ -45,7 +37,8 @@ public class Switch extends Rail {
         notselectedRail = temp;
     }
 
-    /* A tovabbhaladasi iranyt adja meg a vonatelem elozo poziciojanak ismereteben.
+    /**
+     *A tovabbhaladasi iranyt adja meg a vonatelem elozo poziciojanak ismereteben.
      * Ha a fix sin felol erkezik, akkor a valto kivalasztott iranyaba halad tovabb a vonat,
      * ha a selectedRail vagy a notselectedRail felol erkezik, akkor mindenkepp a fix sin
      * iranyaba halad tovabb a vonat.

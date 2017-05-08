@@ -7,12 +7,12 @@ import graphics.Drawable;
 import java.awt.Color;
 
 public abstract class Train implements Drawable{
-    private Color color;
-    private Rail currentRail;
-    private Rail prevRail;
-    private boolean isEmpty;
-    private Train next;
-    private Train prev;
+    protected Color color;
+    protected Rail currentRail;
+    protected Rail prevRail;
+    protected boolean isEmpty;
+    protected Train next;
+    protected Train prev;
 
     public Color getColor() {
         return color;
@@ -20,40 +20,11 @@ public abstract class Train implements Drawable{
     public Rail getCurrentRail() {
         return currentRail;
     }
-    public Rail getPrevRail() {
-        return prevRail;
-    }
-
     public boolean isEmpty() {
         return isEmpty;
     }
-    public Train getNext() {
-        return next;
-    }
-    public Train getPrev() {
-        return prev;
-    }
 
-    //konstruktorok hasznaljak
-    public void setColor(Color color) {
-        this.color = color;
-    }
-    /*
- * Beallitja az aktualis sint, ahol a vonatelem van.
- *
- * @param currentRail sin tarolasa
- */
-    public void setCurrentRail(Rail currentRail) {
-        this.currentRail = currentRail;
-    }
-    /*
-     * Beallitja, hogy ures e a vagon vagy sem.
-     */
-    public void setEmpty(boolean empty) {
-        isEmpty = empty;
-    }
-
-    /*
+    /**
      * Beallitja, a kovetkezo vonatelemet a parameterben megadottra.
      *
      * @param next vonatelem parametere
@@ -62,7 +33,7 @@ public abstract class Train implements Drawable{
         this.next = next;
     }
 
-    /*
+    /**
      * Beallitja, az elozo vonatelemet a parameterben megadottra.
      *
      * @param prev a vonatelem parametere
@@ -74,7 +45,7 @@ public abstract class Train implements Drawable{
         this.prevRail = prevRail;
     }
 
-    /*
+    /**
      * utkozes deketalas.
      * Ha egy mezon 2, vagy tobb vonatelem van, utkozes tortent.
      */
@@ -83,7 +54,7 @@ public abstract class Train implements Drawable{
         else if (next != null && next.detectCollision()) return true;
         else return false;
     }
-    /*
+    /**
      * Vonat kiurulesenek vizsgalata
      */
     public boolean detectEmptiness(){
@@ -94,20 +65,20 @@ public abstract class Train implements Drawable{
         else return false;
     }
 
-    /*
+    /**
      * Vonatelem mozgatasa
      */
     public void move(){
 
         if (currentRail == null){
-            currentRail = prev.getPrevRail();
+            currentRail = prev.prevRail;
             if (currentRail != null) currentRail.setAvailability(true);
         }
         else {
 
             Rail temp;
             temp = currentRail;
-            setCurrentRail(currentRail.getDirection(prevRail));
+            currentRail =  currentRail.getDirection(prevRail);
             prevRail = temp;
 
             //az elerhetoseget beallitjuk

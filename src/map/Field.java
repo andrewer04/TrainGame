@@ -10,21 +10,21 @@ public abstract class Field implements Drawable {
     private Field up;
     private Field down;
 
-    /*
+    /**
      * Mezotol balra levo mezo viszaadasa
      * @return balra levo Field
      */
     public Field getLeft() {
         return left;
     }
-    /*
+    /**
      * Mezotol jobbra levo mezo viszaadasa
      * @return jobbra levo Field
      */
     public Field getRight() {
         return right;
     }
-    /*
+    /**
      * Mezotol felfele levo mezo viszaadasa
      * @return fentebbi Field
      */
@@ -32,13 +32,13 @@ public abstract class Field implements Drawable {
         return up;
     }
 
-    /*
+    /**
      * Mezotol lefele levo mezo viszaadasa
      * @return lentebbi Field
      */
     public Field getDown() { return down;}
 
- /*
+ /**
   * Mezo pozicionalasa
   * @param left balra levo mezo tarolasa
   */
@@ -46,7 +46,7 @@ public abstract class Field implements Drawable {
     public void setLeft(Field left) {
         this.left = left;
     }
-    /*
+    /**
      * Mezo pozicionalasa
      * @param right jobbra levo mezo tarolasa
      */
@@ -54,16 +54,16 @@ public abstract class Field implements Drawable {
         this.right = right;
     }
 
-    /*
+    /**
      * Mezo pozicionalasa
-     * @param left folotte levo mezo tarolasa
+     * @param up folotte levo mezo tarolasa
      */
     public void setUp(Field up) {
         this.up = up;
     }
-    /*
+    /**
      * Mezo pozicionalasalása
-     * @param left alatta levo mezo tarolasa
+     * @param down alatta levo mezo tarolasa
      */
     public void setDown(Field down) {
         this.down = down;

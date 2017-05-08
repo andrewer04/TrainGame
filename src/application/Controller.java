@@ -32,10 +32,6 @@ public class Controller {
         else return true;
     }
 
-    public boolean getWinFlag() {
-        return winFlag;
-    }
-
     public boolean getLoseFlag() {
         return loseFlag;
     }
@@ -45,7 +41,6 @@ public class Controller {
      * jatek veget.
      */
     private void lose(){
-        System.out.println("VESZTETTEL");
         loseFlag = true;
     }
 
@@ -54,12 +49,12 @@ public class Controller {
      * gyozelmet.
      */
     private void win(){
-        System.out.println("GYOZELEM");
         winFlag = true;
     }
     /**
      * Vonat letrehozasa, a Locomotive van a StartRail-en
      * @param length a vonat hossza
+     * @param drawables a kirajzolando objektumokat tartalmazo lista
      */
     public void makeTrain(int length, ArrayList<Drawable> drawables) {
 

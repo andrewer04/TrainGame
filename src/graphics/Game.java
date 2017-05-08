@@ -2,7 +2,6 @@ package graphics;
 
 import application.Controller;
 import application.MapCreator;
-import application.Timer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,47 +13,82 @@ public class Game extends JPanel implements Runnable{
     public static MapCreator mapCreator;
     public static Controller controller;
     private Drawer drawer;
-    private ArrayList<Drawable> drawables; //ebben gyűjtjük az összes objektumot amit ki lehet rajzolni
+    private ArrayList<Drawable> drawables; //ebben gyujtjuk az osszes objektumot amit ki lehet rajzolni
 
-    Thread gameThread;
-
-    public Game(){
-        mapCreator = new MapCreator();
-        drawer = new Drawer();
-        controller = new Controller(mapCreator.build(1));
-        drawables = mapCreator.getMapElements();
-
-        gameThread = new Thread(this,"Game Loop");
+    public Game(int level){
+        init(level);
 
         setPreferredSize(new Dimension(WIDTH,HEIGHT));
         setFocusable(true);
-
-        gameThread.start();
     }
 
+    /**
+     * A jatek veget jelzo ablak
+     */
     public void gameOver(){
         JOptionPane.showMessageDialog(
                 null,
-                "Meghaltál, a játék véget ért",
+                "Meghaltal, a jatek veget ert",
                 "GAME OVER",
                 JOptionPane.WARNING_MESSAGE
         );
     }
-    public void youWon(){}
+
+    /**
+     * A gyozelmet jelzo ablak
+     */
+    public void youWon(){
+        JOptionPane.showMessageDialog(
+                null,
+                "Gyozelem",
+                "WIN",
+                JOptionPane.WARNING_MESSAGE
+        );
+        if(Window.level == 1){
+            Window.getWindow().nextLevel();
+        }
+        else{
+            JOptionPane.showMessageDialog(
+                    null,
+                    "A jatek vege, nyertel",
+                    "WON",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }
+
+    /**
+     * Palyat inicializaolo metodus
+     * @param level a palya szintje
+     */
+    private void init(int level){
+        mapCreator = new MapCreator();
+        drawer = new Drawer();
+        controller = new Controller(mapCreator.build(level));
+        drawables = mapCreator.getMapElements();
+    }
 
     @Override
     public void run() {
-        controller.makeTrain(7,drawables);
+        int length = 6;
+        int ticker = 0;
+        controller.makeTrain(length,drawables);
         while(controller.getStatus()){
+            if(ticker == 100){
+                if (length >= 3)
+                    controller.makeTrain(--length,drawables);
+                ticker = 0;
+            }
             repaint();
             try{
-                Thread.sleep(60);
+                Thread.sleep(100);
+                ticker++;
                 controller.run();
             }catch (InterruptedException e){
 
             }
 
-            repaint(); //ez mindig meghívja a paint metódust
+            repaint(); //ez mindig meghivja a paint metodust
 
         }
         if(controller.getLoseFlag())

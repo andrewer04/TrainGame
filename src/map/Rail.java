@@ -14,7 +14,6 @@ public class Rail extends Field{
         this.availability = 0;
     }
 
-
     /**
      *  Megnezi, hogy az aktualis sinrol hova lehet tovabb menni.
      *  A ket lehetseges eset kozul azt adja vissza,
@@ -30,27 +29,24 @@ public class Rail extends Field{
             return possibleRail1;
     }
 
-    public boolean isItStation() {
-        return byTheStation;
-    }
     public int getAvailability() {
         return availability;
     }
-    /*
+    /**
      * Visszaadja az elso lehetseges tovabbhaladasi iranyt
      */
     public Rail getPossibleRail1() {
         return possibleRail1;
     }
 
-    /*
+    /**
      * Visszaadja a masodik lehetseges tovabbhaladasi iranyt.
      */
     public Rail getPossibleRail2() {
         return possibleRail2;
     }
 
-    /*
+    /**
      * Beallitja, hogy a sin allomas mellett all-e vagy sem.
      *
      * @param byTheStation ebben taroljuk, hogy a sin mellett van e az allomas.
@@ -58,7 +54,7 @@ public class Rail extends Field{
     public void setByTheStation(boolean byTheStation) {
         this.byTheStation = byTheStation;
     }
-    /*
+    /**
      * Beallitjuk az elso lehetseges tovabbhaladasi iranyt.
      *
      * @param possibleRail1 az erre hasznalt valtozo
@@ -68,7 +64,7 @@ public class Rail extends Field{
     }
 
 
-    /*
+    /**
      * Beallitjuk a masodik lehetseges tovabbhaladasi iranyt.
      *
      * @param possibleRail2 az erre hasznalt valtozo
@@ -77,7 +73,7 @@ public class Rail extends Field{
         this.possibleRail2 = possibleRail2;
     }
 
-    /*
+    /**
      * Sin foglaltsagat allitja be
      *
      * @param onTheRail igaz, ha a mezon van valami
@@ -87,7 +83,9 @@ public class Rail extends Field{
         else availability--;
     }
 
-    //A mellette levo allomas szinet adja, ha van ilyen. Egyebkent null-t.
+    /**
+     *  A mellette levo allomas szinet adja, ha van ilyen. Egyebkent null-t.
+     */
     @Override
     public Color getColor(){
         if(byTheStation) {
@@ -100,7 +98,7 @@ public class Rail extends Field{
     }
 
 
-    /*
+    /**
      * Visszaadja, ha allomas mellett helyezkedik el a sin, hogy az allomas ures-e.
      * Ha a mezo nem allomas mellett van, akkor visszateresi erteke true.
      *

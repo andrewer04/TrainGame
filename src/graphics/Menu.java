@@ -14,10 +14,10 @@ public class Menu extends JPanel {
 
     public Menu(){
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        start = new startButton("Játék indítás");
+        start = new startButton("Jatek inditas");
         start.setBounds(37,11,227,51);
         add(start);
-        exit =new exitButton("Kilépés");
+        exit =new exitButton("Kilepes");
         exit.setBounds(37,73,227,51);
         add(exit);
 

@@ -1,6 +1,5 @@
 package vehicles;
 
-import graphics.Drawer;
 import map.Rail;
 
 import java.awt.*;
@@ -16,24 +15,24 @@ public class Locomotive extends Train {
      * @param trainLength vonat hossza
      */
     public Locomotive(Rail rail, int trainLength){
-        this.setCurrentRail(rail);
-        this.setColor(Color.BLACK);
-        this.setEmpty(true);
+        this.currentRail = rail;
+        this.color = Color.BLACK;
+        this.isEmpty = true;
         this.trainLength = trainLength;
-    }
-
-    public int getTrainLength() {
-        return trainLength;
     }
 
     @Override
     public void leave(){
-        this.getNext().leave();
+        this.next.leave();
     }
 
     @Override
     public void getOn(){
-        this.getNext().getOn();
+        this.next.getOn();
     }
 
+    @Override
+    public void move() {
+        super.move();
+    }
 }

@@ -1,30 +1,18 @@
 package map;
 
 import application.MapCreator;
-import application.MapCreator2;
+//import application.MapCreator2;
 import graphics.Drawer;
-
-import java.awt.*;
 
 public class Tunnel extends Rail {
     static private int tunnelN;
     private boolean selected;
-    private int tunnelLength;
     private Tunnel otherTunnel;
 
     public Tunnel() {
         this.selected = false;
-        this.tunnelLength = 0;
         this.otherTunnel = null;
         tunnelN = 0;
-    }
-
-    /**
-     * Visszaadja az alagut hosszat.
-     * @return int
-     */
-    public int getTunnelLength() {
-        return tunnelLength;
     }
 
     /**
@@ -35,10 +23,13 @@ public class Tunnel extends Rail {
         return selected;
     }
 
-    public void setOtherTunnel(Tunnel otherTunnel) {
+    private void setOtherTunnel(Tunnel otherTunnel) {
         this.otherTunnel = otherTunnel;
     }
 
+    /**
+     * Ervenyesiti az alagutat
+     */
     public void creating() {
         if (tunnelN < 2){
             selected = true;
@@ -57,8 +48,8 @@ public class Tunnel extends Rail {
             }
         }
     }
-    /*
-     * Alagut torlese
+    /**
+     * Ervenyteleniti az alagutat.
      */
     public void deleting() {
         if (tunnelN > 0) {
@@ -86,8 +77,7 @@ public class Tunnel extends Rail {
     public Rail getDirection(Rail prevRail) {
         if (tunnelN == 2 && selected == true) {
             if (prevRail == otherTunnel) {
-                //ez nem mukodik, de nem baj, a tesztelesnel legalabb nem lesz random eredmeny, mindig a possibleRail1 fele kuldi tovabb, ha a masik alagutból jon
-                if ((Math.random() % 2 == 0)) return this.getPossibleRail2();
+                if ((Math.random() * 10 >= 5)) return this.getPossibleRail2();
                 else return getPossibleRail1();
             } else return otherTunnel; //ha van masik alagutszaj, akkor mindenkeppen oda kuldi tovabb
         } else {

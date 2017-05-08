@@ -2,11 +2,9 @@ package map;
 
 import graphics.Drawer;
 
-import java.awt.*;
-
 public class StartRail extends Rail{
 
-    //Egyedül ő kezeli le, hogy a kapott Rail null
+    //Egyedul o kezeli le, hogy a kapott Rail null
     @Override
     public Rail getDirection(Rail r) {
         if (r == null)

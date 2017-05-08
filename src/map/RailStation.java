@@ -8,16 +8,11 @@ public class RailStation extends Field{
     private Color color;
     private boolean isEmpty;
 
-    //Konstruktórral letrehozaskor szinnel eggyutt hozzuk letre az allomast.
+    //Konstruktorral letrehozaskor szinnel eggyutt hozzuk letre az allomast.
     public RailStation(Color color){
         this.color = color;
         isEmpty = false;
     }
-
-    public boolean testIsEmpty(){
-        return isEmpty;
-    }
-
     //Az allomas szinet adja vissza.
     @Override
     public Color getColor() {
@@ -32,6 +27,15 @@ public class RailStation extends Field{
             return isEmpty;
         else {
             isEmpty = true;
+            return false;
+        }
+    }
+    
+    public boolean isEmptyy(){
+        if(isEmpty)
+            return isEmpty;
+        else {
+        	
             return false;
         }
     }
