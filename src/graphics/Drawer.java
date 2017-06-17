@@ -83,19 +83,19 @@ public class Drawer {
 		if(train.isEmpty()==false){
 			if(train.getCurrentRail() != null){
 				if(train.getColor()==Color.RED){
-					g.drawImage(red_w,MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
+					g.drawImage(red_w, MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT, MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
 
 				}
 				else if(train.getColor()==Color.GREEN){
-					g.drawImage(green_w,MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
+					g.drawImage(green_w, MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT, MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
 
 				}
 				else if(train.getColor()==Color.BLUE){
-					g.drawImage(blue_w,MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
+					g.drawImage(blue_w, MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT, MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
 
 				}
 				else if(train.getColor()==Color.ORANGE){
-					g.drawImage(orange_w,MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
+					g.drawImage(orange_w, MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT, MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT,null);
 
 				}
 			}
@@ -103,7 +103,7 @@ public class Drawer {
 		}
 		else{
 			if(train.getCurrentRail() != null)
-				g.fillRect(MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT,MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT);
+				g.fillRect(MapCreator.getFieldCoordY(train.getCurrentRail())*HEIGHT, MapCreator.getFieldCoordX(train.getCurrentRail())*HEIGHT,WIDTH,HEIGHT);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class Drawer {
 	 * @param emptyField a kirajzolando ures mezo
 	 */
 	public void drawEmptyField(EmptyField emptyField){
-		g.drawImage(ffield,MapCreator.getFieldCoordY(emptyField)*HEIGHT,MapCreator.getFieldCoordX(emptyField)*WIDTH,WIDTH,HEIGHT,null);
+		g.drawImage(ffield, MapCreator.getFieldCoordY(emptyField)*HEIGHT, MapCreator.getFieldCoordX(emptyField)*WIDTH,WIDTH,HEIGHT,null);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class Drawer {
 	 * @param rail a kirajzolando sin
 	 */
 	public void drawRail(Rail rail){
-		g.drawImage(rrail,MapCreator.getFieldCoordY(rail)*HEIGHT,MapCreator.getFieldCoordX(rail)*WIDTH,WIDTH,HEIGHT,null);
+		g.drawImage(rrail, MapCreator.getFieldCoordY(rail)*HEIGHT, MapCreator.getFieldCoordX(rail)*WIDTH,WIDTH,HEIGHT,null);
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Drawer {
 	 * @param crossRail a kirajzolando keresztut
 	 */
 	public void drawCrossRail(CrossRail crossRail){
-		g.drawImage(rrail,MapCreator.getFieldCoordY(crossRail)*HEIGHT,MapCreator.getFieldCoordX(crossRail)*WIDTH,WIDTH,HEIGHT,null);
+		g.drawImage(rrail, MapCreator.getFieldCoordY(crossRail)*HEIGHT, MapCreator.getFieldCoordX(crossRail)*WIDTH,WIDTH,HEIGHT,null);
 	}
 
 	/**
@@ -138,31 +138,31 @@ public class Drawer {
 	public void drawRailStation(RailStation railStation){
 		if(railStation.isEmptyy()==true){
 			if(railStation.getColor()==Color.RED){
-				g.drawImage(red_e,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(red_e, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.GREEN){
-				g.drawImage(green_e,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(green_e, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.ORANGE){
-				g.drawImage(orange_e,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(orange_e, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.BLUE){
-				g.drawImage(blue_e,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(blue_e, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 
 		}
 		else if(railStation.isEmptyy()==false){
 			if(railStation.getColor()==Color.RED){
-				g.drawImage(red_f,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(red_f, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.GREEN){
-				g.drawImage(green_f,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(green_f, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.ORANGE){
-				g.drawImage(orange_f,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(orange_f, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 			else if(railStation.getColor()==Color.BLUE){
-				g.drawImage(blue_f,MapCreator.getFieldCoordY(railStation)*HEIGHT,MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
+				g.drawImage(blue_f, MapCreator.getFieldCoordY(railStation)*HEIGHT, MapCreator.getFieldCoordX(railStation)*WIDTH,WIDTH,HEIGHT,null);
 			}
 
 		}
@@ -174,7 +174,7 @@ public class Drawer {
 	 */
 	public void drawStartRail(StartRail startRail){
 		g.setColor(Color.GRAY);
-		g.fillRect(MapCreator.getFieldCoordY(startRail)*HEIGHT,MapCreator.getFieldCoordX(startRail)*WIDTH,WIDTH,HEIGHT);
+		g.fillRect(MapCreator.getFieldCoordY(startRail)*HEIGHT, MapCreator.getFieldCoordX(startRail)*WIDTH,WIDTH,HEIGHT);
 	}
 
 	/**
@@ -184,22 +184,22 @@ public class Drawer {
 	public void drawSwitch(Switch sw){
 		if (sw.getSelectedRail() == sw.getRight() && sw.getFixRail() == sw.getUp() ||
 				sw.getSelectedRail() == sw.getUp() && sw.getFixRail() == sw.getRight())
-			g.drawImage(sRU,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sRU, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 		else if (sw.getSelectedRail() == sw.getRight() && sw.getFixRail() == sw.getLeft() ||
 				sw.getSelectedRail() == sw.getLeft() && sw.getFixRail() == sw.getRight())
-			g.drawImage(sRL,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sRL, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 		else if (sw.getSelectedRail() == sw.getRight() && sw.getFixRail() == sw.getDown() ||
 				sw.getSelectedRail() == sw.getDown() && sw.getFixRail() == sw.getRight())
-			g.drawImage(sRD,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sRD, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 		else if (sw.getSelectedRail() == sw.getUp() && sw.getFixRail() == sw.getLeft() ||
 				sw.getSelectedRail() == sw.getLeft() && sw.getFixRail() == sw.getUp())
-			g.drawImage(sLU,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sLU, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 		else if (sw.getSelectedRail() == sw.getDown() && sw.getFixRail() == sw.getLeft() ||
 				sw.getSelectedRail() == sw.getLeft() && sw.getFixRail() == sw.getDown())
-			g.drawImage(sLD,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sLD, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 		else if (sw.getSelectedRail() == sw.getDown() && sw.getFixRail() == sw.getUp() ||
 				sw.getSelectedRail() == sw.getUp() && sw.getFixRail() == sw.getDown())
-			g.drawImage(sDU,MapCreator.getFieldCoordY(sw)*HEIGHT,MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(sDU, MapCreator.getFieldCoordY(sw)*HEIGHT, MapCreator.getFieldCoordX(sw)*WIDTH,WIDTH,HEIGHT,null);
 	}
 
 	/**
@@ -208,9 +208,9 @@ public class Drawer {
 	 */
 	public void drawTunnel(Tunnel tunnel) {
 		if (tunnel.isSelected() == true)
-			g.drawImage(selected,MapCreator.getFieldCoordY(tunnel)*HEIGHT,MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(selected, MapCreator.getFieldCoordY(tunnel)*HEIGHT, MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT,null);
 		else
-			g.drawImage(not_selected,MapCreator.getFieldCoordY(tunnel)*HEIGHT,MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT,null);
+			g.drawImage(not_selected, MapCreator.getFieldCoordY(tunnel)*HEIGHT, MapCreator.getFieldCoordX(tunnel)*WIDTH,WIDTH,HEIGHT,null);
 
 	}
 }

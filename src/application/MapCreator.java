@@ -1,344 +1,390 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import graphics.Drawable;
-import map.CrossRail;
-import map.EmptyField;
-import map.Field;
-import map.Rail;
-import map.RailStation;
-import map.StartRail;
-import map.Switch;
-import map.Tunnel;
+import map.*;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.awt.Color;
 
-public class MapCreator {
+public class MapCreator implements Serializable {
 
-    // Segedvaltozok a palya szelessegehez, es hosszahoz
-    private static int realWidth;
+    private static Field[][] map;
+    transient private static char[][] tmpMap;
+    private static int column;
+    private static int row;
 
-    private static int realHeight;
+    public MapCreator(){
+        column = 0;
+        row = 0;
+        map = null;
+        tmpMap = null;
+    }
 
-    // Segedmatrixok a beolvasott palyahoz es az inicialt palyahoz.
-    private static String[][] map = null;
-    private static Field[][] fields = null;
-
-    /*
-     * Letrehozza a kivant palyat. A parameterkent atadott palyat kesziti el.
-     * Beolvassuk a palyat egy tombbe, az alapjan letrehozzunk
-     * egy a palya tipusait tarolo tombot, ahova inicializaljuk a mezoket.
-     * Majd pozicio szerinti keresessel beallitjuk a szomszedait
-     * es a lehetseges tovabbhaladasi iranyokat
-     *
-     * @param level palya nehezsegi szintjenek tarolasara hasznalt valtozo
+    /**
+     * Megepiti a palyat, es visszater a start mezojevel.
+     * @param level a palya szinje
+     * @return start mezo
      */
     public Rail build(int level){
-        //  System.out.println(" build() - letrehozza a(z) " + level + ". palyat, mezoit aÂ©s azok osszefuggeseit");
-
-        // Segedvaltozo a palya hosszanak es szelessegenek nyilvantartasahoz
-        int width = 0,  height = 0;
-
-        // Ebbe a segedmadtrixba olvassuk a palayat
-        // R - Rail; E - Empty Field; S - Switch; T - Tunnel; C - CrossRail; szamok-allomasok
-        String[][] helpingmatrix = new String[25][25];
-
-        // A szintnek megfelelo txt kivalasztasa a fajlbol valo olvasashoz
-        String leveltxt = null;
-        if (level == 1) leveltxt = "1.txt";
-        else if (level == 2) leveltxt = "2.txt";
-        else if (level == 3) leveltxt = "3.txt";
-
         try {
-            // Megnyitjuk olvasasra a megfelelo txt-t
-            BufferedReader br = new BufferedReader( new FileReader(leveltxt));
+            setDimensions(level);
+            setTmpMap(level);
+            initMap();
+            setMap();
 
-            // Egy beolvasott sort tarol
-            String line;
-            // Soronkent a fajl vegeig beolvassuk a fajl tartalmat
-            while ((line = br.readLine())!= null) {
-                // Minden sort beolvasasanal 0-ra allitjuk a szelesseget,
-                // Igy az elso helyre tudjuk beirni a beolvasott erteket a matrixba
-                height = 0;
-                // Daraboljuk a beolvasott sort szokozok alapajan
-                String[] splitterstring = line.split(" ");
-                // Ameddig a sorban van adat, addig beirjuk a matrix megfelelo helyere
-                // A height valtozasat minden elem utan noveljuk
-                while (height < splitterstring.length)
-                {
-                    helpingmatrix[width][height] = splitterstring[height];
-                    height++;
-                }
-                // Miutan beolvastunk egy sort, a sort elmentjuk a matrixban
-                width++;
-            }
-            // Bezarjuk a fajlt
-            br.close();
-        } catch (IOException e) {
-            System.err.println("Exception");
+        }catch (FileNotFoundException e){
+            System.out.println("Nincs ilyen palya");
         }
-
-        // Letrehozok egy palya meretu tombot, itt inicializalom es tarolom a palya elemeit
-        Field[][] field = new Field[width][height];
-
-        for (int a = 0; a < width; a++)
-            for (int b = 0; b < height; b++)
-            {
-                // Segedvaltozo az inicializalashoz
-                Color color = null;
-
-                // Minden beolvasott szam, egy bizonyos szinu allomasnak felel meg
-                // Alabb definialjuk, hogy milyenszamnak milyen allomas felel meg
-                if (helpingmatrix[a][b].equals("1")) color = Color.RED;
-                else if (helpingmatrix[a][b].equals("2")) color = Color.BLUE;
-                else if (helpingmatrix[a][b].equals("3")) color = Color.GREEN;
-                else if (helpingmatrix[a][b].equals("4")) color = Color.ORANGE;
-                else if (helpingmatrix[a][b].equals("5")) color = Color.YELLOW;
-
-                if (helpingmatrix[a][b].equals("R"))
-                {
-                    field[a][b] = new Rail();
-                }
-                else if (helpingmatrix[a][b].equals("E"))
-                {
-                    field[a][b] = new EmptyField();
-                }
-                else if (helpingmatrix[a][b].equals("S"))
-                {
-                    field[a][b] = new Switch();
-                }
-                else if (helpingmatrix[a][b].equals("T"))
-                {
-                    field[a][b] = new Tunnel();
-                }
-                else if (helpingmatrix[a][b].equals("C"))
-                {
-                    field[a][b] = new CrossRail();
-                }
-                else
-                    field[a][b] = new RailStation(color);
-            }
-
-        // Vegigmegyek a tomb minden elemen, beallitom a szomszedait
-        // A mezok szomszedainak es elemeinek beallitasahoz vizsgaljuk, hogy hol helyezkedik el a mezo a tombben,
-        // mivel poziciohoz mas validacio szukseges a nullpointerException hiba elkerulesehez
-        for (int a = 0; a < width; a++)
-            for (int b = 0; b < height; b++)
-            {
-                // Segedvaltozok inicializalashoz
-                boolean byTheStation = false;
-                Rail pos1 = null;
-                Rail pos2 = null;
-                Rail pos3 = null;
-                Rail pos4 = null;
-
-                // 1. eset: A matrix bal felso sarka
-                if (a == 0 & b == 0)
-                {
-                    // Beallitjuk a mezo szomszedait
-                    field[a][b].setLeft(null);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(null);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // A 2. eset: A matrix felso sora a szelei nelkul
-
-                else if (a == 0 & b > 0 & b < height-1)
-                {
-                    // Beallitjuk a mezo szomszedait
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(null);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // A 3. eset: A matrix jobb felso sarka
-                else if (a == 0 & b == height-1)
-                {
-                    // Beallitjuk a szomszedait
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(null);
-                    field[a][b].setUp(null);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // A 4. eset: A matrix bal oldala a vege es alja nelkul
-                else if (a > 0 & a < width-1 & b == 0)
-                {
-                    //Szomszedok beallitasa
-                    field[a][b].setLeft(null);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(field[a-1][b]);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // Az 5. eset: a matrix belseje
-                else if (a > 0 & a < width-1 & b > 0 & b < height-1)
-                {
-                    // Tovabbhaladasi irany vizsgalat
-                    if ((helpingmatrix[a-1][b].equals("R")) || (helpingmatrix[a-1][b].equals("S")) || (helpingmatrix[a-1][b].equals("T")) || (helpingmatrix[a-1][b].equals("C")))
-                        pos1 = (Rail)field[a-1][b];
-
-                    if ((helpingmatrix[a+1][b].equals("R")) || (helpingmatrix[a+1][b].equals("S")) || (helpingmatrix[a+1][b].equals("T")) || (helpingmatrix[a+1][b].equals("C")))
-                        if (pos1 == null)
-                            pos1 = (Rail)field[a+1][b];
-                        else pos2 = (Rail)field[a+1][b];
-
-                    if ((helpingmatrix[a][b+1].equals("R")) || (helpingmatrix[a][b+1].equals("S")) || (helpingmatrix[a][b+1].equals("T")) || (helpingmatrix[a][b+1].equals("C")))
-                        if (pos1 == null)
-                            pos1 = (Rail)field[a][b+1];
-                        else if (pos2 == null)
-                            pos2 = (Rail)field[a][b+1];
-                        else
-                            pos3 = (Rail)field[a][b+1];
-
-                    if ((helpingmatrix[a][b-1].equals("R")) || (helpingmatrix[a][b-1].equals("S")) || (helpingmatrix[a][b-1].equals("T")) || (helpingmatrix[a][b-1].equals("C")))
-                        if (pos2 == null)
-                            pos2 = (Rail)field[a][b-1];
-                        else if (pos3 == null)
-                            pos3 = (Rail)field[a][b-1];
-                        else pos4 = (Rail)field[a][b-1];
-
-                    // allomas mellettiseg vizsgalat
-                    if (!(helpingmatrix[a-1][b].equals("R")) & !(helpingmatrix[a-1][b].equals("S")) & !(helpingmatrix[a-1][b].equals("T")) & !(helpingmatrix[a-1][b].equals("E"))  & !(helpingmatrix[a-1][b].equals("C"))
-                            || !(helpingmatrix[a][b+1].equals("R")) & !(helpingmatrix[a][b+1].equals("S")) & !(helpingmatrix[a][b+1].equals("T")) & !(helpingmatrix[a][b+1].equals("E")) & !(helpingmatrix[a][b+1].equals("C"))
-                            || !(helpingmatrix[a+1][b].equals("R")) & !(helpingmatrix[a+1][b].equals("S")) & !(helpingmatrix[a+1][b].equals("T")) & !(helpingmatrix[a+1][b].equals("E")) & !(helpingmatrix[a+1][b].equals("C"))
-                            || !(helpingmatrix[a][b-1].equals("R")) & !(helpingmatrix[a][b-1].equals("S")) & !(helpingmatrix[a][b-1].equals("T")) & !(helpingmatrix[a][b-1].equals("E")) & !(helpingmatrix[a][b-1].equals("C")))
-                        byTheStation = true;
-
-                    // Szomszedok beallitasa
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(field [a-1][b]);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // A 6. eset: a matrix jobb oldala a vegei nelkul
-                else if (a > 0 & a < width-1 & b == height-1)
-                {
-                    // Szomszedok beallitasa
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(null);
-                    field[a][b].setUp(field[a-1][b]);
-                    field[a][b].setDown(field[a+1][b]);
-                }
-                // A 7. eset: A matrix bal also sarka
-                else if (a == width-1 & b == 0)
-                {
-                    // Szomszedok beallitasa
-                    field[a][b].setLeft(null);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(field[a-1][b]);
-                    field[a][b].setDown(null);
-                }
-                // A 8. eset: a matrix also sora a vegei nelkul
-                else if (a == width-1 & b > 0 & b < height-1)
-                {
-                    // Szomszedok beallitasa
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(field[a][b+1]);
-                    field[a][b].setUp(field[a-1][b]);
-                    field[a][b].setDown(null);
-                }
-                // A 9. eset: a matrix jobb also sarka
-                else if (a == width-1 & b == height-1)
-                {
-                    // Szomszedok beallitasa
-                    field[a][b].setLeft(field[a][b-1]);
-                    field[a][b].setRight(null);
-                    field[a][b].setUp(field[a-1][b]);
-                    field[a][b].setDown(null);
-                }
-
-                if (a == 1 && b == 1)
-                    field[a][b] = new StartRail();
-
-                // Beallitom a megfelelo tipusu mezok adatait, melyek vonatkoznak mas mezore is vagy validaciohoz kotottek,
-                // igy elso korben nem lehetett beallitani, kulonben null erkekkel szerepelne.
-                if (helpingmatrix[a][b].equals("R") || helpingmatrix[a][b].equals("S") ||
-                        helpingmatrix[a][b].equals("T") || helpingmatrix[a][b].equals("C"))
-                {
-                    ((Rail)field[a][b]).setByTheStation(byTheStation);
-                    ((Rail)field[a][b]).setPossibleRail1(pos1);
-                    ((Rail)field[a][b]).setPossibleRail2(pos2);
-
-                    if (helpingmatrix[a][b].equals("S"))
-                    {
-                        ((Switch)field[a][b]).setSelectedRail(pos1);
-                        ((Switch)field[a][b]).setNotselectedRail(pos2);
-                        ((Switch)field[a][b]).setFixRail(pos3);
-                    }
-                    else if (helpingmatrix[a][b].equals("C"))
-                    {
-                        ((CrossRail)field[a][b]).setPossibleRail3(pos3);
-                        ((CrossRail)field[a][b]).setPossibleRail4(pos4);
-                    }
-                }
-            }
-        // Beallitom az valtozok ertekeit, hogy mas fuggvenyek is el tudjak erni
-        // es a mepcreator ujboli megnyitasara ne kapjunk szemetet ezen valtozok ertekeikent
-        fields = field;
-        realWidth = width;
-        realHeight = height;
-        map = helpingmatrix;
-
-        // Visszaadom a startmezot
-        return (Rail)field[1][1];
+        return (Rail) map[1][1];
     }
 
+    /**
+     * Megkeresi egy kapott adott koordinatahoz tartozo mezot.
+     * @param x, y
+     * @return mezo
+     */
     public static Field getField(int x,int y){
-        return fields[y][x];
+        return map[y][x];
     }
 
-    public static Tunnel[] searchSelectedTunnels()
-    {
+    /**
+     * Egy listába teszi az összes kirajzolandó mezőt.
+     * @return a lista
+     */
+    public ArrayList<Drawable> getMapElements(){
+        ArrayList<Drawable> drawables = new ArrayList<>();
+        for (int i = 0; i<row; i++){
+            for (int j = 0; j<column; j++){
+                drawables.add(map[i][j]);
+            }
+        }
+        return drawables;
+    }
+
+    /**
+     * Megkeresi egy kapott mezohoz tartozo Y koordinátát.
+     * @param field
+     * @return ID
+     */
+    public static int getFieldCoordY(Field field){
+        if (field == null) return 0;
+        for(int i = 0; i<column; i++){
+            for(int j = 0; j<row; j++){
+                if (field.equals(map[i][j]))
+                    return j;
+            }
+        }
+        return -1;
+    }
+    /**
+     * Megkeresi egy kapott mezohoz tartozo X koordinátát.
+     * @param field
+     * @return ID
+     */
+    public static int getFieldCoordX(Field field){
+        if (field == null) return 0;
+        for(int i = 0; i<column; i++){
+            for(int j = 0; j<row; j++){
+                if (field.equals(map[i][j]))
+                    return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Meghivaskor megkeresi a palyan levo 2 letett Tunnelt,
+     * es ezek tombjevel ter vissza.
+     * @return a megepitett ket Tunnel tombje
+     */
+    public static Tunnel[] searchSelectedTunnels(){
         // Itt taroljuk a ket megepitett Tunnel-t.
         Tunnel[] selectedTunnels = new Tunnel[2];
 
         // A tombbeli helye a megepitett Tunnel-nek.
         int selectedNumber = 0;
 
-        for (int i = 0; i < realWidth; i++)
-            for (int j = 0; j < realHeight; j++)
-            {
-                if (map[i][j].equals("T"))
-                    if (((Tunnel)fields[i][j]).isSelected() == true)
-                    {
-                        selectedTunnels[selectedNumber] = (Tunnel)fields[i][j];
+        for (int i = 0; i < column; i++) {
+            for (int j = 0; j < row; j++) {
+                if (tmpMap[i][j] == 'T') {
+                    if (((Tunnel) map[i][j]).isSelected()) {
+                        selectedTunnels[selectedNumber] = (Tunnel) map[i][j];
                         selectedNumber++;
                     }
+                }
             }
+        }
         return selectedTunnels;
     }
 
-    public static int getFieldCoordX(Field field){
-        int returning = -1;
-        for (int i = 0; i < realWidth; i++)
-            for (int j = 0; j < realHeight; j++)
-            {
-                if (field == fields[i][j])
-                    returning = i;
-            }
-        return returning;
-    }
-    public static int getFieldCoordY(Field field){
-        int returning = -1;
-        for (int i = 0; i < realWidth; i++)
-            for (int j = 0; j < realHeight; j++)
-            {
-                if (field == fields[i][j])
-                    returning = j;
-            }
-        return returning;
+    /**
+     * Beallitja a mapcreator szelesseget es magassagat
+     * @param level a palya szintje
+     * @throws FileNotFoundException
+     */
+    private void setDimensions(int level)throws FileNotFoundException{
+        Scanner init = new Scanner(new File("" + level + ".txt"));
+        StringTokenizer stk = new StringTokenizer(init.nextLine()," ");
+
+        row = stk.countTokens();
+
+        column++;
+        while (init.hasNextLine()){
+            column++;
+            init.nextLine();
+        }
     }
 
-    public ArrayList<Drawable> getMapElements(){
-        ArrayList<Drawable> drawables = new ArrayList<>();
-        for (int i = 0; i<realWidth; i++){
-            for (int j = 0; j<realHeight; j++){
-                drawables.add(fields[i][j]);
+    /**
+     * Beallit egy segedmatrixot.
+     * @param level a palya szintje
+     * @throws FileNotFoundException
+     */
+    private void setTmpMap(int level)throws FileNotFoundException{
+        tmpMap = new char[column][row];
+        Scanner read = new Scanner(new File("" + level + ".txt"));
+
+        byte r = 0;
+        byte c = 0;
+        while ( r < row && read.hasNextLine()) {
+            tmpMap[c][r] = read.next().charAt(0);
+            r++;
+            if (r == row && read.hasNextLine()){
+                read.nextLine();
+                r = 0;
+                c++;
             }
         }
-        return drawables;
+        read.close();
     }
+
+    /**
+     * Inicializalja a palyat.
+     */
+    private void initMap(){
+        map = new Field[column][row];
+
+        int r = 0;
+        int c = 0;
+        while (c < column && r < row) {
+            switch (tmpMap[c][r]){
+                case 'R':
+                    map[c][r] = new Rail();
+                    break;
+                case 'S':
+                    map[c][r] = new Switch();
+                    break;
+                case 'T':
+                    map[c][r] = new Tunnel();
+                    break;
+                case 'E':
+                    map[c][r] = new EmptyField();
+                    break;
+                case 'C':
+                    map[c][r] = new CrossRail();
+                    break;
+                case '1':
+                    map[c][r] = new RailStation(Color.RED);
+                    break;
+                case '2':
+                    map[c][r] = new RailStation(Color.BLUE);
+                    break;
+                case '3':
+                    map[c][r] = new RailStation(Color.GREEN);
+                    break;
+                case '4':
+                    map[c][r] = new RailStation(Color.ORANGE);
+                    break;
+                case '5':
+                    map[c][r] = new RailStation(Color.YELLOW);
+                    break;
+            }
+            r++;
+            if (r == row){
+                r = 0;
+                c++;
+            }
+        }
+        map[0][0] = new StartRail();
+    }
+
+    /**
+     * Beallitja a palyaelemek osszefuggeseit.
+     */
+    private void setMap(){
+
+        int r = 0;
+        int c = 0;
+        while (c < column && r < row) {
+            switch (tmpMap[c][r]){
+                case 'R':
+                    Rail tmp;
+                    tmp = (Rail) map[c][r];
+                    initRail(tmp, c, r);
+                    break;
+                case 'S':
+                    Switch tmpS;
+                    tmpS = (Switch) map[c][r];
+                    initSwitch(tmpS,c,r);
+                    break;
+                case 'T':
+                    Tunnel tmpT;
+                    tmpT = (Tunnel) map[c][r];
+                    initRail(tmpT,c,r);
+                    break;
+                case 'C':
+                    CrossRail tmpC;
+                    tmpC = (CrossRail) map[c][r];
+                    initCrossRail(tmpC,c,r);
+                    break;
+                default:
+                    break;
+            }
+            r++;
+            if (r == row){
+                r = 0;
+                c++;
+            }
+        }
+    }
+
+    /**
+     * Beallitja a Rail osszes tutajdonsagat
+     * @param rail
+     * @param c oszlop
+     * @param r sor
+     */
+    private void initRail(Rail rail, int c, int r){
+        setNeighbours(rail,c,r);
+        rail.setByTheStation(isByTheStation(c,r));
+        rail.setPossibleRail1(findPossibleRail(null,c,r));
+        rail.setPossibleRail2(findPossibleRail(rail.getPossibleRail1(),c,r));
+    }
+
+    /**
+     * Beallitja a Switch osszes tulajdonsagat
+     * @param swtch
+     * @param c
+     * @param r
+     */
+    private void initSwitch(Switch swtch, int c, int r){
+        initRail(swtch,c,r);
+        setSwitchRail(swtch,c,r);
+
+    }
+
+    /**
+     * Beallitja a CrossRail osszes tulajdonsagat.
+     * @param rail
+     * @param c
+     * @param r
+     */
+    private void initCrossRail(CrossRail rail, int c, int r){
+        setNeighbours(rail,c,r);
+        rail.setByTheStation(false);
+
+        Rail rail1 = (Rail) map[c+1][r];
+        Rail rail2 = (Rail) map[c-1][r];
+        Rail rail3 = (Rail) map[c][r+1];
+        Rail rail4 = (Rail) map[c][r-1];
+
+        rail.setPossibleRail1(rail1);
+        rail.setPossibleRail2(rail2);
+        rail.setPossibleRail3(rail3);
+        rail.setPossibleRail4(rail4);
+    }
+
+    /**
+     * Megnezi, hogy allomas mellett van e a mezo.
+     * @param c oszlop index
+     * @param r sor index
+     * @return igaz, ha van mellette allomas, hamis ha nem
+     */
+    private boolean isByTheStation(int c, int r) {
+        if (c+1 < column && (tmpMap[c+1][r] == '1' || tmpMap[c+1][r] == '2' || tmpMap[c+1][r] == '3' || tmpMap[c+1][r] == '4' || tmpMap[c+1][r] == '5')) return true;
+        else if (c-1 >= 0 && (tmpMap[c-1][r] == '1' || tmpMap[c-1][r] == '2' || tmpMap[c-1][r] == '3' || tmpMap[c-1][r] == '4' || tmpMap[c-1][r] == '5')) return true;
+        else if (r-1 >= 0 && (tmpMap[c][r-1] == '1' || tmpMap[c][r-1] == '2' || tmpMap[c][r-1] == '3' || tmpMap[c][r-1] == '4' || tmpMap[c][r-1] == '5')) return true;
+        else if (r+1 < row && (tmpMap[c][r+1] == '1' || tmpMap[c][r+1] == '2' || tmpMap[c][r+1] == '3' || tmpMap[c][r+1] == '4' || tmpMap[c][r+1] == '5')) return true;
+        else return false;
+    }
+
+    /**
+     * Beallitja a mezo szomszedait.
+     * @param field
+     * @param c
+     * @param r
+     */
+    private void setNeighbours(Field field, int c, int r){
+        if (c+1 < column)field.setDown(map[c+1][r]);
+        if (r-1 >= 0)field.setLeft(map[c][r-1]);
+        if (r+1 < row)field.setRight(map[c][r+1]);
+        if (c-1 >= 0)field.setUp(map[c-1][r]);
+    }
+
+    /**
+     * Megkeresi egy Rail egyik Rail szomszedjat.
+     * @param usedRail Ha eloszor hivtuk meg akkor null, ha masodszor akkor az elso talalat
+     * @param c oszlop
+     * @param r sor
+     * @return Elso illetve masodik Rail parametertol fuggoen
+     */
+    private Rail findPossibleRail(Rail usedRail,int c, int r){
+        if (usedRail == null) {
+            if (isItRail(c-1, r)) return (Rail) map[c-1][r];
+            else if(isItRail(c,r-1)) return (Rail) map[c][r-1];
+            else if (isItRail(c,r+1)) return (Rail) map[c][r+1];
+            else if (isItRail(c+1,r)) return (Rail) map[c+1][r];
+            else {
+                System.out.print("HIBA A RAIL ELKESZITESE KOZBEN");
+                return null;
+            }
+        }
+        if (isItRail(c - 1, r) && !(usedRail.equals(map[c-1][r]))) return (Rail) map[c-1][r];
+        else if (isItRail(c,r+1)&& !(usedRail.equals(map[c][r+1]))) return (Rail) map[c][r+1];
+        else if (isItRail(c+1,r)&& !(usedRail.equals(map[c+1][r]))) return (Rail) map[c+1][r];
+        else if(isItRail(c,r-1) && !(usedRail.equals(map[c][r-1]))) return (Rail) map[c][r-1];
+        else {
+            System.out.print("HIBA A RAIL ELKESZITESE KOZBEN");
+            return null;
+        }
+    }
+
+    /**
+     * Beallitja a switch agait.
+     * @param sw beallitando switch
+     * @param c oszlop
+     * @param r sor
+     */
+    private void setSwitchRail(Switch sw, int c, int r) {
+        sw.setFixRail(sw.getPossibleRail1());
+        sw.setSelectedRail(sw.getPossibleRail2());
+
+        if (isItRail(c + 1, r) && !(map[c + 1][r].equals(sw.getFixRail())) && !(map[c + 1][r].equals(sw.getSelectedRail())))
+            sw.setNotselectedRail((Rail) map[c + 1][r]);
+        else if (isItRail(c, r + 1) && !(map[c][r+1].equals(sw.getFixRail())) && !(map[c][r+1].equals(sw.getSelectedRail())))
+            sw.setNotselectedRail((Rail) map[c - 1][r]);
+        else if (isItRail(c - 1, r) && !(map[c-1][r].equals(sw.getFixRail())) && !(map[c-1][r].equals(sw.getSelectedRail())))
+            sw.setNotselectedRail((Rail) map[c][r + 1]);
+        else if (isItRail(c, r - 1) && !(map[c][r - 1].equals(sw.getFixRail())) && !(map[c][r - 1].equals(sw.getSelectedRail())))
+            sw.setNotselectedRail((Rail) map[c][r - 1]);
+        else {
+            System.out.print("HIBA A SWITCH ELKESZITESE KOZBEN");
+        }
+    }
+
+    /**
+     * Megmondja, hogy van e mellette sin.
+     * @param c oszlop
+     * @param r sor
+     * @return true ha van, false ha nincs
+     */
+    private boolean isItRail(int c, int r){
+        return  (c < column && c >= 0 && r < row && r >=0 && (tmpMap[c][r] == 'R' || tmpMap[c][r] == 'C' || tmpMap[c][r] == 'T' || tmpMap[c][r] == 'S'));
+    }
+
 }

@@ -5,8 +5,9 @@ import map.Rail;
 import graphics.Drawable;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public abstract class Train implements Drawable{
+public abstract class Train implements Drawable, Serializable{
     protected Color color;
     protected Rail currentRail;
     protected Rail prevRail;

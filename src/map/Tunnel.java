@@ -1,7 +1,6 @@
 package map;
 
 import application.MapCreator;
-//import application.MapCreator2;
 import graphics.Drawer;
 
 public class Tunnel extends Rail {

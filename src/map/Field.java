@@ -3,8 +3,9 @@ package map;
 import graphics.Drawable;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public abstract class Field implements Drawable {
+public abstract class Field implements Drawable, Serializable {
     private Field left;
     private Field right;
     private Field up;

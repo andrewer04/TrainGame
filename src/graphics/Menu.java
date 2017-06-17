@@ -11,18 +11,23 @@ public class Menu extends JPanel {
 
     startButton start;
     exitButton exit;
+    loadButton load;
 
     public Menu(){
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        start = new startButton("Jatek inditas");
+        start = new startButton("Játék indítás");
         start.setBounds(37,11,227,51);
         add(start);
-        exit =new exitButton("Kilepes");
+        load = new loadButton("Játék betöltés");
+        load.setBounds(37,40,227,51);
+        add(load);
+        exit =new exitButton("Kilépés");
         exit.setBounds(37,73,227,51);
         add(exit);
 
         start.addActionListener(start);
         exit.addActionListener(exit);
+        load.addActionListener(load);
     }
     private class startButton extends JButton implements ActionListener{
 
@@ -44,5 +49,11 @@ public class Menu extends JPanel {
         public void actionPerformed(ActionEvent e){
             System.exit(0);
         }
+    }
+
+    private class loadButton extends JButton implements ActionListener{
+        public loadButton(String text) {super(text);}
+        @Override
+        public void actionPerformed(ActionEvent e) { Window.getWindow().load();}
     }
 }

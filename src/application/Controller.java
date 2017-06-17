@@ -7,10 +7,11 @@ import vehicles.Locomotive;
 import vehicles.Train;
 import vehicles.Wagon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.awt.Color;
 
-public class Controller {
+public class Controller implements Serializable{
     private Rail start;
     private ArrayList<Train[]> trains = new ArrayList<>();
     private boolean winFlag;
